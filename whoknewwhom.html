@@ -1819,15 +1819,16 @@ const WB_SPAN = new Set(["remond","cooke","lala","burns","potts","rscott","stoke
   if (mq.addEventListener) mq.addEventListener("change", onScheme); else mq.addListener(onScheme);
 
   setSave("none", "Local to this browser");
-  notice.textContent = "Changes are saved in this browser only until shared storage connects.";
+  notice.textContent = "Edits are saved in this browser. Use Download CSV to keep a copy — " +
+    "that file is what goes back to the repo.";
 
   /* Shared storage lights up when the viewer answers; the page already works without it. */
   if (window.claude && window.claude.use) {
     window.claude.use("db").then(store => {
       if (!store) {
         setSave("none", "Local to this browser");
-        notice.textContent = "Shared storage is unavailable in this view, so edits stay in " +
-          "this browser and are lost if site data is cleared. Download the CSV to keep them.";
+        notice.textContent = "Shared editing is off in this version, so edits stay in this " +
+          "browser and are lost if site data is cleared. Download the CSV to keep them.";
         return;
       }
       db = store;
