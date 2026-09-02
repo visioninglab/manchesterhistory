@@ -1,0 +1,80 @@
+# How the workbook's free-text connection strings resolve to record IDs.
+# Anything not listed here and not an exact name match stays unresolved, and the page
+# says so rather than guessing. alias|id
+Elizabeth Wolstenholme-Elmy|GH-WOLSTENHOLME
+Harry Britten and later members|GH-BRITTEN
+Manchester Museum|PL-NH-015
+Manchester Museum, Oxford Road|PL-NH-015
+Oxford Road|PL-NH-015
+Peter Street|PL-NH-013
+Peter Street; Owens College|PL-NH-013
+Owens College / Manchester Museum|ORG-NH-007
+Owens College|ORG-NH-007
+Manchester Museum / Owens College|ORG-NH-007
+Salford Museum and Art Gallery|PL-BASE-020
+Free Trade Hall, Manchester|PL-BASE-022
+St. Peter's Field (now St. Peter's Square)|PL-BASE-062
+Manchester Workhouse|PL-BASE-010
+Plymouth Grove|PL-BASE-019
+Prestwich / Whitefield|PL-NH-006
+Prestwich; Whitefield|PL-NH-006
+Manchester and eighteen-mile radius|PL-NH-018
+Manchester area|PL-BASE-045
+North Manchester / Lancashire|COL-001
+Royal School of Medicine|PL-NH-021
+Manchester Royal School of Medicine|PL-NH-021
+Field-Naturalists' Society|ORG-NH-005
+Prestwich Botanical Society network|ORG-NH-003
+Manchester Society of Botanists / informal network|ORG-NH-010
+Botanical Competition - formal organiser to verify|COL-004
+Manchester Ship Canal Company|PL-BASE-034
+CWS|ORG-BASE-011
+Manchester Corporation; CWS|ORG-BASE-001
+# --- collective resolutions -------------------------------------------------
+artisan botanical societies|COL-001
+Manchester artisan botanists|COL-001
+Lancashire artisan botanists|COL-001
+artisan botanists|COL-001
+Regional artisan botanists|COL-001
+John Horsefield and other artisan botanists|COL-001
+John Horsefield and regional naturalists|COL-001
+John Crowther and early artisan botanists|COL-001
+Manchester artisan naturalists|COL-001
+artisan bryologists|COL-001
+Manchester botanists|COL-001
+Regional botanical gatherings|COL-001
+Regional botanical meetings|COL-001
+Regional botanical societies|COL-001
+Early Lancashire botanical societies|COL-001
+Informal botanical networks|COL-001
+Prestwich botanical network|COL-001
+Regional naturalists|COL-001
+Ashton naturalists|COL-001
+regional societies|COL-001
+Artisan botanical network|COL-001
+Manchester field naturalists|COL-002
+Leo H. Grindon and field naturalists|COL-002
+Leo H. Grindon and Salford collectors|COL-002
+Leo H. Grindon; artisan botanists|COL-002
+field naturalists|COL-002
+Manchester Museum herbarium network|COL-004
+Manchester herbarium network|COL-004
+Manchester herbarium collection|COL-004
+Collectors, donors and museum officers|COL-004
+Museum staff; donors; collectors|COL-004
+Society members and donors|COL-004
+Society founders and members|COL-004
+Early society members|COL-004
+John Leigh Philips and subscribers|COL-004
+suffragists|COL-005
+entomological network|COL-007
+Entomological collecting network|COL-007
+Middleton|PL-NH-006
+Whitefield|PL-NH-004
+Workshop on Shudehill|PL-NH-019
+Suffrage & Labour networks|COL-005
+suffrage artists|COL-005
+natural-history collectors|COL-004
+society donors and officers|COL-004
+Women's Cooperative Guild gatherings|COL-010
+Women's Cooperative Guild members|COL-010

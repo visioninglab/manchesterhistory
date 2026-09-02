@@ -1,0 +1,36 @@
+# Two kinds of node that are not records in the workbook but are named by it.
+# GHOSTS  — a person the workbook names in an event, relationship or connection column
+#           who has no row of their own on the People sheet. Drawn hollow.
+# COLLECTIVES — a group the workbook links to as if it were one thing ("artisan
+#           botanists", "textile wealth"). Kept separate so nobody mistakes them for records.
+# id|name|type|domain|kind|note
+GH-CURTIS|John Curtis|person|nat|ghost|Entomologist who described and named the Manchester moth. Named in the workbook's relationship rows and the 1829 timeline entry; no People record.
+GH-PEARSON|William Henry Pearson|person|nat|ghost|Named in Benjamin Carrington's connections as part of the Manchester herbarium network; no People record.
+GH-BRITTAIN|Thomas Brittain|person|nat|ghost|Named as a founder figure of the Manchester Microscopical Society; no People record.
+GH-CASH|James Cash|person|nat|ghost|Named in the Manchester Cryptogamic Society's connected people; no People record.
+GH-BRITTEN|Harry Britten|person|nat|ghost|Named in the Manchester Entomological Society's connected people; no People record.
+GH-WOLSTENHOLME|Elizabeth Wolstenholme|person|suff|ghost|Founder of the Manchester Schoolmistresses Association and named at three suffrage events; no People record.
+GH-RPANKHURST|Richard Pankhurst|person|suff|ghost|Named at the 1867 formation of the Manchester Society for Women's Suffrage; no People record.
+GH-DICKENSON|Sarah Dickenson|person|suff|ghost|Named at the 1895 formation of the Women's Trades Council; no People record.
+GH-POCHIN|Agnes Pochin|person|suff|ghost|Named at the 1868 first public meeting and has a timeline entry of her own; no People record.
+GH-BUTLER|Josephine Butler|person|suff|ghost|Named on the 1868 executive committee; no People record.
+GH-DAVIES|Emily Davies|person|suff|ghost|Addressed the Manchester Schoolmistresses Board in 1866; no People record.
+GH-ACLOUGH|Anne Clough|person|suff|ghost|Honorary member of the Manchester Schoolmistresses Association; no People record.
+GH-MCLAREN|Priscilla Bright McLaren|person|suff|ghost|Named at the 1868 first public meeting; no People record.
+GH-ROBERTSON|Anne Robertson|person|suff|ghost|Named at the 1868 first public meeting; no People record.
+GH-ASHWELL|Frances Ashwell|person|suff|ghost|Named at the 1895 formation of the Women's Trades Council; no People record.
+GH-BROADHURST|Mrs Broadhurst|person|reform|ghost|Named at the 1833 formation of the Female Political Union; no People record.
+GH-NIGHTINGALE|Florence Nightingale|person|civic|ghost|Named as a visitor to Salford Workhouse in the Places sheet; no People record.
+COL-001|Artisan botanists|org|nat|collective|The workbook links to this group as a single actor in phrases like artisan botanical societies and regional botanical gatherings. Kept as one node rather than guessed at as individuals.
+COL-002|Manchester field naturalists|org|nat|collective|Used by the workbook as a collective actor in relationship REL-017.
+COL-003|Textile wealth|org|trade|collective|One end of the workbook's interpretive relationship REL-018.
+COL-004|Private collections and museum institutions|org|nat|collective|The other end of REL-018, and the sink for phrases like Manchester Museum herbarium network.
+COL-005|Manchester women's suffrage network|org|suff|collective|One end of REL-015, the workbook's interpretive link from Becker's botany to her suffrage leadership.
+COL-006|Mosses, cloughs and river valleys|org|nat|collective|One end of REL-017; stands for the collecting landscape as a whole rather than any one site.
+COL-007|Entomological collecting network|org|nat|collective|The chain through which the Manchester moth moved from Cribb to Wood to Curtis.
+COL-008|Sidebotham family network|org|nat|collective|Named in Thomas Henry Sidebotham's connections; the workbook does not list its members.
+COL-010|Women's Co-operative Guild|org|reform|collective|Named in the Places sheet as gathering at Victoria Station and the CWS building; no organisation record.
+GH-NESWS|North of England Society for Women's Suffrage|org|suff|ghost|Named in Esther Roper's relationships; has no row on the Organisations sheet.
+COL-009|The Little Circle|org|press|derived|Not a sheet row: the group named in the Notes column of eight People records as the circle that founded and financed the Manchester Guardian. Made a node so the claim is visible and testable.
+PL-GUARDIAN|Manchester Guardian HQ|place|press|derived|Not a sheet row: the value the workbook puts in the BUILDING column for twelve People records. Made a node so that column becomes visible as a network.
+PL-ARTTREASURES|Art Treasures Exhibition, Old Trafford|place|arts|derived|Not a sheet row: the value the workbook puts in the BUILDING column for Thomas Fairbairn, who chaired its executive committee in 1857.

@@ -1,2 +1,5 @@
-whoknewwhom.html and index.html are the same generated bundle;
-index.html exists so GitHub Pages serves the page at the repo root.
+Generated files - do not hand-edit:
+  data.js, people.csv, organisations.csv, places.csv, timeline.csv, links.csv  <- build.py
+  whoknewwhom.html (artifact bundle), index.html (GitHub Pages copy)           <- bundle.py
+
+  python build.py && python bundle.py

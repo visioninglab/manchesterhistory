@@ -1,0 +1,22 @@
+# Relationships sheet, cleaned edition — one typed relationship per row.
+# This is the workbook's own links table and it is authoritative: where it
+# disagrees with a connection derived from a "Connected people" string, this wins.
+# id|a|type|b|period|evidenceSummary|sourceUrl|evidence|followUp
+REL-001|VM-ADD-011|Spouse / intellectual partner|200069|19th century|Household and intellectual connection; Rosa's work links natural history to women's literary organisation.|https://gaskellsociety.co.uk/event/rosa-grindon/|Researched|Add shared addresses, events and correspondence.
+REL-002|VM-ADD-011|Co-founder|ORG-NH-005|1860|Grindon helped found the society and organised excursions.|@exeter|Researched|Confirm exact office titles across time.
+REL-003|NH-004|Co-founder / society colleague|ORG-NH-005|1860|Sidebotham is identified as Grindon's co-founder in Manchester natural-history accounts.|@eup|Researched|Check society records and the variant spelling Sidebottom.
+REL-004|NH-002|Founder / president|ORG-NH-003|1820-1854|Founded the society and presided for more than thirty years.|@he1406|Researched|Add succession and named officers.
+REL-005|NH-001|Introduced to network by|NH-002|1826 onward|Their chance Kersal Moor meeting connected Buxton to organised artisan botany.|@he1406|Researched|Look for Buxton's notebook and later collaboration evidence.
+REL-006|NH-001|Collector / publication collaborator|NH-012|1840s|The herbarium guide records a fasciculus of British mosses under both names.|@herb|Researched|Determine division of labour and circulation.
+REL-007|NH-006|Passed specimens / disputed credit|NH-007|1829-1830|The Manchester moth moved through a collector network and was named for Wood rather than Cribb.|@ent|Needs verification|Preserve the competing accounts and locate primary descriptions.
+REL-008|NH-007|Sent specimen for identification|GH-CURTIS|c.1829-1830|Curtis described and named the moth, apparently on the basis of a specimen attributed to Wood.|@ent|Needs verification|Add Curtis's published description as a primary source.
+REL-009|NH-005|Collection became foundation for|ORG-NH-001|1821|The society formed to display Philips's and other private collections.|@mmus|Researched|Identify purchasers and subscribers, and legal ownership.
+REL-010|ORG-NH-002|Collections transferred to|ORG-NH-007|19th century|Society collections became part of the university museum.|@mmus|Researched|Separate transfer, building and public opening dates.
+REL-011|200068|Specimens retained by|PL-NH-016|1864 onward|Her award-winning competition specimens survive in the museum's botanical collection.|@bot|Researched|Identify competition organiser and accession path.
+REL-012|VM-ADD-011|Herbarium transferred to|PL-NH-016|1910|One of the museum's three major personal herbaria.|@herb|Researched|Add terms and cataloguing history.
+REL-013|NH-010|Herbarium transferred to|PL-NH-016|1904|One of the museum's three major personal herbaria.|@herb|Researched|Investigate specimen sources and imperial collecting routes.
+REL-014|NH-009|Herbarium transferred to|PL-NH-016|1917|One of the museum's three major personal herbaria.|@herb|Researched|Add terms, valuation and cataloguing history.
+REL-015|200068|Cross-theme trajectory|COL-005|1860s onward|Her botanical work and constraints on women's scientific participation preceded her suffrage leadership.|@bot|Interpretive hypothesis|Use the workshop to test causality rather than assuming it.
+REL-016|COL-001|Met / debated / exchanged specimens|PL-NH-005|19th century|Pubs acted as knowledge spaces, libraries and meeting venues.|@gut|Needs verification|Identify specific venue, dates, attendees and practices.
+REL-017|COL-002|Collected in / documented|COL-006|19th century|Specimens and publications connect people to changing landscapes.|@gut|Interpretive hypothesis|Turn each documented visit into a specific relationship row.
+REL-018|COL-003|Financed / enabled|COL-004|18th-19th century|Philips and Sidebotham show how industrial wealth could be converted into scientific collections and civic institutions.|@mmus|Interpretive hypothesis|Track capital, labour, colonial materials and institutional credit explicitly.

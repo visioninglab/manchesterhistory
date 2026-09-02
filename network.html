@@ -53,13 +53,13 @@ button,input,select,textarea{font:inherit;color:inherit}
 .tally small{font-size:9.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink3)}
 .tally .warn b{color:var(--warn)}
 
-.body{display:grid;grid-template-columns:246px minmax(0,1fr) 330px;min-height:0}
+.body{display:grid;grid-template-columns:252px minmax(0,1fr) 340px;min-height:0}
 .body.mode-sheet{grid-template-columns:minmax(0,1fr)}
 .body.mode-sheet > .rail,.body.mode-sheet > .stage{display:none}
 .body:not(.mode-sheet) > .sheet{display:none}
 
 .rail{background:var(--surface);overflow-y:auto;padding:16px 16px 40px;display:flex;
-  flex-direction:column;gap:20px}
+  flex-direction:column;gap:19px}
 .rail.left{border-right:1px solid var(--rule)}
 .rail.right{border-left:1px solid var(--rule)}
 .stage{position:relative;background:var(--canvas);min-width:0;
@@ -70,38 +70,36 @@ svg#net.grabbing{cursor:grabbing}
 
 .sect{display:flex;flex-direction:column;gap:8px}
 .sect > h2{font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink3);
-  margin:0;font-weight:600}
+  margin:0;font-weight:600;display:flex;align-items:baseline;gap:7px}
+.sect > h2 .all{margin-left:auto;font-size:10px;letter-spacing:0;text-transform:none;
+  color:var(--accent);background:none;border:0;padding:0;cursor:pointer;font-weight:500}
+.sect > h2 .all:hover{text-decoration:underline}
 .hint{font-size:11.5px;color:var(--ink3);margin:0;line-height:1.45}
 
 .searchwrap{position:relative}
 #q{width:100%;padding:7px 9px;border:1px solid var(--rule);border-radius:3px;
   background:var(--ground);font-size:13px}
 #q::placeholder{color:var(--ink3)}
-.results{list-style:none;margin:6px 0 0;padding:0;max-height:190px;overflow-y:auto;
+.results{list-style:none;margin:6px 0 0;padding:0;max-height:210px;overflow-y:auto;
   border:1px solid var(--rule2);border-radius:3px;display:none;background:var(--ground)}
 .results.on{display:block}
 .results li button{width:100%;text-align:left;background:none;border:0;padding:6px 9px;
   cursor:pointer;font-size:12.5px;display:flex;gap:7px;align-items:center}
 .results li + li button{border-top:1px solid var(--rule2)}
 .results li button:hover{background:var(--sunk)}
+.results .k{margin-left:auto;font-size:10px;color:var(--ink3);text-transform:uppercase;
+  letter-spacing:.07em}
 .dot{width:8px;height:8px;border-radius:50%;flex:none}
 
 .chips{display:flex;flex-direction:column;gap:2px}
 .chip{display:flex;align-items:center;gap:8px;padding:4px 6px;border:0;border-radius:3px;
   background:none;cursor:pointer;text-align:left;width:100%;font-size:12.5px}
 .chip:hover{background:var(--sunk)}
-.chip.off{opacity:.36}
+.chip.off{opacity:.34}
 .chip .swatch{width:11px;height:11px;border-radius:2px;flex:none}
 .chip .n{margin-left:auto;font-family:"IBM Plex Mono",monospace;font-size:11px;
   color:var(--ink3);font-variant-numeric:tabular-nums}
-
-.toggles{display:flex;flex-direction:column;gap:2px}
-.tg{display:flex;align-items:center;gap:8px;padding:4px 6px;border:0;border-radius:3px;
-  background:none;cursor:pointer;width:100%;text-align:left;font-size:12.5px}
-.tg:hover{background:var(--sunk)}
-.tg.off{opacity:.36}
-.tg .n{margin-left:auto;font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink3)}
-.tg .glyph{width:24px;display:flex;justify-content:center;flex:none;color:var(--ink2)}
+.chip .glyph{width:22px;display:flex;justify-content:center;flex:none;color:var(--ink2)}
 
 .pushbtn{width:100%;padding:7px 10px;border:1px solid var(--rule);border-radius:3px;
   background:var(--ground);cursor:pointer;font-size:12.5px;text-align:left;
@@ -110,7 +108,6 @@ svg#net.grabbing{cursor:grabbing}
 .pushbtn.on{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
 .pushbtn .n{margin-left:auto;font-family:"IBM Plex Mono",monospace;font-size:11px;opacity:.75}
 
-/* ---- decade slider ---- */
 .timebar{border-top:1px solid var(--rule);background:var(--surface);
   padding:9px 20px 11px;display:flex;flex-direction:column;gap:5px}
 .timehead{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
@@ -145,23 +142,31 @@ svg#net.grabbing{cursor:grabbing}
   color:var(--ink3)}
 .ticks span{flex:1;text-align:center;font-variant-numeric:tabular-nums}
 
-/* ---- detail ---- */
 .panel{display:flex;flex-direction:column;gap:14px}
 .eyebrow{font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink3);
-  font-weight:600;display:flex;align-items:center;gap:7px}
+  font-weight:600;display:flex;align-items:center;gap:7px;flex-wrap:wrap}
 .pname{font-family:"Zilla Slab",Georgia,serif;font-size:22px;font-weight:600;margin:0;
   line-height:1.15;text-wrap:balance}
 .pdates{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink2);margin:0}
 .prole{margin:0;font-size:13.5px}
 .pnote{margin:0;font-size:12.5px;color:var(--ink2);line-height:1.5}
+.badges{display:flex;gap:5px;flex-wrap:wrap}
+.badge{font-size:10px;letter-spacing:.06em;text-transform:uppercase;font-weight:600;
+  padding:2px 6px;border-radius:2px;border:1px solid var(--rule);color:var(--ink2)}
+.badge.hot{border-color:var(--warn);color:var(--warn)}
+.badge.go{border-color:var(--accent);color:var(--accent)}
 .flag{border-left:2px solid var(--warn);padding:6px 0 6px 10px;font-size:12px;
   color:var(--ink2)}
-.flag b{color:var(--warn);font-weight:600}
+.flag b{color:var(--warn);font-weight:600;display:block}
+.ask{border-left:2px solid var(--accent);padding:6px 0 6px 10px;font-size:12px;
+  color:var(--ink2)}
+.ask b{color:var(--accent);font-weight:600;display:block}
 .meta{border-top:1px solid var(--rule2);padding-top:10px;margin:0;display:grid;
   grid-template-columns:auto minmax(0,1fr);gap:4px 14px;font-size:12px}
 .meta dt{color:var(--ink3);font-size:10px;letter-spacing:.09em;text-transform:uppercase;
   padding-top:2px}
 .meta dd{margin:0;overflow-wrap:anywhere}
+.meta a{color:var(--accent)}
 .edges{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
 .edges li{border-top:1px solid var(--rule2)}
 .edges li:last-child{border-bottom:1px solid var(--rule2)}
@@ -181,6 +186,9 @@ svg#net.grabbing{cursor:grabbing}
 .brokers .bars i{height:10px;flex:1;border-radius:1px}
 .brokers .n{margin-left:auto;font-family:"IBM Plex Mono",monospace;font-size:11px;
   color:var(--ink3)}
+.statline{display:flex;gap:8px;align-items:baseline;font-size:12.5px}
+.statline b{font-family:"IBM Plex Mono",monospace;font-weight:500;min-width:30px;
+  text-align:right;font-variant-numeric:tabular-nums}
 .backbtn{align-self:flex-start;background:none;border:0;padding:0;cursor:pointer;
   color:var(--accent);font-size:12px}
 .backbtn:hover{text-decoration:underline}
@@ -199,17 +207,16 @@ svg#net.grabbing{cursor:grabbing}
   border-radius:3px;cursor:pointer;line-height:1;font-size:14px;display:grid;place-items:center}
 .zoomers button:hover{border-color:var(--ink3)}
 
-/* ---- sheet ---- */
 .sheet{display:grid;grid-template-rows:auto auto minmax(0,1fr);min-height:0;
   background:var(--ground)}
 .sheetbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;
   padding:10px 20px;background:var(--surface);border-bottom:1px solid var(--rule)}
 .seg{display:flex;border:1px solid var(--rule);border-radius:3px;overflow:hidden}
-.seg button{padding:4px 13px;background:var(--ground);border:0;cursor:pointer;font-size:12.5px}
+.seg button{padding:4px 12px;background:var(--ground);border:0;cursor:pointer;font-size:12.5px}
 .seg button + button{border-left:1px solid var(--rule)}
 .seg button[aria-selected="true"]{background:var(--accent);color:var(--accent-ink)}
 #sheetq{padding:6px 9px;border:1px solid var(--rule);border-radius:3px;
-  background:var(--ground);font-size:12.5px;width:230px}
+  background:var(--ground);font-size:12.5px;width:220px}
 .btn{padding:6px 12px;border:1px solid var(--rule);border-radius:3px;
   background:var(--ground);cursor:pointer;font-size:12.5px}
 .btn:hover{border-color:var(--ink3)}
@@ -233,14 +240,12 @@ table.grid td{padding:0;border-bottom:1px solid var(--rule2);vertical-align:top;
   background:var(--ground)}
 table.grid tr.edited td{background:color-mix(in srgb,var(--accent) 8%,var(--ground))}
 table.grid tr.added td{background:color-mix(in srgb,var(--d-reform) 12%,var(--ground))}
-table.grid tr.gone td{opacity:.4;text-decoration:line-through}
+table.grid tr.flagged td{box-shadow:inset 2px 0 0 var(--warn)}
 .cell{width:100%;min-height:30px;padding:6px 9px;border:0;background:transparent;
   font-size:12.5px;line-height:1.35;resize:none;display:block;font-family:inherit}
 .cell:focus{outline:2px solid var(--accent);outline-offset:-2px;background:var(--surface)}
-.cell[readonly]{color:var(--ink3)}
 select.cell{cursor:pointer;-webkit-appearance:none;appearance:none;padding-right:16px}
-td.narrow{width:106px} td.mid{width:170px} td.wide{width:280px}
-td.tiny{width:64px}
+td.narrow{width:110px} td.mid{width:180px} td.wide{width:300px} td.tiny{width:66px}
 .rowmark{width:30px;text-align:center;color:var(--ink3);font-family:"IBM Plex Mono",monospace;
   font-size:10px;padding:7px 0}
 .killbtn{background:none;border:0;cursor:pointer;color:var(--ink3);padding:6px 8px;
@@ -249,7 +254,7 @@ td.tiny{width:64px}
 .idcell{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink3);
   padding:8px 9px;white-space:nowrap}
 
-@media (max-width:1180px){.body{grid-template-columns:220px minmax(0,1fr) 286px}}
+@media (max-width:1180px){.body{grid-template-columns:226px minmax(0,1fr) 292px}}
 @media (max-width:940px){
   .body{grid-template-columns:1fr;grid-template-rows:58vh auto auto}
   .rail{border:0;border-top:1px solid var(--rule)}
@@ -269,10 +274,11 @@ td.tiny{width:64px}
       <button id="tabSheet" role="tab" aria-selected="false">Spreadsheet</button>
     </div>
     <div class="tally">
-      <div><b id="t-nodes">0</b><small>Nodes</small></div>
+      <div><b id="t-nodes">0</b><small>Shown</small></div>
       <div><b id="t-edges">0</b><small>Links</small></div>
       <div><b id="t-cross">0</b><small>Cross-field</small></div>
       <div class="warn"><b id="t-iso">0</b><small>Unlinked</small></div>
+      <div class="warn"><b id="t-todo">0</b><small>To verify</small></div>
     </div>
   </header>
 
@@ -286,28 +292,42 @@ td.tiny{width:64px}
         </div>
       </div>
       <div class="sect">
-        <h2>Field of activity</h2>
+        <h2>Field of activity<button class="all" data-all="dom">all</button></h2>
         <div class="chips" id="domainChips"></div>
       </div>
       <div class="sect">
-        <h2>Kind of node</h2>
-        <div class="toggles" id="typeToggles"></div>
+        <h2>Kind of node<button class="all" data-all="type">all</button></h2>
+        <div class="chips" id="typeToggles"></div>
       </div>
       <div class="sect">
-        <h2>Strength of evidence</h2>
-        <div class="toggles" id="evToggles"></div>
-        <p class="hint">Dotted links are inferences the workshop has not tested yet. Nothing is drawn that the workbook does not assert.</p>
+        <h2>Strength of evidence<button class="all" data-all="ev">all</button></h2>
+        <div class="chips" id="evToggles"></div>
+        <p class="hint">Dashed links the workbook flags as unconfirmed; dotted ones are
+          hypotheses it offers for testing.</p>
       </div>
       <div class="sect">
-        <h2>Gaps</h2>
-        <button class="pushbtn" id="isoBtn">Unlinked people only<span class="n" id="isoN">0</span></button>
-        <button class="pushbtn" id="ghostBtn">In events, not in People<span class="n" id="ghostN">0</span></button>
+        <h2>Research status<button class="all" data-all="status">all</button></h2>
+        <div class="chips" id="statusChips"></div>
+      </div>
+      <div class="sect">
+        <h2>Priority<button class="all" data-all="priority">all</button></h2>
+        <div class="chips" id="priorityChips"></div>
+        <p class="hint">The workbook&rsquo;s own ranking of what to research next. Turn
+          <em>Context</em> off to drop the 104 background rows &mdash; mostly buildings and
+          national timeline entries &mdash; and leave the network it wants argued about.</p>
+      </div>
+      <div class="sect">
+        <h2>Open tasks</h2>
+        <button class="pushbtn" id="isoBtn">Nothing linked to it<span class="n" id="isoN">0</span></button>
+        <button class="pushbtn" id="ghostBtn">Named, but no record<span class="n" id="ghostN">0</span></button>
+        <button class="pushbtn" id="dupBtn">Duplicates to decide<span class="n" id="dupN">0</span></button>
+        <button class="pushbtn" id="qcBtn">Carries a QC flag<span class="n" id="qcN">0</span></button>
       </div>
     </aside>
 
     <main class="stage">
       <div class="plot">
-        <svg id="net" role="img" aria-label="Network of Victorian Manchester people, organisations and places"></svg>
+        <svg id="net" role="img" aria-label="Network of Victorian Manchester people, organisations, places and events"></svg>
         <div class="zoomers">
           <button id="zin" title="Zoom in" aria-label="Zoom in">+</button>
           <button id="zout" title="Zoom out" aria-label="Zoom out">&#8722;</button>
@@ -317,7 +337,8 @@ td.tiny{width:64px}
           <i><svg width="14" height="10" aria-hidden="true"><circle cx="5" cy="5" r="4.5" fill="currentColor"/></svg>person</i>
           <i><svg width="14" height="10" aria-hidden="true"><rect x="1" y="1" width="8" height="8" rx="1.5" fill="currentColor"/></svg>society</i>
           <i><svg width="14" height="12" aria-hidden="true"><path d="M5.5 0.5 L10.5 5.5 L5.5 10.5 L0.5 5.5 Z" fill="currentColor"/></svg>place</i>
-          <i>size = links</i>
+          <i><svg width="14" height="11" aria-hidden="true"><path d="M5.5 0.5 L10.5 9.5 L0.5 9.5 Z" fill="currentColor"/></svg>event</i>
+          <i>hollow = no record of its own</i>
         </div>
       </div>
 
@@ -346,9 +367,12 @@ td.tiny{width:64px}
 
     <section class="sheet" id="sheet">
       <div class="sheetbar">
-        <div class="seg" role="tablist">
-          <button id="segPeople" role="tab" aria-selected="true">People</button>
-          <button id="segLinks" role="tab" aria-selected="false">Links</button>
+        <div class="seg" role="tablist" id="segs">
+          <button data-seg="person" role="tab" aria-selected="true">People</button>
+          <button data-seg="org" role="tab" aria-selected="false">Organisations</button>
+          <button data-seg="place" role="tab" aria-selected="false">Places</button>
+          <button data-seg="event" role="tab" aria-selected="false">Timeline</button>
+          <button data-seg="links" role="tab" aria-selected="false">Links</button>
         </div>
         <input id="sheetq" type="search" placeholder="Filter rows&#8230;" autocomplete="off">
         <button class="btn primary" id="addRow">Add row</button>
