@@ -1,0 +1,2 @@
+whoknewwhom.html and index.html are the same generated bundle;
+index.html exists so GitHub Pages serves the page at the repo root.

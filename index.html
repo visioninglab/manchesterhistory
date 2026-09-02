@@ -1,0 +1,1855 @@
+<title>Who Knew Whom</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@500;600;700&family=Archivo:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --ground:#E7E4DC; --canvas:#EFEDE6; --surface:#F5F3ED; --sunk:#DCD8CD;
+  --ink:#1B1E20; --ink2:#53585B; --ink3:#868A8C; --rule:#C8C4B8; --rule2:#DAD6CB;
+  --link:#8F8A7C; --accent:#1F6E5C; --accent-ink:#F5F3ED; --warn:#A33F35;
+  --d-nat:#1F6E5C; --d-press:#2E4E80; --d-trade:#A33F35; --d-suff:#74529E;
+  --d-reform:#8A6714; --d-civic:#5A5963; --d-arts:#8A5230;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ground:#111316; --canvas:#0E1013; --surface:#191C20; --sunk:#23272C;
+    --ink:#E7E4DC; --ink2:#A3A8AC; --ink3:#70767A; --rule:#2F343A; --rule2:#252A2F;
+    --link:#5C646B; --accent:#4FA88F; --accent-ink:#0E1013; --warn:#E0796D;
+    --d-nat:#4FA88F; --d-press:#7099DA; --d-trade:#E0796D; --d-suff:#A98BD6;
+    --d-reform:#C9A03E; --d-civic:#949AA4; --d-arts:#C68A5E;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#111316; --canvas:#0E1013; --surface:#191C20; --sunk:#23272C;
+  --ink:#E7E4DC; --ink2:#A3A8AC; --ink3:#70767A; --rule:#2F343A; --rule2:#252A2F;
+  --link:#5C646B; --accent:#4FA88F; --accent-ink:#0E1013; --warn:#E0796D;
+  --d-nat:#4FA88F; --d-press:#7099DA; --d-trade:#E0796D; --d-suff:#A98BD6;
+  --d-reform:#C9A03E; --d-civic:#949AA4; --d-arts:#C68A5E;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--ground);color:var(--ink);
+  font-family:Archivo,"Segoe UI",system-ui,sans-serif;font-size:14px;line-height:1.5;
+  -webkit-font-smoothing:antialiased}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+
+.app{display:grid;grid-template-rows:auto 1fr;height:100%}
+.masthead{display:flex;align-items:center;gap:18px;flex-wrap:wrap;
+  padding:10px 20px;background:var(--surface);border-bottom:1px solid var(--rule)}
+.wordmark{font-family:"Zilla Slab",Georgia,serif;font-weight:700;font-size:19px;
+  letter-spacing:-.01em;margin:0;white-space:nowrap}
+.wordmark span{color:var(--accent)}
+.tabs{display:flex;border:1px solid var(--rule);border-radius:3px;overflow:hidden}
+.tabs button{padding:5px 14px;background:var(--ground);border:0;cursor:pointer;
+  font-size:12.5px}
+.tabs button + button{border-left:1px solid var(--rule)}
+.tabs button[aria-selected="true"]{background:var(--accent);color:var(--accent-ink)}
+.tally{margin-left:auto;display:flex;align-items:stretch;
+  border:1px solid var(--rule);border-radius:3px;overflow:hidden;background:var(--ground)}
+.tally div{padding:4px 13px 3px;display:flex;flex-direction:column;gap:1px}
+.tally div + div{border-left:1px solid var(--rule)}
+.tally b{font-family:"IBM Plex Mono",monospace;font-weight:500;font-size:15px;
+  font-variant-numeric:tabular-nums;line-height:1.1}
+.tally small{font-size:9.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink3)}
+.tally .warn b{color:var(--warn)}
+
+.body{display:grid;grid-template-columns:246px minmax(0,1fr) 330px;min-height:0}
+.body.mode-sheet{grid-template-columns:minmax(0,1fr)}
+.body.mode-sheet > .rail,.body.mode-sheet > .stage{display:none}
+.body:not(.mode-sheet) > .sheet{display:none}
+
+.rail{background:var(--surface);overflow-y:auto;padding:16px 16px 40px;display:flex;
+  flex-direction:column;gap:20px}
+.rail.left{border-right:1px solid var(--rule)}
+.rail.right{border-left:1px solid var(--rule)}
+.stage{position:relative;background:var(--canvas);min-width:0;
+  display:grid;grid-template-rows:minmax(0,1fr) auto}
+.plot{position:relative;min-height:0;overflow:hidden}
+svg#net{display:block;width:100%;height:100%;cursor:grab;touch-action:none}
+svg#net.grabbing{cursor:grabbing}
+
+.sect{display:flex;flex-direction:column;gap:8px}
+.sect > h2{font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink3);
+  margin:0;font-weight:600}
+.hint{font-size:11.5px;color:var(--ink3);margin:0;line-height:1.45}
+
+.searchwrap{position:relative}
+#q{width:100%;padding:7px 9px;border:1px solid var(--rule);border-radius:3px;
+  background:var(--ground);font-size:13px}
+#q::placeholder{color:var(--ink3)}
+.results{list-style:none;margin:6px 0 0;padding:0;max-height:190px;overflow-y:auto;
+  border:1px solid var(--rule2);border-radius:3px;display:none;background:var(--ground)}
+.results.on{display:block}
+.results li button{width:100%;text-align:left;background:none;border:0;padding:6px 9px;
+  cursor:pointer;font-size:12.5px;display:flex;gap:7px;align-items:center}
+.results li + li button{border-top:1px solid var(--rule2)}
+.results li button:hover{background:var(--sunk)}
+.dot{width:8px;height:8px;border-radius:50%;flex:none}
+
+.chips{display:flex;flex-direction:column;gap:2px}
+.chip{display:flex;align-items:center;gap:8px;padding:4px 6px;border:0;border-radius:3px;
+  background:none;cursor:pointer;text-align:left;width:100%;font-size:12.5px}
+.chip:hover{background:var(--sunk)}
+.chip.off{opacity:.36}
+.chip .swatch{width:11px;height:11px;border-radius:2px;flex:none}
+.chip .n{margin-left:auto;font-family:"IBM Plex Mono",monospace;font-size:11px;
+  color:var(--ink3);font-variant-numeric:tabular-nums}
+
+.toggles{display:flex;flex-direction:column;gap:2px}
+.tg{display:flex;align-items:center;gap:8px;padding:4px 6px;border:0;border-radius:3px;
+  background:none;cursor:pointer;width:100%;text-align:left;font-size:12.5px}
+.tg:hover{background:var(--sunk)}
+.tg.off{opacity:.36}
+.tg .n{margin-left:auto;font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink3)}
+.tg .glyph{width:24px;display:flex;justify-content:center;flex:none;color:var(--ink2)}
+
+.pushbtn{width:100%;padding:7px 10px;border:1px solid var(--rule);border-radius:3px;
+  background:var(--ground);cursor:pointer;font-size:12.5px;text-align:left;
+  display:flex;align-items:center;gap:8px}
+.pushbtn:hover{border-color:var(--ink3)}
+.pushbtn.on{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.pushbtn .n{margin-left:auto;font-family:"IBM Plex Mono",monospace;font-size:11px;opacity:.75}
+
+/* ---- decade slider ---- */
+.timebar{border-top:1px solid var(--rule);background:var(--surface);
+  padding:9px 20px 11px;display:flex;flex-direction:column;gap:5px}
+.timehead{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+.timehead h2{font-size:10px;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--ink3);margin:0;font-weight:600}
+.timerange{font-family:"IBM Plex Mono",monospace;font-size:13px;font-weight:500}
+.timemeta{font-size:11.5px;color:var(--ink3)}
+.timeacts{margin-left:auto;display:flex;gap:6px;align-items:center}
+.linkish{background:none;border:0;padding:2px 4px;cursor:pointer;font-size:11.5px;
+  color:var(--accent);border-radius:3px}
+.linkish:hover{background:var(--sunk)}
+.linkish[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
+.slider{position:relative;height:40px;margin-top:2px}
+.hist{position:absolute;left:0;right:0;top:0;bottom:16px;display:flex;gap:2px;
+  align-items:flex-end}
+.hist i{flex:1;background:var(--sunk);border-radius:1px 1px 0 0;min-height:2px;
+  transition:background .12s}
+.hist i.on{background:var(--accent);opacity:.55}
+.track{position:absolute;left:0;right:0;bottom:11px;height:3px;background:var(--rule);
+  border-radius:2px}
+.fill{position:absolute;bottom:11px;height:3px;background:var(--accent);border-radius:2px}
+.rng{position:absolute;left:0;bottom:2px;width:100%;margin:0;height:20px;
+  -webkit-appearance:none;appearance:none;background:transparent;pointer-events:none}
+.rng::-webkit-slider-runnable-track{background:transparent;height:20px}
+.rng::-moz-range-track{background:transparent;height:20px}
+.rng::-webkit-slider-thumb{-webkit-appearance:none;pointer-events:auto;width:15px;
+  height:15px;border-radius:50%;background:var(--surface);border:2px solid var(--accent);
+  cursor:ew-resize;margin-top:2px}
+.rng::-moz-range-thumb{pointer-events:auto;width:15px;height:15px;border-radius:50%;
+  background:var(--surface);border:2px solid var(--accent);cursor:ew-resize}
+.ticks{display:flex;gap:2px;font-family:"IBM Plex Mono",monospace;font-size:9px;
+  color:var(--ink3)}
+.ticks span{flex:1;text-align:center;font-variant-numeric:tabular-nums}
+
+/* ---- detail ---- */
+.panel{display:flex;flex-direction:column;gap:14px}
+.eyebrow{font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink3);
+  font-weight:600;display:flex;align-items:center;gap:7px}
+.pname{font-family:"Zilla Slab",Georgia,serif;font-size:22px;font-weight:600;margin:0;
+  line-height:1.15;text-wrap:balance}
+.pdates{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink2);margin:0}
+.prole{margin:0;font-size:13.5px}
+.pnote{margin:0;font-size:12.5px;color:var(--ink2);line-height:1.5}
+.flag{border-left:2px solid var(--warn);padding:6px 0 6px 10px;font-size:12px;
+  color:var(--ink2)}
+.flag b{color:var(--warn);font-weight:600}
+.meta{border-top:1px solid var(--rule2);padding-top:10px;margin:0;display:grid;
+  grid-template-columns:auto minmax(0,1fr);gap:4px 14px;font-size:12px}
+.meta dt{color:var(--ink3);font-size:10px;letter-spacing:.09em;text-transform:uppercase;
+  padding-top:2px}
+.meta dd{margin:0;overflow-wrap:anywhere}
+.edges{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.edges li{border-top:1px solid var(--rule2)}
+.edges li:last-child{border-bottom:1px solid var(--rule2)}
+.edges button{width:100%;background:none;border:0;padding:7px 4px;cursor:pointer;
+  text-align:left;display:grid;grid-template-columns:auto minmax(0,1fr);gap:1px 9px;
+  align-items:start}
+.edges button:hover{background:var(--sunk)}
+.edges .mark{width:9px;height:9px;border-radius:50%;margin-top:5px;grid-row:1/span 3}
+.edges .rel{font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink3)}
+.edges .who{font-size:13px;line-height:1.3}
+.edges .ev{font-size:11px;color:var(--ink3);font-style:italic}
+.brokers{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:1px}
+.brokers button{width:100%;background:none;border:0;cursor:pointer;text-align:left;
+  padding:5px 6px;border-radius:3px;display:flex;align-items:center;gap:9px;font-size:12.5px}
+.brokers button:hover{background:var(--sunk)}
+.brokers .bars{display:flex;gap:1.5px;flex:none;width:56px}
+.brokers .bars i{height:10px;flex:1;border-radius:1px}
+.brokers .n{margin-left:auto;font-family:"IBM Plex Mono",monospace;font-size:11px;
+  color:var(--ink3)}
+.backbtn{align-self:flex-start;background:none;border:0;padding:0;cursor:pointer;
+  color:var(--accent);font-size:12px}
+.backbtn:hover{text-decoration:underline}
+
+.node-label{font-family:Archivo,sans-serif;font-size:9.5px;fill:var(--ink2);
+  pointer-events:none;paint-order:stroke;stroke:var(--canvas);stroke-width:3px;
+  stroke-linejoin:round}
+.node-label.big{font-size:11px;fill:var(--ink);font-weight:500}
+.node{cursor:pointer}
+.legendkey{position:absolute;left:14px;bottom:10px;font-size:10.5px;color:var(--ink3);
+  font-family:"IBM Plex Mono",monospace;display:flex;gap:14px;flex-wrap:wrap;
+  padding:4px 8px;border-radius:3px;pointer-events:none}
+.legendkey i{font-style:normal;display:flex;align-items:center;gap:5px}
+.zoomers{position:absolute;right:12px;top:12px;display:flex;flex-direction:column;gap:4px}
+.zoomers button{width:28px;height:28px;border:1px solid var(--rule);background:var(--surface);
+  border-radius:3px;cursor:pointer;line-height:1;font-size:14px;display:grid;place-items:center}
+.zoomers button:hover{border-color:var(--ink3)}
+
+/* ---- sheet ---- */
+.sheet{display:grid;grid-template-rows:auto auto minmax(0,1fr);min-height:0;
+  background:var(--ground)}
+.sheetbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+  padding:10px 20px;background:var(--surface);border-bottom:1px solid var(--rule)}
+.seg{display:flex;border:1px solid var(--rule);border-radius:3px;overflow:hidden}
+.seg button{padding:4px 13px;background:var(--ground);border:0;cursor:pointer;font-size:12.5px}
+.seg button + button{border-left:1px solid var(--rule)}
+.seg button[aria-selected="true"]{background:var(--accent);color:var(--accent-ink)}
+#sheetq{padding:6px 9px;border:1px solid var(--rule);border-radius:3px;
+  background:var(--ground);font-size:12.5px;width:230px}
+.btn{padding:6px 12px;border:1px solid var(--rule);border-radius:3px;
+  background:var(--ground);cursor:pointer;font-size:12.5px}
+.btn:hover{border-color:var(--ink3)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.saveflag{margin-left:auto;display:flex;align-items:center;gap:7px;font-size:12px;
+  color:var(--ink3)}
+.saveflag .pip{width:7px;height:7px;border-radius:50%;background:var(--ink3)}
+.saveflag.live .pip{background:var(--accent)}
+.saveflag.busy .pip{background:var(--d-reform)}
+.saveflag.off .pip{background:var(--warn)}
+.notice{padding:8px 20px;font-size:12px;background:var(--sunk);color:var(--ink2);
+  border-bottom:1px solid var(--rule)}
+.notice.hide{display:none}
+.tablewrap{overflow:auto;min-height:0}
+table.grid{border-collapse:separate;border-spacing:0;width:max-content;min-width:100%;
+  font-size:12.5px}
+table.grid th{position:sticky;top:0;z-index:2;background:var(--surface);text-align:left;
+  font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink3);
+  font-weight:600;padding:8px 9px;border-bottom:1px solid var(--rule);white-space:nowrap}
+table.grid td{padding:0;border-bottom:1px solid var(--rule2);vertical-align:top;
+  background:var(--ground)}
+table.grid tr.edited td{background:color-mix(in srgb,var(--accent) 8%,var(--ground))}
+table.grid tr.added td{background:color-mix(in srgb,var(--d-reform) 12%,var(--ground))}
+table.grid tr.gone td{opacity:.4;text-decoration:line-through}
+.cell{width:100%;min-height:30px;padding:6px 9px;border:0;background:transparent;
+  font-size:12.5px;line-height:1.35;resize:none;display:block;font-family:inherit}
+.cell:focus{outline:2px solid var(--accent);outline-offset:-2px;background:var(--surface)}
+.cell[readonly]{color:var(--ink3)}
+select.cell{cursor:pointer;-webkit-appearance:none;appearance:none;padding-right:16px}
+td.narrow{width:106px} td.mid{width:170px} td.wide{width:280px}
+td.tiny{width:64px}
+.rowmark{width:30px;text-align:center;color:var(--ink3);font-family:"IBM Plex Mono",monospace;
+  font-size:10px;padding:7px 0}
+.killbtn{background:none;border:0;cursor:pointer;color:var(--ink3);padding:6px 8px;
+  font-size:13px;line-height:1}
+.killbtn:hover{color:var(--warn)}
+.idcell{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink3);
+  padding:8px 9px;white-space:nowrap}
+
+@media (max-width:1180px){.body{grid-template-columns:220px minmax(0,1fr) 286px}}
+@media (max-width:940px){
+  .body{grid-template-columns:1fr;grid-template-rows:58vh auto auto}
+  .rail{border:0;border-top:1px solid var(--rule)}
+  .rail.left{border-right:0;order:2}
+  .rail.right{border-left:0;order:3}
+  .stage{order:1}
+  .tally{margin-left:0}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<div class="app">
+  <header class="masthead">
+    <h1 class="wordmark">Who Knew <span>Whom</span></h1>
+    <div class="tabs" role="tablist">
+      <button id="tabNet" role="tab" aria-selected="true">Network</button>
+      <button id="tabSheet" role="tab" aria-selected="false">Spreadsheet</button>
+    </div>
+    <div class="tally">
+      <div><b id="t-nodes">0</b><small>Nodes</small></div>
+      <div><b id="t-edges">0</b><small>Links</small></div>
+      <div><b id="t-cross">0</b><small>Cross-field</small></div>
+      <div class="warn"><b id="t-iso">0</b><small>Unlinked</small></div>
+    </div>
+  </header>
+
+  <div class="body" id="body">
+    <aside class="rail left">
+      <div class="sect">
+        <h2>Find</h2>
+        <div class="searchwrap">
+          <input id="q" type="search" placeholder="Buxton, Kersal Moor, Herbarium&#8230;" autocomplete="off">
+          <ul class="results" id="results"></ul>
+        </div>
+      </div>
+      <div class="sect">
+        <h2>Field of activity</h2>
+        <div class="chips" id="domainChips"></div>
+      </div>
+      <div class="sect">
+        <h2>Kind of node</h2>
+        <div class="toggles" id="typeToggles"></div>
+      </div>
+      <div class="sect">
+        <h2>Strength of evidence</h2>
+        <div class="toggles" id="evToggles"></div>
+        <p class="hint">Dotted links are inferences the workshop has not tested yet. Nothing is drawn that the workbook does not assert.</p>
+      </div>
+      <div class="sect">
+        <h2>Gaps</h2>
+        <button class="pushbtn" id="isoBtn">Unlinked people only<span class="n" id="isoN">0</span></button>
+        <button class="pushbtn" id="ghostBtn">In events, not in People<span class="n" id="ghostN">0</span></button>
+      </div>
+    </aside>
+
+    <main class="stage">
+      <div class="plot">
+        <svg id="net" role="img" aria-label="Network of Victorian Manchester people, organisations and places"></svg>
+        <div class="zoomers">
+          <button id="zin" title="Zoom in" aria-label="Zoom in">+</button>
+          <button id="zout" title="Zoom out" aria-label="Zoom out">&#8722;</button>
+          <button id="zfit" title="Fit to view" aria-label="Fit to view">&#9633;</button>
+        </div>
+        <div class="legendkey">
+          <i><svg width="14" height="10" aria-hidden="true"><circle cx="5" cy="5" r="4.5" fill="currentColor"/></svg>person</i>
+          <i><svg width="14" height="10" aria-hidden="true"><rect x="1" y="1" width="8" height="8" rx="1.5" fill="currentColor"/></svg>society</i>
+          <i><svg width="14" height="12" aria-hidden="true"><path d="M5.5 0.5 L10.5 5.5 L5.5 10.5 L0.5 5.5 Z" fill="currentColor"/></svg>place</i>
+          <i>size = links</i>
+        </div>
+      </div>
+
+      <div class="timebar">
+        <div class="timehead">
+          <h2>Decades</h2>
+          <span class="timerange" id="decLabel">1770s &ndash; 1910s</span>
+          <span class="timemeta" id="decMeta"></span>
+          <span class="timeacts">
+            <button class="linkish" id="undatedBtn" aria-pressed="true">Keep undated</button>
+            <button class="linkish" id="decReset">Reset</button>
+          </span>
+        </div>
+        <div class="slider">
+          <div class="hist" id="hist"></div>
+          <div class="track"></div>
+          <div class="fill" id="fill"></div>
+          <input class="rng" id="decFrom" type="range" min="0" max="14" step="1" value="0" aria-label="First decade shown">
+          <input class="rng" id="decTo" type="range" min="0" max="14" step="1" value="14" aria-label="Last decade shown">
+        </div>
+        <div class="ticks" id="ticks"></div>
+      </div>
+    </main>
+
+    <aside class="rail right" id="detail"></aside>
+
+    <section class="sheet" id="sheet">
+      <div class="sheetbar">
+        <div class="seg" role="tablist">
+          <button id="segPeople" role="tab" aria-selected="true">People</button>
+          <button id="segLinks" role="tab" aria-selected="false">Links</button>
+        </div>
+        <input id="sheetq" type="search" placeholder="Filter rows&#8230;" autocomplete="off">
+        <button class="btn primary" id="addRow">Add row</button>
+        <button class="btn" id="expCsv">Download CSV</button>
+        <button class="btn" id="expJson">Copy JSON</button>
+        <div class="saveflag off" id="saveFlag"><span class="pip"></span><span id="saveText">Checking storage&#8230;</span></div>
+      </div>
+      <div class="notice" id="sheetNotice"></div>
+      <div class="tablewrap"><table class="grid" id="grid"></table></div>
+    </section>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<script>
+/* Victorian Manchester natural-history workbook, restructured as a graph.
+   Every node and edge below is asserted somewhere in the workbook; nothing is
+   invented. `ev` records how firmly the workbook itself states the link. */
+
+const DOMAINS = {
+  nat:    { label: "Natural history",      css: "--d-nat" },
+  press:  { label: "Press & publishing",   css: "--d-press" },
+  trade:  { label: "Industry & commerce",  css: "--d-trade" },
+  suff:   { label: "Women's rights",       css: "--d-suff" },
+  reform: { label: "Reform & abolition",   css: "--d-reform" },
+  civic:  { label: "Civic & institutions", css: "--d-civic" },
+  arts:   { label: "Arts & performance",   css: "--d-arts" }
+};
+
+const EVIDENCE = {
+  documented:  { label: "Stated in workbook", dash: null,    note: "Asserted directly by a workbook row." },
+  verify:      { label: "Needs verification", dash: "5 3",   note: "Flagged in the workbook as unconfirmed." },
+  interpretive:{ label: "Interpretive",       dash: "1.5 3", note: "A hypothesis the workbook offers for testing." }
+};
+
+const TYPES = {
+  person: { label: "People" },
+  org:    { label: "Societies & firms" },
+  place:  { label: "Places" }
+};
+
+/* [id, name, type, domain, dates, role, note, sheetId, flag] */
+const RAW_NODES = [
+  // ---------- natural history: the artisan botanists ----------
+  ["buxton","Richard Buxton","person","nat","1786–1865","Botanist & shoemaker","Self-taught; wrote an 1849 guide to plants within sixteen miles of Manchester. Working-class autodidact.","NH-001"],
+  ["horsefield","John Horsefield","person","nat","1792–1854","Botanist & handloom weaver","Founded the Prestwich Botanical Society in 1820 and led the regional networks for over thirty years.","NH-002"],
+  ["hobson","Edward Hobson","person","nat","1782–1830","Bryologist & artisan naturalist","Early Manchester specialist in mosses and liverworts; prepared Musci Britannici material.","NH-003"],
+  ["jsidebotham","Joseph Sidebotham","person","nat","1824–1885","Cotton industrialist & naturalist","Botany, entomology, microscopy and photography. Collections entered Manchester Museum.","NH-004"],
+  ["jlphilips","John Leigh Philips","person","nat","1761–1814","Textile manufacturer & collector","His private collection became foundational to Manchester's museum institutions.","NH-005","Date conflict: a University page gives 1761–1841; the Museum archive gives 1761–1814."],
+  ["cribb","Robert Cribb","person","nat","dates unknown","Textile worker & lepidopterist","Credited with finding the Manchester moth at Kersal Moor in 1829. Credit later disputed.","NH-006"],
+  ["rwood","R. Wood","person","nat","dates unknown","Insect collector","The Manchester moth was named for Wood rather than Cribb. Relationship to Cribb needs careful sourcing.","NH-007"],
+  ["carrington","Benjamin Carrington","person","nat","1827–1893","Physician & botanist","Bryophytes, cryptogams, fungi and lichens. Author of Hepaticae Britannicae exsiccatae.","NH-008"],
+  ["bailey","Charles Bailey","person","nat","1838–1924","Botanist & collector","Built one of the three major personal herbaria absorbed by Manchester Museum, in 1917.","NH-009"],
+  ["melvill","Cosmo Melvill","person","nat","1845–1929","Naturalist & collector","Botany and conchology. His general herbarium entered the Museum in 1904.","NH-010"],
+  ["sgibson","Samuel Gibson","person","nat","dates unknown","Artisan botanist & collector","Ferns, algae and other cryptogams represented in Manchester's herbarium.","NH-011"],
+  ["nowell","John Nowell","person","nat","dates unknown","Bryologist","Collaborated with Buxton on a fasciculus of British mosses.","NH-012"],
+  ["crozier","George Crozier","person","nat","dates unknown","Artisan naturalist","Remembered by Grindon as practising natural history alongside manual work in a Shudehill workshop.","NH-013"],
+  ["crowther","John Crowther","person","nat","1768–unknown","Artisan botanist","An early participant in the rotating Lancashire botanical meetings; described by Grindon as a 'Banksian'.","NH-014"],
+  ["thsidebotham","Thomas Henry Sidebotham","person","nat","dates unknown","Naturalist","Potential member of the wider Sidebotham scientific network. Identity needs confirming.","NH-015"],
+  ["crowe","John Crowe","person","nat","19th century","Botanist","Named by Grindon among Manchester botanists attending regional gatherings.","NH-016"],
+  ["warburton","John Warburton","person","nat","19th century","Botanist","Named by Grindon among Manchester botanists attending regional gatherings.","NH-017"],
+  ["hulme","George Hulme","person","nat","19th century","Botanist","Named by Grindon among Prestwich botanists attending regional gatherings.","NH-018"],
+  ["eclough","Edwin Clough","person","nat","19th century","Botanist","Named by Grindon among Ashton-under-Lyne botanists at regional gatherings.","NH-019"],
+  ["hnewton","Henry Newton","person","nat","19th century","Botanist","Ashton-under-Lyne. Which Newton this is remains to be confirmed.","NH-020"],
+  ["bleackley","Tom Bleackley","person","nat","19th century","Botanist","Whitefield; named by Grindon among local botanists at regional gatherings.","NH-021"],
+  ["jshaw","John Shaw","person","nat","19th century","Botanist","Eccles; named by Grindon among local botanists at regional gatherings.","NH-022"],
+  ["darbyshire","John Darbyshire","person","nat","19th century","Botanist","Newton; named by Grindon among local botanists at regional gatherings.","NH-023"],
+  ["bentley","William Bentley","person","nat","19th century","Botanist","Royton; spelling and full identity need verifying.","NH-024"],
+  ["devonport","James Devonport","person","nat","19th century","Botanist","Droylsden; named by Grindon among local botanists at regional gatherings.","NH-025"],
+  ["jturner","John Turner","person","nat","19th century","Botanist","Middleton. Needs disambiguating from other John Turners.","NH-026"],
+  ["hopkins","Mrs Hopkins","person","nat","1879–1881 active","Plant collector","Herbarium sheets survive under this name alone. Full name, biography and collecting locations lost.","NH-027","Recorded only as 'Mrs Hopkins'. Recovering her own name is an open workshop task."],
+  ["jaffrey","Mrs P. Jaffrey","person","nat","1882 active","Fern collector","Darjeeling ferns documented in Manchester's herbarium guide. A colonial collecting route with the intermediaries unnamed.","NH-028","Recorded only as 'Mrs P. Jaffrey'. The collector and her intermediaries are unidentified."],
+  ["grindon","Leo H. Grindon","person","nat","1818–1904","Cashier, self-taught naturalist & adult educator","Founded the Manchester Field-Naturalists' Society; wrote Manchester Flora (1859) and Country Rambles (1882). Lectured in botany at the Royal School of Medicine from 1852.","sw","ID recorded as 'sw' and flagged DUPLICATE ID in the workbook."],
+  ["rgrindon","Rosa Leo Grindon","person","suff","1820–1900","Lecturer","Wrote 'Shakespeare plays from a women's point of view'. Connector between natural history and women's literary organisation.","200069"],
+  ["wcwilliamson","William Crawford Williamson","person","nat","dates missing","Curator & professor","First curator of the Peter Street museum, 1835, and Professor of Natural History at Owens College.","—","No ID, no dates, no source in the workbook."],
+  ["curtis","John Curtis","person","nat","external","Taxonomist","Described and named the Manchester moth, apparently from a specimen attributed to Wood.","—","Appears only inside relationship text; has no People row."],
+  ["pearson","William Henry Pearson","person","nat","external","Botanist","Named in Carrington's herbarium network.","—","Appears only inside relationship text; has no People row."],
+  ["brittain","Thomas Brittain","person","nat","external","Microscopist","Named among the founders of the first Manchester Microscopical Society, 1858.","—","Appears only in the Organisations sheet; has no People row."],
+  ["cash","James Cash","person","nat","external","Cryptogamist","Named in the Manchester Cryptogamic Society entry.","—","Appears only in the Organisations sheet; has no People row."],
+
+  // ---------- press: the Guardian and the Little Circle ----------
+  ["jetaylor","John Edward Taylor","person","press","1791–1844","Founder & editor","Founded the Manchester Guardian. Liberal, Unitarian, active 1820s–1840s.","200100","Duplicated in the workbook as 200013 with the same dates."],
+  ["jetaylor2","John Edward Taylor II","person","press","1830–1905","Editor & owner","Son of John Edward Taylor; co-owner in 1852, sole owner in 1856.","200111"],
+  ["cowdroy","William Cowdroy Jr.","person","press","1775–1831","Editor, Manchester Gazette","Member of the Little Circle; contributed to the founding of the Manchester Guardian.","200106"],
+  ["prentice","Archibald Prentice","person","press","1792–1857","Editor, Manchester Times","Member of the Little Circle; radical; financial backer of the Manchester Guardian.","200108"],
+  ["rscott","Russell Scott","person","press","1801–1880","Coal merchant & philanthropist","Brother-in-law to John Edward Taylor; invested in the Guardian and became proprietor after Taylor's death.","200110"],
+  ["sophiataylor","Sophia Russell Taylor","person","arts","1793–1866","Cultural hostess","Wife of John Edward Taylor; hosted cultural salons in Manchester.","200097"],
+
+  // ---------- industry & commerce ----------
+  ["gphilips","Sir George Philips","person","trade","1766–1847","Financier & MP","West India merchant and enslaver; partner in Boddington, Sharp and Philips, which owned the Success estate in Hanover, Jamaica. The Guardian backer most deeply linked with slavery.","200101"],
+  ["tpotter","Thomas Potter","person","trade","1774–1845","First Mayor of Manchester","Member of the Little Circle. Mayor 1838–40. Connected to transatlantic slavery through the cotton and textile trade.","200104","Also appears garbled as 200016, 'Thom & Richard Potter'."],
+  ["rpotter","Richard Potter","person","trade","1778–1842","MP for Wigan","'Radical Dick'. Little Circle member; manufacturer and dealer in cotton goods; owned a Manchester textile warehouse.","200105"],
+  ["jpotter","John Potter","person","trade","1773–1838","Merchant","Host of the Little Circle meetings; father to Thomas and Richard Potter.","200109"],
+  ["shuttleworth","John Shuttleworth","person","trade","1786–1864","Industrialist & reformer","Co-founded Shuttleworth, Taylor & Co., which imported cotton produced by enslaved people from the Sea Islands.","200102","Duplicated as 200014 with the same dates."],
+  ["gwwood","George William Wood","person","trade","dates missing","Merchant & MP","Partner in Philips, Wood & Co and Shuttleworth, Taylor & Co. Twice president of the Chamber of Commerce.","—","No ID and no dates in the workbook."],
+  ["rphilips","Robert Philips","person","trade","dates missing","Merchant","Cousin of Sir George Philips; partnerships in Philips, Wood & Co and Shuttleworth, Taylor & Co; family ties to the Hibbert and Yates enslaver families.","—","No ID and no dates in the workbook."],
+  ["baxter","Edward Baxter","person","trade","dates missing","Cotton merchant","Unitarian calico printer and muslin manufacturer; founder-director of the Manchester Savings Bank.","—","No ID and no dates in the workbook."],
+  ["duckworth","William Duckworth","person","trade","dates missing","Attorney","Unitarian; son-in-law of Robert Philips. Recorded in 1826 supporting the melioration of the enslaved population of the colonies.","—","No ID and no dates in the workbook."],
+  ["pullein","Samuel Pullein","person","trade","dates missing","Calico printer","Director and trustee of the Manchester Fire and Life Assurance Company.","—","No ID and no dates in the workbook."],
+  ["sanderson","Thomas BW Sanderson","person","trade","dates missing","Merchant & manufacturer","Dealer in cotton goods and supplies; linked to transatlantic slavery through his business operations.","—","No ID and no dates in the workbook."],
+  ["tjohnson","Thomas Johnson","person","trade","dates missing","Merchant","Named as a merchant in the original Manchester Guardian loan agreement.","—","No ID and no dates in the workbook."],
+  ["twilkins","Thomas Wilkins","person","trade","dates missing","Merchant","Named in the Guardian loan agreement; a secondary source lists him as a cotton merchant.","—","No ID and no dates in the workbook."],
+  ["whitworth","Joseph Whitworth","person","trade","1803–1887","Inventor","Engineer and machine-tool maker; commemorated by statues at the Royal Infirmary.","200023"],
+  ["mlwhitworth","Mary Louisa Whitworth","person","trade","1823–1896","Philanthropist","Second wife of Joseph Whitworth; inherited and continued his charitable work.","200096"],
+  ["rylands","John Rylands","person","trade","1801–1888","Merchant","Married three times; the last to Enriqueta Tennant, eight months after Martha's death.","200024"],
+  ["erylands","Enriqueta Augustina Rylands","person","trade","1843–1908","Founder & patron","Founded the John Rylands Library in memory of her husband; a major patron of education.","200040"],
+  ["adamson","Daniel Adamson","person","trade","1820–1890","Ship Canal engineer","Drove the Manchester Ship Canal, opened 1894.","200019"],
+  ["murray","Murray brothers","person","trade","various","Factory owners, Ancoats","Mill owners on Oxford Road and the River Medlock.","200048"],
+  ["mcconnel","McConnel","person","trade","various","Factory owners, Ancoats","Mill owners on Oxford Road and the River Medlock.","200049"],
+  ["kennedy","Kennedy","person","trade","various","Factory owners, Ancoats","Mill owners on Oxford Road and the River Medlock.","200050"],
+  ["swatts","S&J Watts","person","trade","various","Warehousemen","Their warehouse is now the Britannia Hotel.","200058"],
+  ["wfairbairn","William Fairbairn","person","trade","1789–1874","Engineer","Commemorated by statues at the Royal Infirmary.","200059","Spelled 'Fairburn' in the workbook."],
+  ["tfairbairn","Thomas Fairbairn","person","trade","1823–91","Industrialist & art patron","Commissioner at the Great Exhibition 1851; headed the executive committee of the Art Treasures Exhibition 1857.","sw","ID recorded as 'sw'."],
+  ["bazley","Thomas Bazley","person","trade","1797–1885","MP","Charitable work, status and local power.","200030"],
+  ["jaturner","JA Turner","person","trade","dates unknown","MP","'You need to be local and charitable to get on.' Palmerstonian.","200018","Descriptive note is embedded in the Name field."],
+  ["callender","William Romaine Callender jnr","person","trade","1825–1876","Merchant","Palmerstonian/conservative.","200029"],
+  ["holdsworth","William Henry Holdsworth","person","trade","dates unknown","—","Charitable work, status and local power.","200031"],
+  ["forwood","Arthur Brown Forwood","person","trade","1836–1898","Liverpool merchant","Pro-slavery supporter.","200009","Descriptive note is embedded in the Name field."],
+  ["dresser","Henry Dresser","person","trade","1838–1915","Merchant","London-based; broke the cotton embargo.","200010","Name field ends mid-sentence: 'backed by'."],
+  ["sichel","Julius Sichel","person","trade","1802–1868","Austrian vice-consul","Manchester Museum holds his diaries.","200011","Descriptive note is embedded in the Name field."],
+  ["mosley","Mosley family","person","trade","various","Lords of the manor","Sold the rights of lord of the manor of Manchester to Manchester Corporation in 1846.","200046","Spelled 'Mosley familu'."],
+  ["jwilliamson","James Williamson","person","trade","1842–1930","MP","Involved in the Manchester Royal Jubilee Exhibition.","200025"],
+  ["markphillips","Mark Phillips","person","trade","1800–1873","MP","—","200033"],
+  ["sirjohnpotter","Sir John Potter","person","trade","1815–1858","—","Charitable work, status and local power.","200017"],
+  ["jgroves","James Groves","person","trade","dates unknown","Founder","Salford Lads Club; Groves and Whitnall Breweries.","200041"],
+  ["wgroves","William Groves","person","trade","dates unknown","Founder","Salford Lads Club; Groves and Whitnall Breweries.","200042"],
+  ["beardsley","William & Joseph Beardsley","person","trade","19th century","Garden proprietors","Opened Strawberry Gardens, later Pomona Gardens, in 1845.","sw","ID recorded as 'sw'."],
+  ["heywood","Benjamin Heywood","person","trade","1793–1865","MP & philanthropist","Charitable work, status and local power.","200020","Role recorded as 'MP, Philanthropost'."],
+  ["greg","Greg family","person","trade","various","Campaigners","Anti-slavery.","200002"],
+  ["lees","Lees family","person","trade","various","Campaigners","Anti-slavery.","200003"],
+
+  // ---------- women's rights & suffrage ----------
+  ["becker","Lydia Becker","person","suff","1827–1890","Scientist & suffragist","Won a gold medal in the 1864 botanical competition; founded the Manchester suffrage society and edited the Women's Suffrage Journal. Self-taught scientist, suffrage organiser, editor.","200068"],
+  ["roper","Esther Roper","person","suff","1868–1938","Suffragist","Secretary of the Manchester National Society for Women's Suffrage from 1893; recruited working-class women into the movement.","200084"],
+  ["gorebooth","Eva Gore-Booth","person","suff","1870–1926","Poet & suffragist","Partner of Esther Roper; campaigned for women's and workers' rights. Labour, spiritualist, 1890s–1910s.","200085"],
+  ["pankhurst","Emmeline Pankhurst","person","suff","1858–1928","Suffragette","Elected Poor Law Guardian for Chorlton-on-Medlock in 1894.","200021"],
+  ["kenney","Annie Kenney","person","suff","1879–1953","Suffragette","The only working-class woman in a senior leadership position in the WSPU.","200079"],
+  ["mitchell","Hannah Mitchell","person","suff","1872–1956","Socialist & suffragette","Involved in the fights for women's suffrage and pacifism.","200076"],
+  ["ashton","Margaret Ashton","person","suff","1856–1937","Politician","First woman city councillor for Manchester, 1908. Pacifist; split from the suffragette movement before the war.","200077"],
+  ["maxwell","Lily Maxwell","person","suff","c.1800–1876","Suffragist","One of the first women to vote, illegally. Connected to the Chorlton v Lings case.","200062"],
+  ["quaile","Mary Quaile","person","suff","1886–1958","Trade unionist","Secretary of the Manchester Women's Trade Union Council. Born in Dublin, grew up in Manchester.","200078","Spelled 'Mary Qualie'; the linked source spells it Quaile."],
+  ["martyn","Caroline Martyn","person","suff","1867–1896","Socialist speaker","Worked alongside the Labour leader Keir Hardie. ILP and trade unions.","200086"],
+  ["ubright","Ursula Mellor Bright","person","suff","1835–1915","Suffragist & activist","Wife of Jacob Bright; campaigner for women's legal and voting rights.","200099"],
+  ["mbright","Margaret Elizabeth Bright","person","suff","1818–1890","Philanthropist","Second wife of John Bright; active in women's education.","200094","Workbook calls her 'sister to Jacob Bright' — likely sister-in-law. Worth resolving."],
+  ["fildes","Mary Fildes","person","suff","c.1789–1876","Reformer","Irish-born president of the Manchester Female Reform Society; led the female reformers' contingent at Peterloo.","200001"],
+  ["stopes","Marie Stopes","person","suff","1880–1958","Birth control campaigner","—","200039","Active well after the Victorian period; the People sheet has no scope flag."],
+  ["remond","Sarah Parker Remond","person","reform","1826–1894","Abolitionist & physician","African-American abolitionist who campaigned in Manchester and delivered speeches at the Athenaeum.","200066"],
+  // referenced in events but absent from People
+  ["wolstenholme","Elizabeth Wolstenholme-Elmy","person","suff","—","Suffragist","Present at the formation of the Manchester Society for Women's Suffrage, 1867, and founder of the Schoolmistresses Association, 1865.","—","Named in the events sheet; has no People record."],
+  ["rpankhurst","Richard Pankhurst","person","suff","—","Barrister","Present at the formation of the Manchester Society for Women's Suffrage, 1867.","—","Named in the events sheet; has no People record."],
+  ["dickenson","Sarah Dickenson","person","suff","—","Trade unionist","Co-formed the Manchester and Salford Women's Trades Council, 1895.","—","Named in the events sheet; has no People record."],
+  ["pochin","Agnes Pochin","person","suff","—","Suffrage speaker","Spoke at the first public meeting at the Free Trade Hall, 1868; her husband, then Mayor of Salford, chaired it.","—","Named in the events sheet; has no People record."],
+  ["brightmclaren","Priscilla Bright McLaren","person","suff","—","Suffragist","Spoke at the first public meeting of the Manchester National Society, 1868.","—","Named in the events sheet; has no People record."],
+  ["butler","Josephine Butler","person","suff","—","Campaigner","Joined the society's new executive committee in October 1868.","—","Named in the events sheet; has no People record."],
+  ["davies","Emily Davies","person","suff","—","Education campaigner","Addressed the Manchester Schoolmistresses Board on women's higher education, October 1866.","—","Named in the events sheet; has no People record."],
+  ["aclough","Anne Clough","person","suff","—","Educationist","Honorary member of the Manchester Schoolmistresses Association, 1865.","—","Named in the events sheet; has no People record."],
+  ["robertson","Anne Robertson","person","suff","—","Suffrage speaker","Spoke at the first public meeting of the society, 1868.","—","Named in the events sheet; has no People record."],
+
+  // ---------- reform & abolition ----------
+  ["sharp","Granville Sharp","person","reform","1735–1813","Campaigner","Anti-slavery, with Wilberforce in London. Died unmarried in 1813.","200005","Descriptive note is embedded in the Name field."],
+  ["clarkson","Thomas Clarkson","person","reform","1760–1846","Campaigner","Quaker abolitionist. Married in 1796; their only child, Thomas, died before his father. Westminster Abbey.","200006"],
+  ["cclarkson","Catherine Buck Clarkson","person","reform","dates not known","Supporter","Supported her husband's abolitionist work and managed home life during the campaigns.","200092"],
+  ["jbright","John Bright","person","reform","1811–1889","Campaigner","Free Trade and Liberal. Married Elizabeth Priestman in 1839; she died in 1841. Remarried Margaret Elizabeth Leatham in 1847.","200012"],
+  ["jacobbright","Jacob Bright","person","reform","1821–1899","—","Husband of Ursula Mellor Bright.","200032"],
+  ["cobden","Richard Cobden","person","reform","1804–1865","Supporter & MP","Anti-slavery and Free Trade. Married in 1840; five surviving children. Westminster Abbey.","200008"],
+  ["ccobden","Catherine Anne Cobden","person","reform","1815–1877","Campaigner","Supported education and published her husband's letters posthumously.","200091","Cobden's own row calls her 'Catherine Anne Williams'; her row calls her Cobden."],
+  ["engels","Friedrich Engels","person","reform","1820–1895","Socialist","Had long-term relationships with Mary Burns and later her sister Lydia, but did not marry.","200035"],
+  ["marx","Karl Marx","person","reform","1818–1883","Socialist","Childhood sweetheart; married in 1843.","200034"],
+  ["jenny","Jenny von Westphalen Marx","person","reform","1814–1881","Writer & supporter","Born an aristocrat; endured poverty and exile for the socialist cause.","200093"],
+  ["burns","Mary Burns","person","reform","1821–1863","Activist","Introduced Engels to Manchester.","200081"],
+  ["gibson","TM Gibson","person","reform","1803–1889","Supporter","Anti-slavery.","200007"],
+  ["owen","Robert Owen","person","reform","1771–1858","—","Charitable work, status and local power.","200057"],
+  ["watkin","Absalom Watkin","person","reform","1787–1861","Parliamentary reformer","Member of the Little Circle; supported parliamentary reform; financial backer of the Manchester Guardian.","200103","Duplicated as 200015 with the same dates."],
+  ["brotherton","Joseph Brotherton","person","reform","1783–1857","Preacher & MP","Member of the Little Circle; vegetarian; financial backer of the Manchester Guardian. Buried at Weaste Cemetery.","200107","Duplicated as 200037 with the same dates."],
+  ["martha","Martha Brotherton","person","arts","1782–1861","Writer & reformer","Author of Vegetable Cookery (1812), the first known vegetarian cookbook; active in the Bible Christian Church.","200087","Also appears as 200038 'Mary Brotherton' with identical dates — almost certainly the same person."],
+  ["helenb","Helen Brotherton","person","reform","1812–1898","—","Daughter of Martha and Joseph Brotherton; vice-president of the Vegetarian Society; dedicated to charity and reform in Salford.","200088"],
+
+  // ---------- civic & institutions ----------
+  ["waterhouse","Alfred Waterhouse","person","civic","1830–1905","Architect","Designed Manchester Town Hall.","200045"],
+  ["potts","Edward Potts","person","civic","1839–1909","Architect","Designed and built multiple mills, especially in Oldham.","200072","Relationships field reads '2,3,7' — an unresolved cross-reference."],
+  ["lane","Richard Lane","person","civic","1795–1880","Architect","Redesigned the esplanade outside the Royal Infirmary; campaigning and design for outdoor public spaces.","200052","Role field contains a description, not a role."],
+  ["arnout","J Arnout","person","civic","dates unknown","Lithographer","Lithograph of the Royal Infirmary, 1857.","200051","Role field contains a description, not a role."],
+  ["heron","Joseph Heron","person","civic","1809–1889","Town Clerk","Led on building the Town Hall to Waterhouse's design.","200060"],
+  ["fraser","Bishop James Fraser","person","civic","1818–1885","Bishop","Statue in Albert Square.","200044"],
+  ["dalton","John Dalton","person","civic","1766–1844","Scientist","Statue at the Royal Infirmary.","200053"],
+  ["watt","James Watt","person","civic","1736–1819","Engineer","Statue at the Royal Infirmary.","200054"],
+  ["wellington","Duke of Wellington","person","civic","1769–1852","—","Statue in Albert Square.","200055"],
+  ["peel","Robert Peel","person","civic","1788–1850","Police","Married in 1820; daughter of General Sir John Floyd.","200036"],
+  ["caminada","Jerome Caminada","person","civic","1844–1914","Police officer","Dubbed Manchester's Sherlock Holmes. Led a police raid on a cross-dressing ball in Hulme.","200070"],
+  ["mcaminada","Mary Ellen Caminada","person","civic","dates not known","Homemaker & supporter","Wife of Jerome Caminada; raised the family during his public career. Married 1871.","200095"],
+  ["stokes","Harry Stokes","person","civic","c.1799–1859","Constable","Assigned female at birth but lived as a man. Owned a bar on Quay Street.","200061"],
+  ["henshaw","Thomas Henshaw","person","civic","1731–1810","Founder","Blind Asylum. Disability.","200026","Institution name is embedded in the Name field."],
+  ["birley","Hugh Hornby Birley","person","civic","1778–1845","Founder","Deaf institute. A leading role in the Peterloo Massacre.","200028","Role field records the institution, not a role."],
+  ["pendlebury","John Pendlebury","person","civic","dates unknown","—","—","200027"],
+  ["cooke","Alice Cooke","person","civic","1867–1940","Academic","Catalogued the Enriqueta collection; studied at Manchester University.","200073"],
+  ["foster","Agnes Foster","person","civic","dates unknown","Salvationist","Co-founder of the Jamaican Salvation Army but lived in Manchester; became a soldier in the Eccles corps.","200067","Spelled 'Jamacian'."],
+
+  // ---------- arts & performance ----------
+  ["gaskell","Elizabeth Gaskell","person","arts","1810–1865","Writer & philanthropist","Wrote novels about industrial Manchester; involved in charities. Liberal, Unitarian, 1830s–1860s.","200082"],
+  ["bronte","Charlotte Brontë","person","arts","1816–1855","Writer","Wrote Jane Eyre in Manchester.","200064"],
+  ["horniman","Annie Horniman","person","arts","1860–1937","Theatre patron","Founded and managed the Gaiety Theatre. Close friends with W.B. Yeats.","200074"],
+  ["fanque","Pablo Fanque","person","arts","1810–1871","Equestrian & circus proprietor","The first recorded non-white British circus owner. Inspired a song by the Beatles.","200063","Note spells it 'Beetles'."],
+  ["marlaw","Susannah Marlaw","person","arts","c.1815–1848","Performer","Wife of Pablo Fanque; performed in his circus and died when a circus stand collapsed in 1848.","200098"],
+  ["lala","Miss Lala","person","arts","1858–unknown","Acrobat","Mixed-race performer in a travelling circus; frequently performed at the Gaiety Theatre.","200071"],
+  ["rose","Robert Rose","person","arts","dates unknown","Poet","Born in the West Indies and lived in Salford. Vice-chair of the 'Poets Corner'.","200065"],
+  ["corkling","Mary Corkling","person","arts","1850–1928","Artist & food campaigner","—","200022"],
+  ["armitt","Mary Louisa Armitt","person","arts","1851–1911","Writer & polymath","Born in Salford; contributed to music criticism and ornithology and founded the Armitt Library in Ambleside.","200089"],
+  ["delaney","Shelagh Delaney","person","arts","1938–2011","Playwright","From Broughton, Salford; wrote A Taste of Honey (1958).","200090","Twentieth century; the People sheet carries no scope flag."],
+  ["wharton","Arthur Wharton","person","arts","1865–1930","Footballer","The first black professional footballer.","200075","Gender recorded as F; the record and its source describe a man."],
+  ["peters","James Peters","person","arts","1879–1954","Rugby player","The first black man to play rugby union for England; remained the only one until 1988.","200080"],
+  ["isitt","Kate Isitt","person","arts","1910s–1940s active","Journalist","Journalist for the Guardian, originally from New Zealand.","—","No ID and no dates; active well after the Victorian period."],
+
+  // ---------- organisations ----------
+  ["litphil","Manchester Literary & Philosophical Society","org","nat","1781","Learned society","Lectures and networks linking science, civic culture and industry.","ORG-REL-001"],
+  ["mechinst","Manchester Mechanics' Institute","org","nat","1824","Adult education","Self-education and lectures; a bridge between artisan learning and formal institutions. Princess Street.","ORG-REL-002"],
+  ["mspnh","Manchester Society for the Promotion of Natural History","org","nat","1821","Society & museum precursor","Formed to display John Leigh Philips's and other private collections; foundational to Manchester Museum.","ORG-NH-001"],
+  ["mnhs","Manchester Natural History Society","org","nat","19th century","Natural-history society","Associated with the Peter Street museum; collections later transferred to Owens College.","ORG-NH-002","Formal naming and legal continuity with the 1821 society still to be clarified."],
+  ["prestwichbs","Prestwich Botanical Society","org","nat","1820","Working-class botanical society","Pub-based specimen identification, oral teaching and pooled purchase of books and herbaria.","ORG-NH-003"],
+  ["ulbs","United Lancashire botanical societies","org","nat","by 1830","Federated rotating network","Regional meetings linking botanical groups around north Manchester and Lancashire.","ORG-NH-004","Whether this had a formal name, minutes or membership list is unresolved."],
+  ["mfns","Manchester Field-Naturalists' Society","org","nat","1860","Field naturalists' society","Organised excursions and adult natural-history learning; marks the institutionalisation of field science.","ORG-NH-005"],
+  ["mms","Manchester Microscopical Society","org","nat","1858; refounded 1880","Microscopical society","Connected specimen study, instrument use, artisan participation and professional science.","ORG-NH-006","The 1858 and 1880 bodies may not be continuous."],
+  ["owensmm","Owens College & Manchester Museum","org","nat","1851; museum later","College and museum","Absorbed and institutionalised collections assembled by local societies and private collectors.","ORG-NH-007"],
+  ["mes","Manchester Entomological Society","org","nat","1902","Entomological society","A post-Victorian continuation of Manchester amateur entomology and museum contribution.","ORG-NH-008","Flagged post-Victorian in the workbook."],
+  ["mcs","Manchester Cryptogamic Society","org","nat","19th century","Specialist botanical society","Potential link between moss, liverwort, fern and fungus specialists and the herbarium.","ORG-NH-009","Foundation date and formal name unconfirmed."],
+  ["msb","Manchester Society of Botanists","org","nat","early 19th century","Informal working-class network","A loose grouping with no regular meeting place, funds, books or rules, united by an interest in plants.","ORG-NH-010","Informal: recorded so it is not mistaken for a formal body."],
+  ["bbes","Bury Botanical & Entomological Society","org","nat","by 1830","Botanical & entomological society","A potential connection between botany and entomology in the wider artisan network.","ORG-NH-011","Date, membership and relationship to Prestwich unconfirmed."],
+  ["guardian","Manchester Guardian","org","press","1821","Newspaper","Founded by John Edward Taylor and financed by a circle of Manchester merchants and reformers.","—"],
+  ["littlecircle","The Little Circle","org","press","1810s–1820s","Reform discussion group","Met at John Potter's house; its members contributed to the founding of the Manchester Guardian.","—"],
+  ["philipswood","Philips, Wood & Co","org","trade","early 19th century","Hat-making firm","Strong links to enslaved labour in Brazil.","—"],
+  ["shuttleworthtaylor","Shuttleworth, Taylor & Co","org","trade","early 19th century","Cotton firm","Imported cotton produced by enslaved people from the Sea Islands region of the United States.","—"],
+  ["arttreasures","Art Treasures Exhibition","org","arts","1857","Exhibition","Held at Old Trafford; the collection later dispersed to Manchester Art Gallery and the Whitworth.","—"],
+  ["mnsws","Manchester National Society for Women's Suffrage","org","suff","1867","Suffrage society","One of the first formal suffrage organisations in the UK; published the Women's Suffrage Journal.","—"],
+  ["nesws","North of England Society for Women's Suffrage","org","suff","1890s","Suffrage society","Focused on women's labour rights.","—"],
+  ["mswtc","Manchester & Salford Women's Trades Council","org","suff","1895","Labour organisation","Encouraged women's participation in trade unions; later intersected with suffrage.","—"],
+  ["wspu","Women's Social & Political Union","org","suff","1903","Militant suffrage organisation","—","—"],
+  ["ilp","Independent Labour Party","org","suff","1893","Political party","Socialism and trade unionism.","—"],
+  ["mfrs","Manchester Female Reform Society","org","suff","1819","Reform society","Mary Fildes was president; the society's contingent marched at Peterloo.","—"],
+  ["schoolmistresses","Manchester Schoolmistresses Association","org","suff","1865","Professional association","Supported women teachers and advocated for gender equity in education.","—"],
+  ["lea","Ladies' Educational Association","org","suff","1865","Education body","Pushed for women's access to higher education; a precursor to university inclusion.","—"],
+  ["abolitionsoc","Society for Effecting the Abolition of Slavery","org","reform","1787","Abolition society","—","—"],
+  ["unionemanc","Union and Emancipation Society","org","reform","1863","Anti-slavery society","Campaigned against slavery and for working-class rights during the US Civil War.","—"],
+  ["vegsoc","Vegetarian Society","org","reform","1847","Campaigning society","Founded in Salford.","—"],
+  ["biblechristian","Bible Christian Church","org","reform","1809","Church","Promoted vegetarianism, temperance and social reform; a significant Salford presence.","—"],
+  ["corporation","Manchester Corporation","org","civic","1838","Municipal government","Established under the Municipal Corporations Act; the start of modern local government.","—"],
+  ["statsoc","Manchester Statistical Society","org","civic","1833","Research society","One of the world's oldest statistical societies; supported reform with evidence.","—"],
+  ["athenaeum","Manchester Athenaeum","org","civic","1837","Cultural & educational body","A venue for literary, scientific and political debate among gentlemen merchants.","—"],
+  ["guardianscm","Chorlton-on-Medlock Board of Guardians","org","civic","c.1834","Poor Law governance","Managed workhouses and relief.","—"],
+  ["crossstreet","Cross Street Chapel","org","reform","rebuilt 1869","Unitarian chapel","A Unitarian hub advocating women's education, abolition and suffrage.","—"],
+
+  // ---------- places ----------
+  ["kersal","Kersal Moor","place","nat","1820s onward","Collecting landscape","Site of Buxton and Horsefield's meeting and of the Manchester moth discovery. Salford.","PL-NH-001"],
+  ["mereclough","Mere Clough","place","nat","19th century","Clough / field site","An important botanical field site associated with John Horsefield and local rare plants. Prestwich.","PL-NH-002"],
+  ["agecroft","Agecroft & the Irwell Valley","place","nat","19th century","River valley","A collecting and walking landscape used to remember artisan naturalists and local geological change.","PL-NH-003"],
+  ["besses","Besses o' th' Barn / Whitefield","place","nat","early–mid 19th c.","Home & working landscape","Horsefield's home and weaving base, close to the Prestwich botanical network. Bury.","PL-NH-004"],
+  ["goldenlion","Golden Lion","place","nat","19th century","Pub / meeting place","Remembered by Grindon as a site of vigorous botanical discussion.","PL-NH-005","Which Golden Lion, and when meetings occurred, is unresolved."],
+  ["prestwich","Prestwich","place","nat","19th century","Township & network centre","The institutional and landscape centre of working-class botanical organisation.","PL-NH-006"],
+  ["chatmoss","Chat Moss","place","nat","19th century","Mossland","A major mossland, both a natural-history site and a landscape transformed by infrastructure and agriculture.","PL-NH-007"],
+  ["carringtonmoss","Carrington Moss","place","nat","19th century","Mossland","One of the extensive mosses identified by Grindon around Manchester. Trafford.","PL-NH-008"],
+  ["ashtonmoss","Ashton Moss","place","nat","19th century","Mossland","Former mossland increasingly brought under cultivation during the Victorian period. Tameside.","PL-NH-009"],
+  ["cotterill","Cotterill Clough","place","nat","19th century","Collecting site","A celebrated collecting place for unusual plants within the naturalists' excursion geography.","PL-NH-012"],
+  ["peterst","Peter Street Natural History Museum","place","nat","opened 1835","Museum building","The first major public home of the Natural History Society's collections.","PL-NH-013"],
+  ["peelpark","Peel Park Museum","place","nat","mid-19th century","Museum","A neighbouring municipal museum referenced in Grindon's regional writing. Salford.","PL-NH-014"],
+  ["manmuseum","Manchester Museum, Oxford Road","place","nat","public opening 1888","Museum / university","The institutional destination for society, private and artisan natural-history collections.","PL-NH-015"],
+  ["herbarium","Manchester Museum Herbarium","place","nat","19th–20th century","Collection space","Destination for major personal herbaria and smaller collections, including those of incompletely identified women collectors.","PL-NH-016"],
+  ["pomona","Pomona Gardens","place","arts","1845 onward","Commercial garden","Opened as Strawberry Gardens; connects horticulture, leisure and urban development.","PL-NH-017"],
+  ["chorltonmedlock","Chorlton-on-Medlock","place","nat","19th century","Residential & educational district","Grindon's home area and the location of medical, educational and museum institutions.","PL-NH-018"],
+  ["shudehill","Shudehill workshop","place","nat","early 19th century","Workplace & informal science site","An example of natural history practised alongside manual work rather than in a formal institution.","PL-NH-019"],
+  ["rsm","Manchester Royal School of Medicine","place","nat","19th century","Educational institution","Grindon lectured in botany here from 1852 until its absorption into Owens College.","PL-NH-021"],
+  ["irwell","River Irwell","place","nat","19th century","River system","Connects industrial pollution, urban growth, river valleys and naturalists' observations.","PL-NH-022"],
+  ["townhall","Manchester Town Hall","place","civic","1877","Civic building","Used for public lectures, suffrage meetings and civic ceremonies.","—"],
+  ["freetradehall","Free Trade Hall","place","suff","1853","Public hall","Hosted major speeches including suffrage and labour activism.","—"],
+  ["portico","Portico Library","place","arts","1806","Library","A space where women's writing and lectures took place.","—"],
+  ["chethams","Chetham's Library","place","arts","1653","Library","A hub for radical and literary activity that supported women's access.","—"],
+  ["plymouthgrove","84 Plymouth Grove","place","arts","1850","House","A salon space for writers, social reformers and women thinkers.","—"],
+  ["stpeters","St Peter's Field","place","suff","1819","Public ground","Site of the Peterloo Massacre, now St Peter's Square.","—"],
+  ["gaiety","Gaiety Theatre","place","arts","19th century","Theatre","Founded and managed by Annie Horniman.","—"],
+  ["rylandslib","John Rylands Library","place","arts","1899","Library","Funded by Enriqueta Rylands in memory of her husband; a rare example of female-led civic philanthropy.","—"],
+  ["salfordlads","Salford Lads Club","place","arts","1903","Youth club","Founded by the Groves brothers of Groves and Whitnall Breweries.","—"],
+  ["mri","Manchester Royal Infirmary","place","civic","1752","Hospital","Its esplanade carried statues of Dalton, Watt, Whitworth and Fairbairn.","—"],
+  ["ancoats","Ancoats","place","trade","late 18th c. onward","Mill district","Mills on Oxford Road and the River Medlock.","—"],
+  ["pankhurstcentre","62 Nelson Street","place","suff","1840s house","House","Home of Emmeline Pankhurst; the birthplace of the suffragette movement.","—"],
+  ["weaste","Weaste Cemetery","place","reform","1857","Cemetery","Final resting place of Joseph and Martha Brotherton.","—"],
+  ["athenaeumbld","Athenaeum, Princess Street","place","civic","1837–39","Building","Venue for literary, scientific and political debate.","—"]
+];
+
+/* [source, target, relation, evidence, note] */
+const RAW_EDGES = [
+  // --- Relationships sheet, REL-001 to REL-018 ---
+  ["grindon","rgrindon","spouse & intellectual partner","documented","REL-001. Rosa's work links natural history to women's literary organisation."],
+  ["grindon","mfns","co-founder","documented","REL-002, 1860. Grindon helped found the society and organised its excursions."],
+  ["jsidebotham","mfns","co-founder","documented","REL-003, 1860. Identified as Grindon's co-founder in Manchester natural-history accounts."],
+  ["horsefield","prestwichbs","founder & president","documented","REL-004, 1820–1854. Founded the society and presided for more than thirty years."],
+  ["buxton","horsefield","introduced to the network by","documented","REL-005, 1826. A chance meeting on Kersal Moor connected Buxton to organised artisan botany."],
+  ["buxton","nowell","publication collaborator","documented","REL-006, 1840s. The herbarium guide records a fasciculus of British mosses under both names."],
+  ["cribb","rwood","passed specimens; credit disputed","verify","REL-007, 1829–30. The moth moved through a collector network and was named for Wood rather than Cribb."],
+  ["rwood","curtis","sent specimen for identification","verify","REL-008, c.1829–30. Curtis described and named the moth, apparently from a specimen attributed to Wood."],
+  ["jlphilips","mspnh","collection became the foundation for","documented","REL-009, 1821. The society formed to display Philips's and other private collections."],
+  ["mnhs","owensmm","collections transferred to","documented","REL-010. Society collections became part of the university museum."],
+  ["becker","herbarium","specimens retained by","documented","REL-011, 1864 onward. Her award-winning competition specimens survive in the botanical collection."],
+  ["grindon","herbarium","herbarium transferred to","documented","REL-012, 1910. One of the museum's three major personal herbaria."],
+  ["melvill","herbarium","herbarium transferred to","documented","REL-013, 1904. One of the museum's three major personal herbaria."],
+  ["bailey","herbarium","herbarium transferred to","documented","REL-014, 1917. One of the museum's three major personal herbaria."],
+  ["becker","mnsws","cross-theme trajectory","interpretive","REL-015. Her botanical work and the constraints on women's scientific participation preceded her suffrage leadership. The workbook asks the workshop to test this causality rather than assume it."],
+  ["horsefield","goldenlion","met, debated & exchanged specimens","verify","REL-016. Pubs acted as knowledge spaces, libraries and meeting venues. Venue, dates and attendees still to be identified."],
+  ["buxton","goldenlion","met, debated & exchanged specimens","verify","REL-016. Pubs acted as knowledge spaces, libraries and meeting venues."],
+  ["jlphilips","mspnh","textile wealth financed","interpretive","REL-018. Philips and Sidebotham show how industrial wealth could be converted into scientific collections and civic institutions."],
+  ["jsidebotham","manmuseum","textile wealth financed","interpretive","REL-018. Track capital, labour, colonial materials and institutional credit explicitly."],
+
+  // --- People sheet relationship columns ---
+  ["hobson","horsefield","fellow artisan botanist","documented","Hobson's Relationships field names Horsefield and the Manchester artisan botanists."],
+  ["jsidebotham","grindon","society colleague","documented","Sidebotham's Relationships field names Grindon and the Field-Naturalists' Society."],
+  ["carrington","pearson","herbarium network","documented","Carrington's Relationships field names the Manchester herbarium network and W.H. Pearson."],
+  ["thsidebotham","jsidebotham","family scientific network","verify","Recorded as a potential member of the wider Sidebotham network; identity and relationship to confirm."],
+  ["buxton","nowell","fellow bryologist","documented","Nowell's Relationships field names Richard Buxton."],
+  ["horsefield","buxton","fellow botanist","documented","Horsefield's Relationships field names Richard Buxton."],
+  ["sgibson","ulbs","Lancashire artisan botanists","verify","Gibson's Relationships field names the Lancashire artisan botanists generically."],
+  ["bailey","herbarium","museum herbarium network","documented","Bailey's Relationships field names the Manchester Museum herbarium network."],
+  ["melvill","herbarium","museum herbarium network","documented","Melvill's Relationships field names the Manchester Museum herbarium network."],
+  ["hopkins","herbarium","collection held by","verify","Recorded in the Manchester herbarium collection; the collector is incompletely identified."],
+  ["jaffrey","herbarium","collection held by","verify","Darjeeling ferns documented in the herbarium guide; collector and intermediaries unidentified."],
+  ["crowther","ulbs","early participant","verify","An early participant in the rotating Lancashire botanical meetings."],
+  ["crowe","ulbs","meeting participant","verify","Named by Grindon among botanists attending regional gatherings."],
+  ["warburton","ulbs","meeting participant","verify","Named by Grindon among botanists attending regional gatherings."],
+  ["hulme","ulbs","meeting participant","verify","Named by Grindon among botanists attending regional gatherings."],
+  ["eclough","ulbs","meeting participant","verify","Named by Grindon among botanists attending regional gatherings."],
+  ["hnewton","ulbs","meeting participant","verify","Named by Grindon among botanists attending regional gatherings."],
+  ["bleackley","ulbs","meeting participant","verify","Named by Grindon among botanists attending regional gatherings."],
+  ["jshaw","ulbs","meeting participant","verify","Named by Grindon among botanists attending regional gatherings."],
+  ["darbyshire","ulbs","meeting participant","verify","Named by Grindon among botanists attending regional gatherings."],
+  ["bentley","ulbs","meeting participant","verify","Named by Grindon among botanists attending regional gatherings."],
+  ["devonport","ulbs","meeting participant","verify","Named by Grindon among botanists attending regional gatherings."],
+  ["jturner","ulbs","meeting participant","verify","Named by Grindon among botanists attending regional gatherings."],
+  ["horsefield","ulbs","president","documented","1830. Became president of the wider regional botanical meetings. Whether 'president' applied to a formal organisation is unresolved."],
+
+  // --- Organisations sheet, connected people ---
+  ["grindon","litphil","connected member","verify","Listed among the society's natural-history connections; precise memberships still to be added."],
+  ["horsefield","mechinst","connected member","verify","Listed under the Mechanics' Institute; attendance and lecture evidence still to be found."],
+  ["grindon","mechinst","connected member","verify","Listed under the Mechanics' Institute; attendance and lecture evidence still to be found."],
+  ["horsefield","prestwichbs","founder","documented","Pub-based specimen identification, oral teaching and pooled purchase of books and herbaria."],
+  ["buxton","prestwichbs","member","documented","Named among the society's connected people."],
+  ["jsidebotham","mms","connected member","documented","Named among the Microscopical Society's connected people."],
+  ["carrington","mms","connected member","documented","Named among the Microscopical Society's connected people."],
+  ["brittain","mms","founder","documented","1858. Named among the founders of the first Microscopical Society."],
+  ["cash","mcs","connected member","verify","Named in the Cryptogamic Society entry; the society itself needs confirming."],
+  ["carrington","mcs","connected member","verify","Named in the Cryptogamic Society entry; the society itself needs confirming."],
+  ["horsefield","msb","member of informal network","verify","A loose grouping with no meeting place, funds, books or rules."],
+  ["horsefield","bbes","regional naturalist","verify","Named alongside regional naturalists; date and membership unconfirmed."],
+  ["mspnh","mnhs","related / successor body","verify","Formal naming, legal continuity and dates relative to the 1821 society still to be clarified."],
+  ["mfns","manmuseum","excursion & collection link","documented","Marks the increasing institutionalisation of field science."],
+  ["owensmm","manmuseum","institutional home","documented","The museum sits within the Owens College complex on Oxford Road."],
+
+  // --- Places sheet, connected people ---
+  ["buxton","kersal","collected at","documented","Site of the Buxton and Horsefield meeting and the Manchester moth discovery."],
+  ["horsefield","kersal","collected at","documented","Site of the Buxton and Horsefield meeting."],
+  ["cribb","kersal","found the Manchester moth at","documented","1829. Credited with finding the moth here; the naming became a dispute over credit."],
+  ["rwood","kersal","collecting network","verify","Named among the Kersal Moor collectors."],
+  ["horsefield","mereclough","collected at","documented","An important botanical field site associated with Horsefield and local rare plants."],
+  ["grindon","mereclough","collected at","documented","Named among the site's connected people."],
+  ["grindon","agecroft","walked & documented","documented","A collecting and walking landscape used to remember artisan naturalists."],
+  ["horsefield","besses","lived & worked at","documented","Horsefield's home and weaving base."],
+  ["bleackley","besses","local network","verify","Named among the connected people for Besses o' th' Barn."],
+  ["horsefield","prestwich","network centre","documented","The institutional and landscape centre of working-class botanical organisation."],
+  ["buxton","prestwich","network centre","documented","Named among Prestwich's connected people."],
+  ["hulme","prestwich","local botanist","documented","Named among Prestwich's connected people."],
+  ["grindon","chatmoss","collected at","documented","Named among the mossland's connected field naturalists."],
+  ["grindon","carringtonmoss","collected at","documented","One of the extensive mosses identified by Grindon around Manchester."],
+  ["eclough","ashtonmoss","local naturalist","interpretive","Recorded generically as 'Ashton naturalists'; Clough is the workbook's Ashton-under-Lyne botanist."],
+  ["hnewton","ashtonmoss","local naturalist","interpretive","Recorded generically as 'Ashton naturalists'; Newton is an Ashton-under-Lyne botanist."],
+  ["grindon","cotterill","excursion site","documented","A celebrated collecting place within the naturalists' excursion geography."],
+  ["jlphilips","peterst","collection displayed at","documented","The first major public home of the Natural History Society's collections."],
+  ["wcwilliamson","peterst","first curator","documented","Recorded as first curator of the Peter Street museum, 1835."],
+  ["wcwilliamson","owensmm","professor of natural history","documented","Professor of Natural History at Owens College."],
+  ["mnhs","peterst","museum opened at","documented","1835. The Natural History Society museum opened on Peter Street."],
+  ["grindon","peelpark","regional museum context","verify","A neighbouring municipal museum referenced in Grindon's regional writing."],
+  ["grindon","manmuseum","collection destination","documented","Named among the museum's connected collectors."],
+  ["jsidebotham","manmuseum","collection destination","documented","Lepidoptera and wider natural-history collections entered the museum."],
+  ["bailey","manmuseum","collection destination","documented","Named among the museum's connected collectors."],
+  ["melvill","manmuseum","collection destination","documented","Named among the museum's connected collectors."],
+  ["becker","manmuseum","collection destination","documented","Named among the museum's connected collectors."],
+  ["carrington","herbarium","collection destination","documented","Hepaticae Britannicae exsiccatae and herbarium material."],
+  ["sgibson","herbarium","collection destination","documented","British ferns, algae and allied plants."],
+  ["nowell","herbarium","collection destination","documented","Fasciculus of British Mosses with Richard Buxton."],
+  ["buxton","herbarium","collection destination","documented","Moss collections with John Nowell."],
+  ["hobson","herbarium","collection destination","documented","British mosses and hepatics; Musci Britannici material."],
+  ["beardsley","pomona","opened","documented","1845. Opened as Strawberry Gardens, later Pomona Gardens."],
+  ["grindon","chorltonmedlock","lived at","documented","Grindon's home area; he wrote excursions for the whole of Greater Manchester."],
+  ["crozier","shudehill","worked at","documented","Remembered by Grindon as practising natural history alongside manual work."],
+  ["grindon","rsm","lectured at","documented","Lectured in botany here from 1852 until absorption into Owens College."],
+  ["grindon","irwell","observed & documented","interpretive","Connects industrial pollution, urban growth, river valleys and naturalists' observations."],
+  ["horsefield","goldenlion","botanical discussion at","verify","Remembered by Grindon as a site of vigorous botanical discussion."],
+
+  // --- Timeline ---
+  ["crowther","ulbs","early rotating meetings","verify","TL-NH-001, c.1770s–1790s. Early artisan botanical societies and rotating meetings develop."],
+  ["horsefield","msb","loose botanists' network","verify","TL-NH-002, 1808. Horsefield participates in a loose Manchester botanists' network."],
+  ["becker","mnsws","founder","documented","TL-BASE-006, 1867. Founder of the women's suffrage society; edited the Women's Suffrage Journal."],
+
+  // --- Press: the Little Circle and the Guardian ---
+  ["jetaylor","guardian","founded","documented","Founded the Manchester Guardian."],
+  ["jetaylor2","guardian","co-owner then sole owner","documented","Co-owner in 1852, sole owner in 1856; expanded the paper's reach."],
+  ["jetaylor","jetaylor2","father & son","documented","Son of John Edward Taylor."],
+  ["rscott","guardian","investor & proprietor","documented","Invested in the Guardian and became proprietor after Taylor's death."],
+  ["rscott","jetaylor","brother-in-law","documented","Brother-in-law to John Edward Taylor."],
+  ["jetaylor","sophiataylor","spouse","documented","Husband of Sophia Russell Taylor, née Scott."],
+  ["cowdroy","littlecircle","member","documented","Member of the Little Circle; contributed to the founding of the Manchester Guardian."],
+  ["prentice","littlecircle","member","documented","Member of the Little Circle; advocated radical reforms; financial backer."],
+  ["rpotter","littlecircle","member","documented","Member of the Little Circle; early supporter and financier."],
+  ["tpotter","littlecircle","member","documented","Member of the Little Circle; early supporter and financier."],
+  ["watkin","littlecircle","member","documented","Member of the Little Circle; supported parliamentary reform."],
+  ["brotherton","littlecircle","member","documented","Member of the Little Circle; supported social reforms."],
+  ["shuttleworth","littlecircle","member","documented","Named among the Little Circle's Guardian backers."],
+  ["jpotter","littlecircle","host","documented","Host of the Little Circle meetings."],
+  ["littlecircle","guardian","founded & financed","documented","The circle's members contributed to founding and financing the paper."],
+  ["gphilips","guardian","backer","documented","The Guardian backer most deeply linked with slavery."],
+  ["baxter","guardian","backer","verify","Named in the research on the paper's commercial backers."],
+  ["duckworth","guardian","backer","verify","Recorded in 1826 alongside Taylor and Wood on the condition of the enslaved population."],
+  ["rphilips","guardian","backer","verify","Named in the research on the paper's commercial backers."],
+  ["pullein","guardian","backer","verify","Named in the research on the paper's commercial backers."],
+  ["sanderson","guardian","backer","verify","Named in the research on the paper's commercial backers."],
+  ["gwwood","guardian","backer","verify","Named in the research on the paper's commercial backers."],
+  ["tjohnson","guardian","named in the loan agreement","documented","The original Manchester Guardian loan agreement names him as a merchant."],
+  ["twilkins","guardian","named in the loan agreement","documented","The loan agreement names him as a merchant; a secondary source lists him as a cotton merchant."],
+  ["jpotter","tpotter","father & son","documented","Father to Thomas and Richard Potter."],
+  ["jpotter","rpotter","father & son","documented","Father to Thomas and Richard Potter."],
+  ["tpotter","rpotter","brothers","documented","The brother of Richard Potter; in partnership with him in cotton and textiles."],
+  ["gphilips","rphilips","cousins","documented","Robert Philips is recorded as the cousin of Sir George Philips."],
+  ["duckworth","rphilips","son-in-law","documented","A Unitarian attorney and son-in-law of Robert Philips."],
+  ["gwwood","rphilips","family relation","verify","Recorded as a relative of the Philips family."],
+  ["gphilips","philipswood","partner","documented","Partnerships in Philips, Wood & Co, with strong links to enslaved labour in Brazil."],
+  ["gwwood","philipswood","partner","documented","Partner in Philips, Wood & Co."],
+  ["rphilips","philipswood","partner","documented","Partnerships spanned Philips, Wood & Co."],
+  ["shuttleworth","shuttleworthtaylor","co-founder","documented","Co-founded the firm, which imported cotton produced by enslaved people."],
+  ["jetaylor","shuttleworthtaylor","partner","documented","Partnered in Shuttleworth, Taylor & Co."],
+  ["gwwood","shuttleworthtaylor","partner","documented","Partner in Shuttleworth, Taylor & Co."],
+  ["rphilips","shuttleworthtaylor","partner","documented","Partnerships spanned Shuttleworth, Taylor & Co."],
+  ["tpotter","corporation","first mayor","documented","First mayor of Manchester, serving from 1838 to 1840."],
+  ["mosley","corporation","sold manorial rights to","documented","Sold the rights of lord of the manor of Manchester to the Corporation in 1846."],
+
+  // --- Suffrage & women's rights ---
+  ["roper","gorebooth","partner","documented","Partner of Esther Roper; campaigned for women's and workers' rights."],
+  ["roper","mnsws","secretary","documented","Appointed secretary in 1893; focused on recruiting working-class women."],
+  ["roper","nesws","organiser","documented","North of England Society for Women's Suffrage, 1890s to early 1900s."],
+  ["gorebooth","nesws","organiser","documented","Named under the North of England Society in her People row."],
+  ["gorebooth","mswtc","co-founder","documented","1895. Formed the council with Sarah Dickenson and Frances Ashwell."],
+  ["dickenson","mswtc","co-founder","documented","1895. Named in the events sheet as a founder."],
+  ["quaile","mswtc","secretary","documented","Secretary of the Manchester Women's Trade Union Council."],
+  ["becker","freetradehall","spoke at","documented","Named among the hall's connected women."],
+  ["fildes","freetradehall","connected","documented","Named among the hall's connected women."],
+  ["gorebooth","freetradehall","connected","documented","Named among the hall's connected women."],
+  ["pochin","freetradehall","spoke at","documented","1868. Delivered a speech at the Free Trade Hall; her husband, then Mayor of Salford, chaired the meeting."],
+  ["brightmclaren","mnsws","spoke at first public meeting","documented","14 April 1868, Free Trade Hall."],
+  ["robertson","mnsws","spoke at first public meeting","documented","14 April 1868, Free Trade Hall."],
+  ["wolstenholme","mnsws","founding participant","documented","January 1867. Present at the society's formation."],
+  ["rpankhurst","mnsws","founding participant","documented","January 1867. Present at the society's formation."],
+  ["ubright","mnsws","founding participant","documented","January 1867. Present at the society's formation."],
+  ["jacobbright","mnsws","founding participant","documented","January 1867. Present at the society's formation."],
+  ["butler","mnsws","executive committee","documented","30 October 1868. Joined the new executive committee."],
+  ["wolstenholme","schoolmistresses","founder","documented","2 December 1865. Inaugurated the association."],
+  ["aclough","schoolmistresses","honorary member","documented","2 December 1865. Honorary member at the inauguration."],
+  ["davies","schoolmistresses","addressed","documented","October 1866. Advocated women's access to university-level education."],
+  ["kenney","wspu","senior leadership","documented","The only working-class woman in a senior leadership position in the WSPU."],
+  ["pankhurst","wspu","founder","documented","Her Nelson Street home is recorded as the birthplace of the suffragette movement."],
+  ["pankhurst","pankhurstcentre","lived at","documented","Home of Emmeline Pankhurst."],
+  ["pankhurst","guardianscm","Poor Law Guardian","documented","1894. Elected Poor Law Guardian for Chorlton-on-Medlock."],
+  ["mitchell","ilp","member","documented","ILP and trade unions; socialist."],
+  ["martyn","ilp","speaker","documented","ILP and trade unions; worked alongside Keir Hardie."],
+  ["fildes","mfrs","president","documented","Irish-born president of the Manchester Female Reform Society."],
+  ["fildes","stpeters","led the female reformers' contingent","documented","16 August 1819. The peaceful protest turned tragic when cavalry charged the crowd."],
+  ["birley","stpeters","leading role in the massacre","documented","Recorded as having a leading role in the Peterloo Massacre."],
+  ["ashton","townhall","first woman city councillor","documented","1908. Advocated public health initiatives including mother and baby clinics."],
+  ["becker","townhall","connected","documented","Named among the Town Hall's connected women."],
+  ["becker","portico","connected","documented","Named among the Portico Library's connected women."],
+  ["gaskell","portico","connected","documented","Named among the Portico Library's connected women."],
+  ["becker","chethams","research access","documented","Named among Chetham's Library's connected women."],
+  ["gaskell","chethams","connected","documented","Named among Chetham's Library's connected women."],
+  ["becker","lea","women's higher education","interpretive","The association pushed for women's access to higher education in the same decade and city."],
+  ["maxwell","mnsws","test case","documented","Chorlton v Lings; one of the first women to vote, illegally."],
+  ["rgrindon","becker","women's literary organisation","interpretive","The workbook asks the workshop to connect Rosa to Grindon's household network and Becker's women's literary organisation."],
+  ["ubright","jacobbright","spouse","documented","Wife of Jacob Bright."],
+  ["mbright","jbright","spouse","documented","Second wife of John Bright; married 1847."],
+  ["mbright","jacobbright","sister","verify","Recorded as 'sister to Jacob Bright'; probably sister-in-law. Worth resolving."],
+
+  // --- Reform & abolition ---
+  ["clarkson","abolitionsoc","founder member","documented","Society for Effecting the Abolition of Slavery."],
+  ["sharp","abolitionsoc","founder member","documented","Anti-slavery, with Wilberforce in London."],
+  ["clarkson","cclarkson","spouse","documented","Married in 1796; their only child died before his father."],
+  ["cobden","ccobden","spouse","documented","Married in 1840; five surviving children."],
+  ["marx","jenny","spouse","documented","Childhood sweetheart; married in 1843."],
+  ["engels","burns","long-term partner","documented","Long-term relationships with Mary Burns and later her sister Lydia, but did not marry."],
+  ["engels","marx","collaborator","interpretive","Both recorded under Socialism in the workbook; the relationship itself is not stated."],
+  ["remond","athenaeum","delivered speeches at","documented","Delivered speeches in the Manchester Athenaeum."],
+  ["remond","unionemanc","anti-slavery campaigning","interpretive","Both sit in the workbook's anti-slavery cluster; the link is not stated directly."],
+  ["gibson","unionemanc","supported Lincoln in the US Civil War","verify","Recorded in the anti-slavery supporters block."],
+  ["brotherton","vegsoc","vegetarianism","documented","Recorded under Vegetarianism; the society was founded in Salford in 1847."],
+  ["helenb","vegsoc","vice-president","documented","Vice-president of the Vegetarian Society."],
+  ["brotherton","martha","spouse","documented","Husband of Martha Harvey."],
+  ["martha","biblechristian","active member","documented","Active in the Bible Christian Church and social reform movements."],
+  ["brotherton","biblechristian","preacher","documented","Recorded as Preacher, MP; the church promoted vegetarianism and temperance."],
+  ["helenb","martha","daughter","documented","Daughter of Martha and Joseph Brotherton."],
+  ["helenb","brotherton","daughter","documented","Daughter of Martha and Joseph Brotherton."],
+  ["brotherton","weaste","buried at","documented","Final resting place of Joseph and Martha Brotherton."],
+  ["martha","weaste","buried at","documented","Final resting place of Joseph and Martha Brotherton."],
+  ["gaskell","crossstreet","congregation","documented","Named among Cross Street Chapel's connected women."],
+  ["gaskell","plymouthgrove","lived at","documented","Her house was completed at 84 Plymouth Grove in 1850."],
+
+  // --- Industry, civic & arts ---
+  ["whitworth","mlwhitworth","spouse","documented","Second wife; married 1871 after Frances Anker's death in 1870."],
+  ["rylands","erylands","spouse","documented","Married Enriqueta in 1875, eight months after Martha's death."],
+  ["erylands","rylandslib","founded","documented","Founded the John Rylands Library in memory of her husband."],
+  ["cooke","erylands","catalogued the collection of","documented","Catalogued the Enriqueta collection."],
+  ["rylands","jwilliamson","Manchester Royal Jubilee Exhibition","verify","Both recorded under the Manchester Royal Jubilee Exhibition."],
+  ["waterhouse","townhall","architect","documented","The Town Hall was built to Waterhouse's design."],
+  ["heron","townhall","Town Clerk; led the building","documented","Town Clerk who led on building the Town Hall in Waterhouse's design."],
+  ["lane","mri","redesigned the esplanade","documented","Redesign of the esplanade outside the Royal Infirmary."],
+  ["arnout","mri","lithograph of","documented","Lithograph of the Royal Infirmary, 1857."],
+  ["whitworth","mri","statue at","documented","Statues at the Royal Infirmary."],
+  ["dalton","mri","statue at","documented","Statues at the Royal Infirmary."],
+  ["watt","mri","statue at","documented","Statues at the Royal Infirmary."],
+  ["wfairbairn","mri","statue at","documented","Statues at the Royal Infirmary."],
+  ["murray","ancoats","mill owner","documented","Factory owners, Ancoats."],
+  ["mcconnel","ancoats","mill owner","documented","Factory owners, Ancoats."],
+  ["kennedy","ancoats","mill owner","documented","Mill owners, Oxford Road and the River Medlock."],
+  ["tfairbairn","arttreasures","headed the executive committee","documented","1857. Local industrialist, art collector and patron."],
+  ["caminada","mcaminada","spouse","documented","Husband of Mary Ellen Walsh; married 1871."],
+  ["jgroves","salfordlads","founder","documented","Salford Lads Club; Groves and Whitnall Breweries."],
+  ["wgroves","salfordlads","founder","documented","Salford Lads Club; Groves and Whitnall Breweries."],
+  ["jgroves","wgroves","brothers","verify","Both recorded as founders of the same club and brewery."],
+  ["fanque","marlaw","spouse","documented","Susannah performed in his circus and died when a stand collapsed in 1848."],
+  ["horniman","gaiety","founded & managed","documented","Founded and managed the Gaiety Theatre."],
+  ["lala","gaiety","performed at","documented","Frequently performed in the Gaiety Theatre, Manchester."],
+  ["swatts","ancoats","warehouse","interpretive","Their warehouse, now the Britannia Hotel, sits in the same commercial fabric."],
+  ["sichel","manmuseum","diaries held by","documented","Manchester Museum has his diaries."],
+  ["armitt","manmuseum","ornithology & natural history","interpretive","A polymath who contributed to ornithology; her library went to Ambleside, not Manchester."],
+  ["sophiataylor","gaskell","Manchester salons","interpretive","Hosted cultural salons; Gaskell moved in Manchester's Unitarian elite. Potential cross-network salon link."]
+];
+
+/* Active spans. WB_SPAN marks the ones the workbook's own "Decades active"
+   column gives; everything else app.js infers from the lifespan and labels
+   as inferred, so the slider never passes off a guess as a record. */
+const SPANS = {
+  remond:[1850,1869], cooke:[1880,1899], lala:[1870,1889], burns:[1840,1869],
+  potts:[1870,1899], rscott:[1820,1889], stokes:[1830,1859], cowdroy:[1820,1839],
+  prentice:[1820,1859], jetaylor2:[1850,1909], fanque:[1840,1869], gphilips:[1820,1849],
+  tpotter:[1820,1849], wharton:[1880,1909], jetaylor:[1820,1849], shuttleworth:[1820,1869],
+  rgrindon:[1860,1889], jpotter:[1820,1839], rpotter:[1820,1849], watkin:[1820,1869],
+  rose:[1840,1849], gorebooth:[1890,1919], caminada:[1860,1889], ashton:[1890,1919],
+  brotherton:[1820,1859], fildes:[1810,1849], peters:[1900,1909], foster:[1850,1889],
+  becker:[1860,1899], mitchell:[1890,1919], martyn:[1890,1899], kenney:[1900,1909],
+  maxwell:[1840,1869], roper:[1890,1909], cobden:[1830,1859], horniman:[1880,1909],
+  quaile:[1890,1919], bronte:[1840,1849], gaskell:[1830,1869], isitt:[1910,1949],
+  grindon:[1850,1899], buxton:[1820,1869], horsefield:[1800,1859], hobson:[1810,1829],
+  jsidebotham:[1840,1889], jlphilips:[1780,1819], cribb:[1820,1829], rwood:[1820,1839],
+  carrington:[1850,1899], bailey:[1860,1919], melvill:[1860,1909], sgibson:[1830,1849],
+  nowell:[1840,1869], crozier:[1800,1839], crowther:[1770,1849], thsidebotham:[1800,1899],
+  crowe:[1800,1899], warburton:[1800,1899], hulme:[1800,1899], eclough:[1800,1899],
+  hnewton:[1800,1899], bleackley:[1800,1899], jshaw:[1800,1899], darbyshire:[1800,1899],
+  bentley:[1800,1899], devonport:[1800,1899], jturner:[1800,1899],
+  hopkins:[1879,1881], jaffrey:[1882,1882], armitt:[1851,1911], delaney:[1938,2011],
+
+  litphil:[1781,1910], mechinst:[1824,1910], mspnh:[1821,1850], mnhs:[1830,1888],
+  prestwichbs:[1820,1900], ulbs:[1830,1880], mfns:[1860,1910], mms:[1858,1910],
+  owensmm:[1851,1910], mes:[1902,1910], mcs:[1850,1900], msb:[1800,1850],
+  bbes:[1830,1880], guardian:[1821,1910], littlecircle:[1815,1830],
+  philipswood:[1800,1845], shuttleworthtaylor:[1810,1855], arttreasures:[1857,1857],
+  mnsws:[1867,1910], nesws:[1890,1910], mswtc:[1895,1910], wspu:[1903,1910],
+  ilp:[1893,1910], mfrs:[1819,1835], schoolmistresses:[1865,1885], lea:[1865,1895],
+  abolitionsoc:[1787,1840], unionemanc:[1863,1870], vegsoc:[1847,1910],
+  biblechristian:[1809,1910], corporation:[1838,1910], statsoc:[1833,1910],
+  athenaeum:[1837,1910], guardianscm:[1834,1910], crossstreet:[1800,1910],
+
+  kersal:[1820,1900], mereclough:[1800,1900], agecroft:[1800,1900], besses:[1800,1860],
+  goldenlion:[1800,1900], prestwich:[1800,1900], chatmoss:[1800,1900],
+  carringtonmoss:[1800,1900], ashtonmoss:[1800,1900], cotterill:[1800,1900],
+  peterst:[1835,1888], peelpark:[1850,1900], manmuseum:[1888,1910],
+  herbarium:[1860,1910], pomona:[1845,1900], chorltonmedlock:[1800,1910],
+  shudehill:[1800,1850], rsm:[1824,1880], irwell:[1800,1910], townhall:[1877,1910],
+  freetradehall:[1853,1910], portico:[1806,1910], chethams:[1800,1910],
+  plymouthgrove:[1850,1910], stpeters:[1819,1819], gaiety:[1880,1910],
+  rylandslib:[1899,1910], salfordlads:[1903,1910], mri:[1800,1910],
+  ancoats:[1780,1910], pankhurstcentre:[1840,1910], weaste:[1857,1910],
+  athenaeumbld:[1837,1910]
+};
+
+/* Spans the workbook states outright, rather than ones derived from a lifespan. */
+const WB_SPAN = new Set(["remond","cooke","lala","burns","potts","rscott","stokes",
+  "cowdroy","prentice","jetaylor2","fanque","gphilips","tpotter","wharton","jetaylor",
+  "shuttleworth","rgrindon","jpotter","rpotter","watkin","rose","gorebooth","caminada",
+  "ashton","brotherton","fildes","peters","foster","becker","mitchell","martyn","kenney",
+  "maxwell","roper","cobden","horniman","quaile","bronte","gaskell","isitt","grindon",
+  "buxton","horsefield","hobson","jsidebotham","jlphilips","cribb","rwood","carrington",
+  "bailey","melvill","sgibson","nowell","crozier","crowther","thsidebotham","crowe",
+  "warburton","hulme","eclough","hnewton","bleackley","jshaw","darbyshire","bentley",
+  "devonport","jturner","hopkins","jaffrey"]);
+
+</script>
+<script>
+(function () {
+  "use strict";
+
+  /* People named only in the events/relationship prose, with no People-sheet row. */
+  const GHOSTS = new Set(["curtis","pearson","brittain","cash","wolstenholme","rpankhurst",
+    "dickenson","pochin","brightmclaren","butler","davies","aclough","robertson"]);
+
+  const DEC0 = 1770, DECN = 15;                       // 1770s … 1910s
+  const decYear = i => DEC0 + i * 10;
+  const nid = x => (x && typeof x === "object") ? x.id : x;
+  const esc = s => String(s == null ? "" : s).replace(/[&<>"]/g, c =>
+    ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  const cssvar = d => "var(" + (DOMAINS[d] ? DOMAINS[d].css : "--ink3") + ")";
+  const lkey = (a, b) => [a, b].sort().join("~");
+
+  /* ---------------- base data ---------------- */
+  const BASE_NODES = RAW_NODES.map(r => ({
+    id: r[0], name: r[1], type: r[2], domain: r[3], dates: r[4] || "",
+    role: r[5] || "", note: r[6] || "", sheet: r[7] || "", flag: r[8] || ""
+  }));
+
+  const baseLinkMap = new Map();
+  RAW_EDGES.forEach(e => {
+    const key = lkey(e[0], e[1]);
+    const rank = { documented: 3, verify: 2, interpretive: 1 };
+    let L = baseLinkMap.get(key);
+    if (!L) { L = { id: key, source: e[0], target: e[1], rels: [], ev: e[3], notes: [] };
+      baseLinkMap.set(key, L); }
+    L.rels.push(e[2]); L.notes.push(e[4]);
+    if (rank[e[3]] > rank[L.ev]) L.ev = e[3];
+  });
+  const BASE_LINKS = [...baseLinkMap.values()].map(L => ({
+    id: L.id, source: L.source, target: L.target,
+    rel: [...new Set(L.rels)].join(" · "), ev: L.ev, note: L.notes.join("\n")
+  }));
+
+  function parseSpan(s, type) {
+    if (!s) return null;
+    const two = String(s).match(/(\d{3,4})\s*[–—-]\s*(\d{2,4})/);
+    if (two) {
+      let a = +two[1], b = +two[2];
+      if (b < 100) b = Math.floor(a / 100) * 100 + b;
+      if (b < a) b = a;
+      return type === "person" ? [Math.min(a + 25, b), b] : [a, b];
+    }
+    const one = String(s).match(/(\d{4})/);
+    if (one) { const y = +one[1]; return type === "person" ? [y + 25, y + 55] : [y, 1910]; }
+    return null;
+  }
+
+  /* ---------------- overrides (db / localStorage) ---------------- */
+  const LS = "wkw.overrides.v1";
+  let rowOv = new Map(), edgeOv = new Map();
+  let db = null, dl = null, saveMode = "checking";
+
+  function loadLocal() {
+    try {
+      const raw = JSON.parse(localStorage.getItem(LS) || "{}");
+      rowOv = new Map(Object.entries(raw.rows || {}));
+      edgeOv = new Map(Object.entries(raw.edges || {}));
+    } catch (e) { /* private mode or blocked storage: start clean */ }
+  }
+  function saveLocal() {
+    try {
+      localStorage.setItem(LS, JSON.stringify({
+        rows: Object.fromEntries(rowOv), edges: Object.fromEntries(edgeOv)
+      }));
+    } catch (e) { /* nothing we can do; the in-memory model still works */ }
+  }
+
+  /* ---------------- model ---------------- */
+  let nodes = [], links = [], byId = new Map(), adj = new Map();
+  let isolates = [], ghostList = [], crossCount = 0, hist = [];
+  const pos = new Map();
+
+  function buildModel() {
+    nodes.forEach(n => { if (n.x != null) pos.set(n.id, { x: n.x, y: n.y }); });
+
+    const nm = new Map();
+    BASE_NODES.forEach(n => nm.set(n.id, Object.assign({}, n)));
+    rowOv.forEach((v, id) => {
+      if (v._op === "delete") { nm.delete(id); return; }
+      const base = nm.get(id) || { id: id, sheet: "", flag: "" };
+      const merged = Object.assign({}, base, v, { id: id });
+      delete merged._op; delete merged._at;
+      nm.set(id, merged);
+    });
+
+    nodes = [...nm.values()].map(n => {
+      const p = pos.get(n.id);
+      const a = { id: n.id, name: n.name || "(unnamed)", type: n.type || "person",
+        domain: DOMAINS[n.domain] ? n.domain : "civic", dates: n.dates || "",
+        role: n.role || "", note: n.note || "", sheet: n.sheet || "", flag: n.flag || "",
+        af: n.af, at: n.at, ghost: GHOSTS.has(n.id), deg: 0,
+        origin: rowOv.has(n.id) ? (rowOv.get(n.id)._op === "new" ? "new" : "edited") : "base",
+        x: p ? p.x : undefined, y: p ? p.y : undefined };
+      if (a.af != null && a.at != null && a.af !== "" && a.at !== "") {
+        a.span = [+a.af, +a.at]; a.spanWB = false; a.spanEdited = true;
+      } else if (SPANS[a.id]) { a.span = SPANS[a.id]; a.spanWB = WB_SPAN.has(a.id); }
+      else { a.span = parseSpan(a.dates, a.type); a.spanWB = false; }
+      return a;
+    });
+    byId = new Map(nodes.map(n => [n.id, n]));
+
+    const lm = new Map();
+    BASE_LINKS.forEach(l => lm.set(l.id, Object.assign({}, l)));
+    edgeOv.forEach((v, id) => {
+      if (v._op === "delete") { lm.delete(id); return; }
+      const base = lm.get(id) || { id: id };
+      const merged = Object.assign({}, base, v, { id: id });
+      delete merged._op; delete merged._at;
+      lm.set(id, merged);
+    });
+    links = [...lm.values()]
+      .filter(l => byId.has(nid(l.source)) && byId.has(nid(l.target))
+        && nid(l.source) !== nid(l.target))
+      .map(l => ({ id: l.id, source: nid(l.source), target: nid(l.target),
+        rel: l.rel || "linked to", ev: EVIDENCE[l.ev] ? l.ev : "verify", note: l.note || "",
+        origin: edgeOv.has(l.id) ? (edgeOv.get(l.id)._op === "new" ? "new" : "edited") : "base" }));
+
+    nodes.forEach(n => { n.deg = 0; n.fields = new Set([n.domain]); });
+    adj = new Map(nodes.map(n => [n.id, []]));
+    links.forEach(l => {
+      const a = byId.get(l.source), b = byId.get(l.target);
+      a.deg++; b.deg++; a.fields.add(b.domain); b.fields.add(a.domain);
+      adj.get(a.id).push(l); adj.get(b.id).push(l);
+    });
+
+    crossCount = links.filter(l => byId.get(nid(l.source)).domain !== byId.get(nid(l.target)).domain).length;
+    isolates = nodes.filter(n => n.type === "person" && n.deg === 0);
+    ghostList = nodes.filter(n => n.ghost);
+
+    hist = [];
+    for (let i = 0; i < DECN; i++) {
+      const a = decYear(i), b = a + 9;
+      hist.push(nodes.filter(n => n.span && n.span[0] <= b && n.span[1] >= a).length);
+    }
+  }
+
+  /* ---------------- palette ---------------- */
+  const PAL = {};
+  function readPalette() {
+    const cs = getComputedStyle(document.documentElement);
+    Object.keys(DOMAINS).forEach(k => { PAL[k] = cs.getPropertyValue(DOMAINS[k].css).trim(); });
+    PAL.ink3 = cs.getPropertyValue("--ink3").trim();
+    PAL.link = cs.getPropertyValue("--link").trim();
+    PAL.canvas = cs.getPropertyValue("--canvas").trim();
+  }
+  readPalette();
+  const col = n => PAL[n.domain] || PAL.ink3;
+
+  /* ---------------- state ---------------- */
+  const state = {
+    domains: new Set(Object.keys(DOMAINS)),
+    types: new Set(Object.keys(TYPES)),
+    evs: new Set(Object.keys(EVIDENCE)),
+    from: 0, to: DECN - 1, undated: true,
+    isoOnly: false, ghostOnly: false,
+    selected: null, hovered: null, tab: "net", sheetTab: "people", sheetQ: ""
+  };
+
+  function inWindow(n) {
+    if (!n.span) return state.undated;
+    return n.span[0] <= decYear(state.to) + 9 && n.span[1] >= decYear(state.from);
+  }
+  function visibleNode(n) {
+    if (!n) return false;
+    if (state.isoOnly) return n.type === "person" && n.deg === 0;
+    if (state.ghostOnly) return n.ghost;
+    return state.domains.has(n.domain) && state.types.has(n.type) && inWindow(n);
+  }
+  function visibleLink(l) {
+    return state.evs.has(l.ev)
+      && visibleNode(byId.get(nid(l.source)))
+      && visibleNode(byId.get(nid(l.target)));
+  }
+
+  /* ---------------- graph ---------------- */
+  const svg = d3.select("#net");
+  const plot = document.querySelector(".plot");
+  const root = svg.append("g");
+  const gLink = root.append("g").attr("fill", "none");
+  const gNode = root.append("g");
+  const gText = root.append("g");
+
+  const keys = Object.keys(DOMAINS), anchors = {};
+  keys.forEach((k, i) => {
+    const a = (i / keys.length) * Math.PI * 2 - Math.PI / 2;
+    anchors[k] = { x: Math.cos(a) * 300, y: Math.sin(a) * 235 };
+  });
+  const anchorOf = d => anchors[d.domain] || { x: 0, y: 0 };
+  const rad = d => 3.6 + Math.sqrt(d.deg) * 2.5;
+
+  const sim = d3.forceSimulation()
+    .force("link", d3.forceLink().id(d => d.id)
+      .distance(l => l.ev === "documented" ? 46 : 62).strength(0.55))
+    .force("charge", d3.forceManyBody().strength(d => -110 - d.deg * 22))
+    .force("collide", d3.forceCollide(d => rad(d) + 7))
+    .force("x", d3.forceX(d => anchorOf(d).x).strength(0.075))
+    .force("y", d3.forceY(d => anchorOf(d).y).strength(0.075))
+    .stop();
+
+  const symbol = d3.symbol();
+  function shapeFor(d) {
+    const r = rad(d);
+    symbol.size(Math.PI * r * r * (d.type === "person" ? 1 : 1.25));
+    symbol.type(d.type === "person" ? d3.symbolCircle
+      : d.type === "org" ? d3.symbolSquare : d3.symbolDiamond);
+    return symbol();
+  }
+
+  let linkSel, nodeSel, textSel, settled = false, lastShape = [-1, -1];
+
+  function bindGraph(firstRun) {
+    nodes.forEach(n => {
+      if (n.x == null) {
+        const a = anchorOf(n);
+        n.x = a.x + (Math.random() - 0.5) * 60;
+        n.y = a.y + (Math.random() - 0.5) * 60;
+      }
+    });
+    sim.nodes(nodes);
+    sim.force("link").links(links);
+
+    if (firstRun) {
+      for (let i = 0; i < 420; i++) sim.tick();
+      settled = true;
+    } else if (nodes.length !== lastShape[0] || links.length !== lastShape[1]) {
+      sim.alpha(0.22).restart();
+    }
+    lastShape = [nodes.length, links.length];
+
+    linkSel = gLink.selectAll("path").data(links, d => d.id).join("path")
+      .attr("stroke-linecap", "round")
+      .attr("vector-effect", "non-scaling-stroke")
+      .style("cursor", "pointer")
+      .on("click", (ev, d) => { ev.stopPropagation(); showLink(d); })
+      .on("mouseenter", (ev, d) => { state.hovered = nid(d.source); paint(); })
+      .on("mouseleave", () => { state.hovered = null; paint(); });
+
+    nodeSel = gNode.selectAll("path").data(nodes, d => d.id).join(
+      enter => enter.append("path").attr("class", "node")
+        .on("click", (ev, d) => { ev.stopPropagation(); select(d.id); })
+        .on("mouseenter", (ev, d) => { state.hovered = d.id; paint(); })
+        .on("mouseleave", () => { state.hovered = null; paint(); })
+        .call(d3.drag()
+          .on("start", (ev, d) => { if (!ev.active) sim.alphaTarget(0.2).restart(); d.fx = d.x; d.fy = d.y; })
+          .on("drag", (ev, d) => { d.fx = ev.x; d.fy = ev.y; })
+          .on("end", (ev, d) => { if (!ev.active) sim.alphaTarget(0); d.fx = null; d.fy = null; })),
+      update => update, exit => exit.remove())
+      .attr("d", shapeFor)
+      .attr("stroke-width", 1.4)
+      .attr("vector-effect", "non-scaling-stroke");
+
+    textSel = gText.selectAll("text").data(nodes, d => d.id).join("text")
+      .attr("class", "node-label").attr("text-anchor", "middle")
+      .text(d => d.name);
+
+    position();
+  }
+
+  sim.on("tick", position);
+
+  function position() {
+    if (!linkSel) return;
+    linkSel.attr("d", d => "M" + d.source.x + "," + d.source.y + "L" + d.target.x + "," + d.target.y);
+    nodeSel.attr("transform", d => "translate(" + d.x + "," + d.y + ")");
+    textSel.attr("x", d => d.x).attr("y", d => d.y - rad(d) - 4.5);
+  }
+
+  let k = 1;
+  const zoom = d3.zoom().scaleExtent([0.25, 4]).on("zoom", ev => {
+    k = ev.transform.k; root.attr("transform", ev.transform); paintLabels();
+  });
+  svg.call(zoom).on("click", () => select(null))
+    .on("mousedown.cur", function () { this.classList.add("grabbing"); })
+    .on("mouseup.cur", function () { this.classList.remove("grabbing"); });
+
+  function fit() {
+    const W = plot.clientWidth, H = plot.clientHeight;
+    if (!W || !H) return;
+    const vis = nodes.filter(visibleNode);
+    const set = vis.length ? vis : nodes;
+    const xs = set.map(n => n.x), ys = set.map(n => n.y);
+    const x0 = Math.min.apply(null, xs), x1 = Math.max.apply(null, xs);
+    const y0 = Math.min.apply(null, ys), y1 = Math.max.apply(null, ys);
+    const s = Math.min(W / (x1 - x0 + 140), H / (y1 - y0 + 140), 1.6) || 1;
+    svg.transition().duration(400).call(zoom.transform, d3.zoomIdentity
+      .translate(W / 2, H / 2).scale(s).translate(-(x0 + x1) / 2, -(y0 + y1) / 2));
+  }
+  document.getElementById("zin").onclick = () => svg.transition().duration(200).call(zoom.scaleBy, 1.4);
+  document.getElementById("zout").onclick = () => svg.transition().duration(200).call(zoom.scaleBy, 0.7);
+  document.getElementById("zfit").onclick = fit;
+
+  function focus(id) {
+    const n = byId.get(id); if (!n) return;
+    const W = plot.clientWidth, H = plot.clientHeight;
+    svg.transition().duration(450).call(zoom.transform,
+      d3.zoomIdentity.translate(W / 2, H / 2).scale(Math.max(k, 1.5)).translate(-n.x, -n.y));
+  }
+
+  function neighbourhood() {
+    const f = state.hovered || state.selected;
+    if (!f) return null;
+    const near = new Set([f]);
+    (adj.get(f) || []).forEach(l => {
+      if (!visibleLink(l)) return;
+      near.add(nid(l.source)); near.add(nid(l.target));
+    });
+    return { f: f, near: near };
+  }
+
+  function paint() {
+    if (!nodeSel) return;
+    const nb = neighbourhood();
+    const near = nb ? nb.near : null;
+
+    nodeSel
+      .attr("display", d => visibleNode(d) ? null : "none")
+      .attr("fill", d => d.ghost ? PAL.canvas : col(d))
+      .attr("stroke", d => col(d))
+      .attr("stroke-dasharray", d => d.ghost ? "2 2" : null)
+      .attr("opacity", d => !near ? 1 : (near.has(d.id) ? 1 : 0.12));
+
+    linkSel
+      .attr("display", d => visibleLink(d) ? null : "none")
+      .attr("stroke", d => (near && near.has(nid(d.source)) && near.has(nid(d.target)))
+        ? col(byId.get(nid(d.source))) : PAL.link)
+      .attr("stroke-dasharray", d => EVIDENCE[d.ev].dash)
+      .attr("stroke-width", d => (near && near.has(nid(d.source)) && near.has(nid(d.target))) ? 2.2 : 1.25)
+      .attr("opacity", d => {
+        if (!near) return d.ev === "documented" ? 0.8 : 0.68;
+        return (near.has(nid(d.source)) && near.has(nid(d.target))) ? 1 : 0.07;
+      });
+
+    paintLabels();
+    tally();
+  }
+
+  function paintLabels() {
+    if (!textSel) return;
+    const nb = neighbourhood();
+    const near = nb ? nb.near : null;
+    const showAll = k > 1.65 || state.isoOnly || state.ghostOnly;
+    textSel
+      .attr("display", d => {
+        if (!visibleNode(d)) return "none";
+        if (near) return near.has(d.id) ? null : "none";
+        if (showAll) return null;
+        return (d.deg >= 4 || (d.type !== "person" && d.deg >= 2)) ? null : "none";
+      })
+      .attr("class", d => "node-label" + (d.deg >= 6 || (nb && d.id === nb.f) ? " big" : ""))
+      .attr("fill", d => (nb && d.id === nb.f) ? col(d) : null);
+  }
+
+  function tally() {
+    const vn = nodes.filter(visibleNode), vl = links.filter(visibleLink);
+    document.getElementById("t-nodes").textContent = vn.length;
+    document.getElementById("t-edges").textContent = vl.length;
+    document.getElementById("t-cross").textContent =
+      vl.filter(l => byId.get(nid(l.source)).domain !== byId.get(nid(l.target)).domain).length;
+    document.getElementById("t-iso").textContent =
+      vn.filter(n => n.type === "person" && n.deg === 0).length;
+    document.getElementById("isoN").textContent = isolates.length;
+    document.getElementById("ghostN").textContent = ghostList.length;
+  }
+
+  /* ---------------- detail panel ---------------- */
+  const detail = document.getElementById("detail");
+
+  function select(id) {
+    state.selected = id;
+    if (id && byId.has(id)) { renderNode(byId.get(id)); focus(id); } else { state.selected = null; renderSummary(); }
+    paint();
+  }
+
+  function spanText(n) {
+    if (!n.span) return "not recorded";
+    const a = Math.floor(n.span[0] / 10) * 10, b = Math.floor(n.span[1] / 10) * 10;
+    const s = a === b ? a + "s" : a + "s – " + b + "s";
+    return s + (n.spanEdited ? " (edited)" : n.spanWB ? " (workbook)" : " (inferred)");
+  }
+
+  function renderSummary() {
+    const brokers = nodes.filter(n => n.type === "person" && n.deg > 0)
+      .map(n => ({ n: n, f: n.fields.size }))
+      .sort((a, b) => b.f - a.f || b.n.deg - a.n.deg).slice(0, 8);
+    const evRows = Object.keys(EVIDENCE).map(kk => {
+      const c = links.filter(l => l.ev === kk).length;
+      return '<div style="display:flex;gap:8px;align-items:baseline;font-size:12.5px">' +
+        '<b style="font-family:\'IBM Plex Mono\',monospace;font-weight:500;min-width:26px;' +
+        'text-align:right">' + c + '</b><span>' + esc(EVIDENCE[kk].label) + '</span></div>';
+    }).join("");
+
+    detail.innerHTML = '<div class="panel">' +
+      '<div class="sect"><h2>The network at a glance</h2>' +
+        '<p class="pnote">Every link is something the workbook already says. The shape is the ' +
+        'argument: a dense natural-history cluster, a dense Guardian cluster, and very little ' +
+        'holding the rest together.</p></div>' +
+      '<div class="sect"><h2>Evidence</h2>' + evRows + '</div>' +
+      '<div class="sect"><h2>Who bridges the most fields</h2>' +
+        '<p class="hint">People whose links reach across the most fields of activity &mdash; ' +
+        'the candidates for how knowledge actually travelled.</p><ul class="brokers">' +
+        brokers.map(b => '<li><button data-go="' + b.n.id + '"><span class="bars">' +
+          [...b.n.fields].map(f => '<i style="background:' + cssvar(f) + '"></i>').join("") +
+          '</span><span>' + esc(b.n.name) + '</span><span class="n">' + b.f +
+          '</span></button></li>').join("") + '</ul></div>' +
+      '<div class="sect"><h2>Open questions</h2><p class="pnote">' + isolates.length + ' of the ' +
+        nodes.filter(n => n.type === "person").length + ' people have no recorded link. ' +
+        ghostList.length + ' more are named in the events and relationship text but have no ' +
+        'record of their own. Both lists are on the left; fix either in the Spreadsheet tab.' +
+      '</p></div></div>';
+  }
+
+  function renderNode(n) {
+    const es = (adj.get(n.id) || []).slice().sort((a, b) => {
+      const r = { documented: 0, verify: 1, interpretive: 2 };
+      return r[a.ev] - r[b.ev];
+    });
+    const rows = es.map(l => {
+      const o = byId.get(nid(l.source) === n.id ? nid(l.target) : nid(l.source));
+      return '<li><button data-go="' + o.id + '">' +
+        '<span class="mark" style="background:' + cssvar(o.domain) + '"></span>' +
+        '<span class="rel">' + esc(l.rel) + '</span>' +
+        '<span class="who">' + esc(o.name) + '</span>' +
+        '<span class="ev">' + esc(EVIDENCE[l.ev].label.toLowerCase()) + '</span></button></li>';
+    }).join("");
+
+    detail.innerHTML = '<div class="panel">' +
+      '<button class="backbtn" data-go="">&larr; Whole network</button><div>' +
+      '<div class="eyebrow"><span class="dot" style="background:' + cssvar(n.domain) + '"></span>' +
+        esc(DOMAINS[n.domain].label) + ' &middot; ' + esc(TYPES[n.type].label.replace(/s$/, "")) +
+      '</div><h2 class="pname">' + esc(n.name) + '</h2>' +
+      (n.dates ? '<p class="pdates">' + esc(n.dates) + '</p>' : "") + '</div>' +
+      (n.role && n.role !== "—" ? '<p class="prole">' + esc(n.role) + '</p>' : "") +
+      (n.note ? '<p class="pnote">' + esc(n.note) + '</p>' : "") +
+      (n.flag ? '<p class="flag"><b>Data note</b><br>' + esc(n.flag) + '</p>' : "") +
+      '<dl class="meta">' +
+        '<dt>Record</dt><dd>' + (n.sheet && n.sheet !== "—"
+          ? '<span style="font-family:\'IBM Plex Mono\',monospace">' + esc(n.sheet) + '</span>'
+          : '<em>no row of its own</em>') + '</dd>' +
+        '<dt>Active</dt><dd>' + esc(spanText(n)) + '</dd>' +
+        '<dt>Links</dt><dd>' + es.length + (es.length ? "" : " &mdash; an open task") + '</dd>' +
+        '<dt>Fields</dt><dd>' + [...n.fields].map(f => DOMAINS[f].label).join(", ") + '</dd>' +
+      '</dl>' +
+      (es.length ? '<div class="sect"><h2>Recorded links</h2><ul class="edges">' + rows + '</ul></div>' : "") +
+      '</div>';
+  }
+
+  function showLink(l) {
+    const a = byId.get(nid(l.source)), b = byId.get(nid(l.target));
+    detail.innerHTML = '<div class="panel">' +
+      '<button class="backbtn" data-go="">&larr; Whole network</button><div>' +
+      '<div class="eyebrow">' + esc(EVIDENCE[l.ev].label) + '</div>' +
+      '<h2 class="pname">' + esc(a.name) + '<br><span style="color:var(--ink3);font-size:15px;' +
+      'font-family:Archivo,sans-serif;font-weight:400">' + esc(l.rel) + '</span><br>' +
+      esc(b.name) + '</h2></div>' +
+      '<p class="pnote">' + esc(EVIDENCE[l.ev].note) + '</p>' +
+      '<div class="sect"><h2>What the workbook says</h2>' +
+        l.note.split("\n").filter(Boolean).map(t => '<p class="pnote">' + esc(t) + '</p>').join("") +
+      '</div><div class="sect"><h2>Both ends</h2><ul class="edges">' +
+        [a, b].map(o => '<li><button data-go="' + o.id + '">' +
+          '<span class="mark" style="background:' + cssvar(o.domain) + '"></span>' +
+          '<span class="rel">' + esc(DOMAINS[o.domain].label) + '</span>' +
+          '<span class="who">' + esc(o.name) + '</span>' +
+          '<span class="ev">' + esc(o.dates || "dates unrecorded") + '</span></button></li>').join("") +
+      '</ul></div></div>';
+    state.selected = a.id;
+    paint();
+  }
+
+  detail.addEventListener("click", e => {
+    const b = e.target.closest("[data-go]"); if (!b) return;
+    select(b.getAttribute("data-go") || null);
+  });
+
+  /* ---------------- left rail controls ---------------- */
+  function buildChips() {
+    document.getElementById("domainChips").innerHTML = Object.keys(DOMAINS).map(kk => {
+      const c = nodes.filter(n => n.domain === kk).length;
+      return '<button class="chip' + (state.domains.has(kk) ? "" : " off") + '" data-dom="' + kk + '">' +
+        '<span class="swatch" style="background:' + cssvar(kk) + '"></span><span>' +
+        esc(DOMAINS[kk].label) + '</span><span class="n">' + c + '</span></button>';
+    }).join("");
+    document.getElementById("typeToggles").innerHTML = Object.keys(TYPES).map(kk => {
+      const c = nodes.filter(n => n.type === kk).length;
+      return '<button class="tg' + (state.types.has(kk) ? "" : " off") + '" data-type="' + kk +
+        '"><span class="glyph">' + GLYPH[kk] + '</span><span>' + esc(TYPES[kk].label) +
+        '</span><span class="n">' + c + '</span></button>';
+    }).join("");
+    document.getElementById("evToggles").innerHTML = Object.keys(EVIDENCE).map(kk => {
+      const c = links.filter(l => l.ev === kk).length;
+      const dash = EVIDENCE[kk].dash ? ' stroke-dasharray="' + EVIDENCE[kk].dash + '"' : "";
+      return '<button class="tg' + (state.evs.has(kk) ? "" : " off") + '" data-ev="' + kk +
+        '"><span class="glyph"><svg width="24" height="12" aria-hidden="true"><line x1="1" y1="6" ' +
+        'x2="23" y2="6" stroke="currentColor" stroke-width="2" stroke-linecap="round"' + dash +
+        '/></svg></span><span>' + esc(EVIDENCE[kk].label) + '</span><span class="n">' + c +
+        '</span></button>';
+    }).join("");
+  }
+  const GLYPH = {
+    person: '<svg width="12" height="12" aria-hidden="true"><circle cx="6" cy="6" r="5" fill="currentColor"/></svg>',
+    org: '<svg width="12" height="12" aria-hidden="true"><rect x="1" y="1" width="10" height="10" rx="2" fill="currentColor"/></svg>',
+    place: '<svg width="12" height="12" aria-hidden="true"><path d="M6 0.5 L11.5 6 L6 11.5 L0.5 6 Z" fill="currentColor"/></svg>'
+  };
+
+  document.getElementById("domainChips").addEventListener("click", e => {
+    const b = e.target.closest("[data-dom]"); if (!b) return;
+    const d = b.getAttribute("data-dom");
+    state.domains.has(d) ? state.domains.delete(d) : state.domains.add(d);
+    b.classList.toggle("off", !state.domains.has(d)); clearGaps(); paint();
+  });
+  document.getElementById("typeToggles").addEventListener("click", e => {
+    const b = e.target.closest("[data-type]"); if (!b) return;
+    const t = b.getAttribute("data-type");
+    state.types.has(t) ? state.types.delete(t) : state.types.add(t);
+    b.classList.toggle("off", !state.types.has(t)); clearGaps(); paint();
+  });
+  document.getElementById("evToggles").addEventListener("click", e => {
+    const b = e.target.closest("[data-ev]"); if (!b) return;
+    const v = b.getAttribute("data-ev");
+    state.evs.has(v) ? state.evs.delete(v) : state.evs.add(v);
+    b.classList.toggle("off", !state.evs.has(v)); paint();
+  });
+
+  const isoBtn = document.getElementById("isoBtn"), ghostBtn = document.getElementById("ghostBtn");
+  function clearGaps() {
+    state.isoOnly = false; state.ghostOnly = false;
+    isoBtn.classList.remove("on"); ghostBtn.classList.remove("on");
+  }
+  isoBtn.onclick = () => { const on = !state.isoOnly; clearGaps(); state.isoOnly = on;
+    isoBtn.classList.toggle("on", on); paint(); if (on) fit(); };
+  ghostBtn.onclick = () => { const on = !state.ghostOnly; clearGaps(); state.ghostOnly = on;
+    ghostBtn.classList.toggle("on", on); paint(); if (on) fit(); };
+
+  /* ---------------- decade slider ---------------- */
+  const fromEl = document.getElementById("decFrom"), toEl = document.getElementById("decTo");
+  const histEl = document.getElementById("hist"), fillEl = document.getElementById("fill");
+  const decLabel = document.getElementById("decLabel"), decMeta = document.getElementById("decMeta");
+  const undatedBtn = document.getElementById("undatedBtn");
+
+  document.getElementById("ticks").innerHTML = Array.from({ length: DECN }, (_, i) =>
+    '<span>' + (i % 2 === 0 ? decYear(i) : "") + '</span>').join("");
+
+  function drawHist() {
+    const max = Math.max.apply(null, hist) || 1;
+    histEl.innerHTML = hist.map((c, i) =>
+      '<i style="height:' + Math.round(4 + (c / max) * 100) + '%" title="' + decYear(i) +
+      's: ' + c + ' active"></i>').join("");
+    paintHist();
+  }
+  function paintHist() {
+    const bars = histEl.children;
+    for (let i = 0; i < bars.length; i++)
+      bars[i].classList.toggle("on", i >= state.from && i <= state.to);
+    const a = state.from / (DECN - 1), b = state.to / (DECN - 1);
+    fillEl.style.left = "calc((100% - 15px) * " + a + " + 7.5px)";
+    fillEl.style.width = "calc((100% - 15px) * " + (b - a) + ")";
+    decLabel.textContent = state.from === state.to
+      ? decYear(state.from) + "s"
+      : decYear(state.from) + "s – " + decYear(state.to) + "s";
+    const dated = nodes.filter(n => n.span).length;
+    const shown = nodes.filter(n => n.span && inWindow(n)).length;
+    decMeta.textContent = shown + " of " + dated + " dated nodes · " +
+      (nodes.length - dated) + " undated";
+  }
+  function decChange(which) {
+    let a = +fromEl.value, b = +toEl.value;
+    if (a > b) { if (which === "from") b = a; else a = b; fromEl.value = a; toEl.value = b; }
+    state.from = a; state.to = b;
+    paintHist(); paint();
+  }
+  fromEl.addEventListener("input", () => decChange("from"));
+  toEl.addEventListener("input", () => decChange("to"));
+  document.getElementById("decReset").onclick = () => {
+    fromEl.value = 0; toEl.value = DECN - 1; state.from = 0; state.to = DECN - 1;
+    paintHist(); paint();
+  };
+  undatedBtn.onclick = () => {
+    state.undated = !state.undated;
+    undatedBtn.setAttribute("aria-pressed", String(state.undated));
+    undatedBtn.textContent = state.undated ? "Keep undated" : "Hide undated";
+    paintHist(); paint();
+  };
+
+  /* ---------------- search ---------------- */
+  const q = document.getElementById("q"), results = document.getElementById("results");
+  q.addEventListener("input", () => {
+    const v = q.value.trim().toLowerCase();
+    if (v.length < 2) { results.classList.remove("on"); results.innerHTML = ""; return; }
+    const hits = nodes.filter(n => n.name.toLowerCase().includes(v)
+      || (n.role || "").toLowerCase().includes(v)).slice(0, 24);
+    results.innerHTML = hits.length ? hits.map(n => '<li><button data-go="' + n.id + '">' +
+      '<span class="dot" style="background:' + cssvar(n.domain) + '"></span><span>' +
+      esc(n.name) + '</span></button></li>').join("")
+      : '<li><button disabled style="color:var(--ink3);cursor:default">No match</button></li>';
+    results.classList.add("on");
+  });
+  results.addEventListener("click", e => {
+    const b = e.target.closest("[data-go]"); if (!b) return;
+    results.classList.remove("on"); q.value = ""; select(b.getAttribute("data-go"));
+  });
+
+  /* ---------------- tabs ---------------- */
+  const bodyEl = document.getElementById("body");
+  const tabNet = document.getElementById("tabNet"), tabSheet = document.getElementById("tabSheet");
+  function setTab(t) {
+    state.tab = t;
+    tabNet.setAttribute("aria-selected", String(t === "net"));
+    tabSheet.setAttribute("aria-selected", String(t === "sheet"));
+    bodyEl.classList.toggle("mode-sheet", t === "sheet");
+    if (t === "sheet") renderSheet(); else { fit(); paint(); }
+  }
+  tabNet.onclick = () => setTab("net");
+  tabSheet.onclick = () => setTab("sheet");
+
+  /* ---------------- the sheet ---------------- */
+  const grid = document.getElementById("grid");
+  const segPeople = document.getElementById("segPeople"), segLinks = document.getElementById("segLinks");
+  const sheetq = document.getElementById("sheetq");
+  const saveFlag = document.getElementById("saveFlag"), saveText = document.getElementById("saveText");
+  const notice = document.getElementById("sheetNotice");
+  let typingInGrid = false, needsRerender = false;
+
+  function setSave(mode, text) {
+    saveMode = mode;
+    saveFlag.className = "saveflag " + (mode === "db" ? "live" : mode === "busy" ? "busy" : "off");
+    saveText.textContent = text;
+  }
+
+  segPeople.onclick = () => { state.sheetTab = "people";
+    segPeople.setAttribute("aria-selected", "true"); segLinks.setAttribute("aria-selected", "false");
+    renderSheet(); };
+  segLinks.onclick = () => { state.sheetTab = "links";
+    segLinks.setAttribute("aria-selected", "true"); segPeople.setAttribute("aria-selected", "false");
+    renderSheet(); };
+  sheetq.addEventListener("input", () => { state.sheetQ = sheetq.value.trim().toLowerCase(); renderSheet(); });
+
+  const P_COLS = [
+    ["name", "Name", "mid", "text"], ["type", "Kind", "narrow", "select"],
+    ["domain", "Field", "narrow", "select"], ["dates", "Dates", "narrow", "text"],
+    ["af", "Active from", "tiny", "num"], ["at", "to", "tiny", "num"],
+    ["role", "Role", "mid", "text"], ["note", "Note", "wide", "area"],
+    ["flag", "Data note", "wide", "area"]
+  ];
+  const L_COLS = [
+    ["source", "From", "mid", "node"], ["rel", "Relationship", "mid", "text"],
+    ["target", "To", "mid", "node"], ["ev", "Evidence", "narrow", "select"],
+    ["note", "Note", "wide", "area"]
+  ];
+
+  let optCache = "";
+  function buildOptCache() {
+    optCache = nodes.slice().sort((a, b) => a.name.localeCompare(b.name))
+      .map(n => '<option value="' + esc(n.id) + '">' + esc(n.name) + '</option>').join("");
+  }
+
+  function cellHtml(row, c) {
+    const [field, , , kind] = c;
+    const raw = kind === "node" ? nid(row[field]) : row[field];
+    const v = raw == null ? "" : raw;
+    const ro = "";
+    if (kind === "select") {
+      const opts = field === "type" ? TYPES : field === "domain" ? DOMAINS : EVIDENCE;
+      return '<select class="cell" data-f="' + field + '">' + Object.keys(opts).map(o =>
+        '<option value="' + o + '"' + (o === v ? " selected" : "") + '>' +
+        esc(opts[o].label) + '</option>').join("") + '</select>';
+    }
+    if (kind === "node") {
+      return '<select class="cell" data-f="' + field + '">' +
+        optCache.replace('value="' + esc(v) + '"', 'value="' + esc(v) + '" selected') +
+        '</select>';
+    }
+    if (kind === "area")
+      return '<textarea class="cell" rows="1" data-f="' + field + '"' + ro + '>' + esc(v) + '</textarea>';
+    if (kind === "num")
+      return '<input class="cell" type="number" min="1700" max="2020" step="1" data-f="' +
+        field + '" value="' + esc(v) + '"' + ro + '>';
+    return '<input class="cell" type="text" data-f="' + field + '" value="' + esc(v) + '"' + ro + '>';
+  }
+
+  function renderSheet() {
+    if (state.tab !== "sheet") return;
+    const isPeople = state.sheetTab === "people";
+    if (!isPeople) buildOptCache();
+    const cols = isPeople ? P_COLS : L_COLS;
+    const qv = state.sheetQ;
+
+    let rows = isPeople ? nodes.slice().sort((a, b) => a.name.localeCompare(b.name))
+      : links.slice().sort((a, b) =>
+          byId.get(nid(a.source)).name.localeCompare(byId.get(nid(b.source)).name));
+
+    if (qv) rows = rows.filter(r => {
+      const hay = isPeople ? [r.name, r.role, r.note, r.flag, r.sheet, r.id]
+        : [byId.get(nid(r.source)).name, byId.get(nid(r.target)).name, r.rel, r.note];
+      return hay.join(" ").toLowerCase().includes(qv);
+    });
+
+    const head = '<thead><tr><th></th>' + cols.map(c => '<th>' + esc(c[1]) + '</th>').join("") +
+      (isPeople ? '<th>Record</th>' : "") + '<th></th></tr></thead>';
+
+    const body = '<tbody>' + rows.map(r => {
+      const cls = r.origin === "new" ? "added" : r.origin === "edited" ? "edited" : "";
+      const mark = r.origin === "new" ? "+" : r.origin === "edited" ? "•" : "";
+      return '<tr class="' + cls + '" data-id="' + esc(r.id) + '" data-kind="' +
+        (isPeople ? "row" : "edge") + '">' +
+        '<td class="rowmark">' + mark + '</td>' +
+        cols.map(c => '<td class="' + c[2] + '">' + cellHtml(r, c) + '</td>').join("") +
+        (isPeople ? '<td class="idcell">' + esc(r.sheet || "—") + '</td>' : "") +
+        '<td><button class="killbtn" data-kill="1" title="Remove this row" ' +
+        'aria-label="Remove row">&times;</button></td></tr>';
+    }).join("") + '</tbody>';
+
+    grid.innerHTML = head + body;
+    grid.querySelectorAll("textarea.cell").forEach(autoGrow);
+    needsRerender = false;
+  }
+
+  function autoGrow(t) {
+    t.style.height = "auto";
+    t.style.height = Math.min(t.scrollHeight, 120) + "px";
+  }
+
+  const debounced = new Map();
+  function queueSave(kind, id, patch) {
+    const key = kind + "/" + id;
+    clearTimeout(debounced.get(key));
+    debounced.set(key, setTimeout(() => commit(kind, id, patch()), 420));
+  }
+
+  function commit(kind, id, body) {
+    const map = kind === "row" ? rowOv : edgeOv;
+    map.set(id, body);
+    buildModel(); bindGraph(false); buildChips(); drawHist(); paint();
+    if (state.selected && byId.has(state.selected)) renderNode(byId.get(state.selected));
+    if (typingInGrid) needsRerender = true; else renderSheet();
+
+    if (db) {
+      setSave("busy", "Saving…");
+      const coll = kind === "row" ? "rows" : "edges";
+      db.doc(coll + "/" + id).set(body)
+        .then(() => setSave("db", "Saved for everyone"))
+        .catch(err => setSave("none", "Not saved: " + (err && err.code ? err.code : "error")));
+    } else { saveLocal(); }
+  }
+
+  grid.addEventListener("focusin", e => { if (e.target.closest(".cell")) typingInGrid = true; });
+  grid.addEventListener("focusout", () => {
+    typingInGrid = false;
+    setTimeout(() => { if (needsRerender && !typingInGrid) renderSheet(); }, 60);
+  });
+
+  grid.addEventListener("input", e => {
+    const cell = e.target.closest(".cell"); if (!cell) return;
+    const tr = cell.closest("tr"); if (!tr) return;
+    if (cell.tagName === "TEXTAREA") autoGrow(cell);
+    const id = tr.getAttribute("data-id"), kind = tr.getAttribute("data-kind");
+    queueSave(kind, id, () => {
+      const src = kind === "row" ? byId.get(id) : links.find(l => l.id === id);
+      const body = kind === "row"
+        ? { _op: (rowOv.get(id) || {})._op === "new" ? "new" : "edit",
+            name: src.name, type: src.type, domain: src.domain, dates: src.dates,
+            role: src.role, note: src.note, flag: src.flag, sheet: src.sheet,
+            af: src.af == null ? "" : src.af, at: src.at == null ? "" : src.at }
+        : { _op: (edgeOv.get(id) || {})._op === "new" ? "new" : "edit",
+            source: nid(src.source), target: nid(src.target), rel: src.rel,
+            ev: src.ev, note: src.note };
+      tr.querySelectorAll(".cell").forEach(c => {
+        const f = c.getAttribute("data-f"); if (!f) return;
+        body[f] = (f === "af" || f === "at")
+          ? (c.value === "" ? "" : +c.value) : c.value;
+      });
+      body._at = new Date().toISOString();
+      return body;
+    });
+  });
+
+  grid.addEventListener("click", e => {
+    const kill = e.target.closest("[data-kill]"); if (!kill) return;
+    const tr = kill.closest("tr");
+    const id = tr.getAttribute("data-id"), kind = tr.getAttribute("data-kind");
+    commit(kind, id, { _op: "delete", _at: new Date().toISOString() });
+  });
+
+  document.getElementById("addRow").onclick = () => {
+    const stamp = Date.now().toString(36);
+    if (state.sheetTab === "people") {
+      const id = "new-" + stamp;
+      commit("row", id, { _op: "new", name: "New person", type: "person", domain: "nat",
+        dates: "", role: "", note: "", flag: "Added in the workshop — needs a source.",
+        sheet: "", af: "", at: "", _at: new Date().toISOString() });
+    } else {
+      const a = nodes[0], b = nodes[1];
+      const id = "new~" + stamp;
+      commit("edge", id, { _op: "new", source: a.id, target: b.id,
+        rel: "linked to", ev: "verify", note: "Added in the workshop — needs a source.",
+        _at: new Date().toISOString() });
+    }
+    grid.parentElement.scrollTop = 0;
+  };
+
+  /* ---------------- export ---------------- */
+  function csv(rows) {
+    const q2 = v => '"' + String(v == null ? "" : v).replace(/"/g, '""') + '"';
+    return rows.map(r => r.map(q2).join(",")).join("\r\n");
+  }
+  function peopleCsv() {
+    return csv([["id","name","type","field","dates","active_from","active_to","role","note",
+      "data_note","record_id","links","origin"]].concat(
+      nodes.slice().sort((a,b)=>a.name.localeCompare(b.name)).map(n => [n.id, n.name, n.type,
+        n.domain, n.dates, n.span ? n.span[0] : "", n.span ? n.span[1] : "", n.role, n.note,
+        n.flag, n.sheet, n.deg, n.origin])));
+  }
+  function linksCsv() {
+    return csv([["id","source_id","source","relationship","target_id","target","evidence",
+      "note","origin"]].concat(
+      links.map(l => [l.id, nid(l.source), byId.get(nid(l.source)).name, l.rel,
+        nid(l.target), byId.get(nid(l.target)).name, l.ev, l.note, l.origin])));
+  }
+
+  document.getElementById("expCsv").onclick = function () {
+    const isPeople = state.sheetTab === "people";
+    const data = isPeople ? peopleCsv() : linksCsv();
+    const filename = isPeople ? "manchester-people.csv" : "manchester-links.csv";
+    if (!dl) { copy(data, this); return; }
+    dl.save({ filename: filename, data: data })
+      .then(() => flash(this, "Downloaded"))
+      .catch(err => {
+        if (err && err.code === "declined") return;
+        copy(data, this);
+      });
+  };
+  document.getElementById("expJson").onclick = function () {
+    copy(JSON.stringify({ nodes: nodes.map(n => ({ id: n.id, name: n.name, type: n.type,
+      domain: n.domain, dates: n.dates, span: n.span, role: n.role, note: n.note,
+      flag: n.flag, sheet: n.sheet, origin: n.origin })),
+      links: links.map(l => ({ source: nid(l.source), target: nid(l.target), rel: l.rel,
+        ev: l.ev, note: l.note, origin: l.origin })) }, null, 2), this);
+  };
+  function copy(text, btn) {
+    const done = ok => flash(btn, ok ? "Copied" : "Press Ctrl+C");
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(() => done(true), () => done(false));
+    } else {
+      const ta = document.createElement("textarea");
+      ta.value = text; document.body.appendChild(ta); ta.select();
+      try { document.execCommand("copy"); done(true); } catch (e) { done(false); }
+      ta.remove();
+    }
+  }
+  function flash(btn, msg) {
+    const old = btn.textContent; btn.textContent = msg;
+    setTimeout(() => { btn.textContent = old; }, 1600);
+  }
+
+  /* ---------------- boot ---------------- */
+  loadLocal();
+  buildModel();
+  bindGraph(true);
+  buildChips();
+  drawHist();
+  renderSummary();
+  paint();
+  fit();
+
+  let rt;
+  window.addEventListener("resize", () => {
+    clearTimeout(rt);
+    rt = setTimeout(() => { if (state.tab === "net") fit(); }, 200);
+  });
+  const mq = window.matchMedia("(prefers-color-scheme: dark)");
+  const onScheme = () => { readPalette(); paint(); };
+  if (mq.addEventListener) mq.addEventListener("change", onScheme); else mq.addListener(onScheme);
+
+  setSave("none", "Local to this browser");
+  notice.textContent = "Edits are saved in this browser. Use Download CSV to keep a copy — " +
+    "that file is what goes back to the repo.";
+
+  /* Shared storage lights up when the viewer answers; the page already works without it. */
+  if (window.claude && window.claude.use) {
+    window.claude.use("db").then(store => {
+      if (!store) {
+        setSave("none", "Local to this browser");
+        notice.textContent = "Shared editing is off in this version, so edits stay in this " +
+          "browser and are lost if site data is cleared. Download the CSV to keep them.";
+        return;
+      }
+      db = store;
+      setSave("db", "Saved for everyone");
+      notice.classList.add("hide");
+      const apply = (map, kind) => snap => {
+        snap.docs.forEach(d => { const v = d.data(); if (v) map.set(d.id, v); });
+        snap.docChanges().forEach(ch => { if (ch.type === "removed") map.delete(ch.doc.id); });
+        buildModel(); bindGraph(false); buildChips(); drawHist(); paint();
+        if (state.tab === "sheet") { if (typingInGrid) needsRerender = true; else renderSheet(); }
+      };
+      const onErr = e => setSave("none", "Sync stopped: " + (e && e.code ? e.code : "error"));
+      store.collection("rows").onSnapshot(apply(rowOv, "row"), onErr);
+      store.collection("edges").onSnapshot(apply(edgeOv, "edge"), onErr);
+    }).catch(() => setSave("none", "Local to this browser"));
+
+    window.claude.use("downloads").then(d => {
+      dl = d;
+      if (!d) document.getElementById("expCsv").textContent = "Copy CSV";
+    }).catch(() => { document.getElementById("expCsv").textContent = "Copy CSV"; });
+  }
+})();
+
+</script>
