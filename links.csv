@@ -1,0 +1,230 @@
+source_id,source,relationship,target_id,target,evidence,note
+grindon,Leo H. Grindon,spouse & intellectual partner,rgrindon,Rosa Leo Grindon,documented,REL-001. Rosa's work links natural history to women's literary organisation.
+grindon,Leo H. Grindon,co-founder,mfns,Manchester Field-Naturalists' Society,documented,"REL-002, 1860. Grindon helped found the society and organised its excursions."
+jsidebotham,Joseph Sidebotham,co-founder,mfns,Manchester Field-Naturalists' Society,documented,"REL-003, 1860. Identified as Grindon's co-founder in Manchester natural-history accounts."
+horsefield,John Horsefield,founder & president,prestwichbs,Prestwich Botanical Society,documented,"REL-004, 1820–1854. Founded the society and presided for more than thirty years."
+buxton,Richard Buxton,introduced to the network by,horsefield,John Horsefield,documented,"REL-005, 1826. A chance meeting on Kersal Moor connected Buxton to organised artisan botany."
+buxton,Richard Buxton,publication collaborator,nowell,John Nowell,documented,"REL-006, 1840s. The herbarium guide records a fasciculus of British mosses under both names."
+cribb,Robert Cribb,passed specimens; credit disputed,rwood,R. Wood,verify,"REL-007, 1829–30. The moth moved through a collector network and was named for Wood rather than Cribb."
+rwood,R. Wood,sent specimen for identification,curtis,John Curtis,verify,"REL-008, c.1829–30. Curtis described and named the moth, apparently from a specimen attributed to Wood."
+jlphilips,John Leigh Philips,collection became the foundation for,mspnh,Manchester Society for the Promotion of Natural History,documented,"REL-009, 1821. The society formed to display Philips's and other private collections."
+mnhs,Manchester Natural History Society,collections transferred to,owensmm,Owens College & Manchester Museum,documented,REL-010. Society collections became part of the university museum.
+becker,Lydia Becker,specimens retained by,herbarium,Manchester Museum Herbarium,documented,"REL-011, 1864 onward. Her award-winning competition specimens survive in the botanical collection."
+grindon,Leo H. Grindon,herbarium transferred to,herbarium,Manchester Museum Herbarium,documented,"REL-012, 1910. One of the museum's three major personal herbaria."
+melvill,Cosmo Melvill,herbarium transferred to,herbarium,Manchester Museum Herbarium,documented,"REL-013, 1904. One of the museum's three major personal herbaria."
+bailey,Charles Bailey,herbarium transferred to,herbarium,Manchester Museum Herbarium,documented,"REL-014, 1917. One of the museum's three major personal herbaria."
+becker,Lydia Becker,cross-theme trajectory,mnsws,Manchester National Society for Women's Suffrage,interpretive,REL-015. Her botanical work and the constraints on women's scientific participation preceded her suffrage leadership. The workbook asks the workshop to test this causality rather than assume it.
+horsefield,John Horsefield,"met, debated & exchanged specimens",goldenlion,Golden Lion,verify,"REL-016. Pubs acted as knowledge spaces, libraries and meeting venues. Venue, dates and attendees still to be identified."
+buxton,Richard Buxton,"met, debated & exchanged specimens",goldenlion,Golden Lion,verify,"REL-016. Pubs acted as knowledge spaces, libraries and meeting venues."
+jlphilips,John Leigh Philips,textile wealth financed,mspnh,Manchester Society for the Promotion of Natural History,interpretive,REL-018. Philips and Sidebotham show how industrial wealth could be converted into scientific collections and civic institutions.
+jsidebotham,Joseph Sidebotham,textile wealth financed,manmuseum,"Manchester Museum, Oxford Road",interpretive,"REL-018. Track capital, labour, colonial materials and institutional credit explicitly."
+hobson,Edward Hobson,fellow artisan botanist,horsefield,John Horsefield,documented,Hobson's Relationships field names Horsefield and the Manchester artisan botanists.
+jsidebotham,Joseph Sidebotham,society colleague,grindon,Leo H. Grindon,documented,Sidebotham's Relationships field names Grindon and the Field-Naturalists' Society.
+carrington,Benjamin Carrington,herbarium network,pearson,William Henry Pearson,documented,Carrington's Relationships field names the Manchester herbarium network and W.H. Pearson.
+thsidebotham,Thomas Henry Sidebotham,family scientific network,jsidebotham,Joseph Sidebotham,verify,Recorded as a potential member of the wider Sidebotham network; identity and relationship to confirm.
+buxton,Richard Buxton,fellow bryologist,nowell,John Nowell,documented,Nowell's Relationships field names Richard Buxton.
+horsefield,John Horsefield,fellow botanist,buxton,Richard Buxton,documented,Horsefield's Relationships field names Richard Buxton.
+sgibson,Samuel Gibson,Lancashire artisan botanists,ulbs,United Lancashire botanical societies,verify,Gibson's Relationships field names the Lancashire artisan botanists generically.
+bailey,Charles Bailey,museum herbarium network,herbarium,Manchester Museum Herbarium,documented,Bailey's Relationships field names the Manchester Museum herbarium network.
+melvill,Cosmo Melvill,museum herbarium network,herbarium,Manchester Museum Herbarium,documented,Melvill's Relationships field names the Manchester Museum herbarium network.
+hopkins,Mrs Hopkins,collection held by,herbarium,Manchester Museum Herbarium,verify,Recorded in the Manchester herbarium collection; the collector is incompletely identified.
+jaffrey,Mrs P. Jaffrey,collection held by,herbarium,Manchester Museum Herbarium,verify,Darjeeling ferns documented in the herbarium guide; collector and intermediaries unidentified.
+crowther,John Crowther,early participant,ulbs,United Lancashire botanical societies,verify,An early participant in the rotating Lancashire botanical meetings.
+crowe,John Crowe,meeting participant,ulbs,United Lancashire botanical societies,verify,Named by Grindon among botanists attending regional gatherings.
+warburton,John Warburton,meeting participant,ulbs,United Lancashire botanical societies,verify,Named by Grindon among botanists attending regional gatherings.
+hulme,George Hulme,meeting participant,ulbs,United Lancashire botanical societies,verify,Named by Grindon among botanists attending regional gatherings.
+eclough,Edwin Clough,meeting participant,ulbs,United Lancashire botanical societies,verify,Named by Grindon among botanists attending regional gatherings.
+hnewton,Henry Newton,meeting participant,ulbs,United Lancashire botanical societies,verify,Named by Grindon among botanists attending regional gatherings.
+bleackley,Tom Bleackley,meeting participant,ulbs,United Lancashire botanical societies,verify,Named by Grindon among botanists attending regional gatherings.
+jshaw,John Shaw,meeting participant,ulbs,United Lancashire botanical societies,verify,Named by Grindon among botanists attending regional gatherings.
+darbyshire,John Darbyshire,meeting participant,ulbs,United Lancashire botanical societies,verify,Named by Grindon among botanists attending regional gatherings.
+bentley,William Bentley,meeting participant,ulbs,United Lancashire botanical societies,verify,Named by Grindon among botanists attending regional gatherings.
+devonport,James Devonport,meeting participant,ulbs,United Lancashire botanical societies,verify,Named by Grindon among botanists attending regional gatherings.
+jturner,John Turner,meeting participant,ulbs,United Lancashire botanical societies,verify,Named by Grindon among botanists attending regional gatherings.
+horsefield,John Horsefield,president,ulbs,United Lancashire botanical societies,documented,1830. Became president of the wider regional botanical meetings. Whether 'president' applied to a formal organisation is unresolved.
+grindon,Leo H. Grindon,connected member,litphil,Manchester Literary & Philosophical Society,verify,Listed among the society's natural-history connections; precise memberships still to be added.
+horsefield,John Horsefield,connected member,mechinst,Manchester Mechanics' Institute,verify,Listed under the Mechanics' Institute; attendance and lecture evidence still to be found.
+grindon,Leo H. Grindon,connected member,mechinst,Manchester Mechanics' Institute,verify,Listed under the Mechanics' Institute; attendance and lecture evidence still to be found.
+horsefield,John Horsefield,founder,prestwichbs,Prestwich Botanical Society,documented,"Pub-based specimen identification, oral teaching and pooled purchase of books and herbaria."
+buxton,Richard Buxton,member,prestwichbs,Prestwich Botanical Society,documented,Named among the society's connected people.
+jsidebotham,Joseph Sidebotham,connected member,mms,Manchester Microscopical Society,documented,Named among the Microscopical Society's connected people.
+carrington,Benjamin Carrington,connected member,mms,Manchester Microscopical Society,documented,Named among the Microscopical Society's connected people.
+brittain,Thomas Brittain,founder,mms,Manchester Microscopical Society,documented,1858. Named among the founders of the first Microscopical Society.
+cash,James Cash,connected member,mcs,Manchester Cryptogamic Society,verify,Named in the Cryptogamic Society entry; the society itself needs confirming.
+carrington,Benjamin Carrington,connected member,mcs,Manchester Cryptogamic Society,verify,Named in the Cryptogamic Society entry; the society itself needs confirming.
+horsefield,John Horsefield,member of informal network,msb,Manchester Society of Botanists,verify,"A loose grouping with no meeting place, funds, books or rules."
+horsefield,John Horsefield,regional naturalist,bbes,Bury Botanical & Entomological Society,verify,Named alongside regional naturalists; date and membership unconfirmed.
+mspnh,Manchester Society for the Promotion of Natural History,related / successor body,mnhs,Manchester Natural History Society,verify,"Formal naming, legal continuity and dates relative to the 1821 society still to be clarified."
+mfns,Manchester Field-Naturalists' Society,excursion & collection link,manmuseum,"Manchester Museum, Oxford Road",documented,Marks the increasing institutionalisation of field science.
+owensmm,Owens College & Manchester Museum,institutional home,manmuseum,"Manchester Museum, Oxford Road",documented,The museum sits within the Owens College complex on Oxford Road.
+buxton,Richard Buxton,collected at,kersal,Kersal Moor,documented,Site of the Buxton and Horsefield meeting and the Manchester moth discovery.
+horsefield,John Horsefield,collected at,kersal,Kersal Moor,documented,Site of the Buxton and Horsefield meeting.
+cribb,Robert Cribb,found the Manchester moth at,kersal,Kersal Moor,documented,1829. Credited with finding the moth here; the naming became a dispute over credit.
+rwood,R. Wood,collecting network,kersal,Kersal Moor,verify,Named among the Kersal Moor collectors.
+horsefield,John Horsefield,collected at,mereclough,Mere Clough,documented,An important botanical field site associated with Horsefield and local rare plants.
+grindon,Leo H. Grindon,collected at,mereclough,Mere Clough,documented,Named among the site's connected people.
+grindon,Leo H. Grindon,walked & documented,agecroft,Agecroft & the Irwell Valley,documented,A collecting and walking landscape used to remember artisan naturalists.
+horsefield,John Horsefield,lived & worked at,besses,Besses o' th' Barn / Whitefield,documented,Horsefield's home and weaving base.
+bleackley,Tom Bleackley,local network,besses,Besses o' th' Barn / Whitefield,verify,Named among the connected people for Besses o' th' Barn.
+horsefield,John Horsefield,network centre,prestwich,Prestwich,documented,The institutional and landscape centre of working-class botanical organisation.
+buxton,Richard Buxton,network centre,prestwich,Prestwich,documented,Named among Prestwich's connected people.
+hulme,George Hulme,local botanist,prestwich,Prestwich,documented,Named among Prestwich's connected people.
+grindon,Leo H. Grindon,collected at,chatmoss,Chat Moss,documented,Named among the mossland's connected field naturalists.
+grindon,Leo H. Grindon,collected at,carringtonmoss,Carrington Moss,documented,One of the extensive mosses identified by Grindon around Manchester.
+eclough,Edwin Clough,local naturalist,ashtonmoss,Ashton Moss,interpretive,Recorded generically as 'Ashton naturalists'; Clough is the workbook's Ashton-under-Lyne botanist.
+hnewton,Henry Newton,local naturalist,ashtonmoss,Ashton Moss,interpretive,Recorded generically as 'Ashton naturalists'; Newton is an Ashton-under-Lyne botanist.
+grindon,Leo H. Grindon,excursion site,cotterill,Cotterill Clough,documented,A celebrated collecting place within the naturalists' excursion geography.
+jlphilips,John Leigh Philips,collection displayed at,peterst,Peter Street Natural History Museum,documented,The first major public home of the Natural History Society's collections.
+wcwilliamson,William Crawford Williamson,first curator,peterst,Peter Street Natural History Museum,documented,"Recorded as first curator of the Peter Street museum, 1835."
+wcwilliamson,William Crawford Williamson,professor of natural history,owensmm,Owens College & Manchester Museum,documented,Professor of Natural History at Owens College.
+mnhs,Manchester Natural History Society,museum opened at,peterst,Peter Street Natural History Museum,documented,1835. The Natural History Society museum opened on Peter Street.
+grindon,Leo H. Grindon,regional museum context,peelpark,Peel Park Museum,verify,A neighbouring municipal museum referenced in Grindon's regional writing.
+grindon,Leo H. Grindon,collection destination,manmuseum,"Manchester Museum, Oxford Road",documented,Named among the museum's connected collectors.
+jsidebotham,Joseph Sidebotham,collection destination,manmuseum,"Manchester Museum, Oxford Road",documented,Lepidoptera and wider natural-history collections entered the museum.
+bailey,Charles Bailey,collection destination,manmuseum,"Manchester Museum, Oxford Road",documented,Named among the museum's connected collectors.
+melvill,Cosmo Melvill,collection destination,manmuseum,"Manchester Museum, Oxford Road",documented,Named among the museum's connected collectors.
+becker,Lydia Becker,collection destination,manmuseum,"Manchester Museum, Oxford Road",documented,Named among the museum's connected collectors.
+carrington,Benjamin Carrington,collection destination,herbarium,Manchester Museum Herbarium,documented,Hepaticae Britannicae exsiccatae and herbarium material.
+sgibson,Samuel Gibson,collection destination,herbarium,Manchester Museum Herbarium,documented,"British ferns, algae and allied plants."
+nowell,John Nowell,collection destination,herbarium,Manchester Museum Herbarium,documented,Fasciculus of British Mosses with Richard Buxton.
+buxton,Richard Buxton,collection destination,herbarium,Manchester Museum Herbarium,documented,Moss collections with John Nowell.
+hobson,Edward Hobson,collection destination,herbarium,Manchester Museum Herbarium,documented,British mosses and hepatics; Musci Britannici material.
+beardsley,William & Joseph Beardsley,opened,pomona,Pomona Gardens,documented,"1845. Opened as Strawberry Gardens, later Pomona Gardens."
+grindon,Leo H. Grindon,lived at,chorltonmedlock,Chorlton-on-Medlock,documented,Grindon's home area; he wrote excursions for the whole of Greater Manchester.
+crozier,George Crozier,worked at,shudehill,Shudehill workshop,documented,Remembered by Grindon as practising natural history alongside manual work.
+grindon,Leo H. Grindon,lectured at,rsm,Manchester Royal School of Medicine,documented,Lectured in botany here from 1852 until absorption into Owens College.
+grindon,Leo H. Grindon,observed & documented,irwell,River Irwell,interpretive,"Connects industrial pollution, urban growth, river valleys and naturalists' observations."
+horsefield,John Horsefield,botanical discussion at,goldenlion,Golden Lion,verify,Remembered by Grindon as a site of vigorous botanical discussion.
+crowther,John Crowther,early rotating meetings,ulbs,United Lancashire botanical societies,verify,"TL-NH-001, c.1770s–1790s. Early artisan botanical societies and rotating meetings develop."
+horsefield,John Horsefield,loose botanists' network,msb,Manchester Society of Botanists,verify,"TL-NH-002, 1808. Horsefield participates in a loose Manchester botanists' network."
+becker,Lydia Becker,founder,mnsws,Manchester National Society for Women's Suffrage,documented,"TL-BASE-006, 1867. Founder of the women's suffrage society; edited the Women's Suffrage Journal."
+jetaylor,John Edward Taylor,founded,guardian,Manchester Guardian,documented,Founded the Manchester Guardian.
+jetaylor2,John Edward Taylor II,co-owner then sole owner,guardian,Manchester Guardian,documented,"Co-owner in 1852, sole owner in 1856; expanded the paper's reach."
+jetaylor,John Edward Taylor,father & son,jetaylor2,John Edward Taylor II,documented,Son of John Edward Taylor.
+rscott,Russell Scott,investor & proprietor,guardian,Manchester Guardian,documented,Invested in the Guardian and became proprietor after Taylor's death.
+rscott,Russell Scott,brother-in-law,jetaylor,John Edward Taylor,documented,Brother-in-law to John Edward Taylor.
+jetaylor,John Edward Taylor,spouse,sophiataylor,Sophia Russell Taylor,documented,"Husband of Sophia Russell Taylor, née Scott."
+cowdroy,William Cowdroy Jr.,member,littlecircle,The Little Circle,documented,Member of the Little Circle; contributed to the founding of the Manchester Guardian.
+prentice,Archibald Prentice,member,littlecircle,The Little Circle,documented,Member of the Little Circle; advocated radical reforms; financial backer.
+rpotter,Richard Potter,member,littlecircle,The Little Circle,documented,Member of the Little Circle; early supporter and financier.
+tpotter,Thomas Potter,member,littlecircle,The Little Circle,documented,Member of the Little Circle; early supporter and financier.
+watkin,Absalom Watkin,member,littlecircle,The Little Circle,documented,Member of the Little Circle; supported parliamentary reform.
+brotherton,Joseph Brotherton,member,littlecircle,The Little Circle,documented,Member of the Little Circle; supported social reforms.
+shuttleworth,John Shuttleworth,member,littlecircle,The Little Circle,documented,Named among the Little Circle's Guardian backers.
+jpotter,John Potter,host,littlecircle,The Little Circle,documented,Host of the Little Circle meetings.
+littlecircle,The Little Circle,founded & financed,guardian,Manchester Guardian,documented,The circle's members contributed to founding and financing the paper.
+gphilips,Sir George Philips,backer,guardian,Manchester Guardian,documented,The Guardian backer most deeply linked with slavery.
+baxter,Edward Baxter,backer,guardian,Manchester Guardian,verify,Named in the research on the paper's commercial backers.
+duckworth,William Duckworth,backer,guardian,Manchester Guardian,verify,Recorded in 1826 alongside Taylor and Wood on the condition of the enslaved population.
+rphilips,Robert Philips,backer,guardian,Manchester Guardian,verify,Named in the research on the paper's commercial backers.
+pullein,Samuel Pullein,backer,guardian,Manchester Guardian,verify,Named in the research on the paper's commercial backers.
+sanderson,Thomas BW Sanderson,backer,guardian,Manchester Guardian,verify,Named in the research on the paper's commercial backers.
+gwwood,George William Wood,backer,guardian,Manchester Guardian,verify,Named in the research on the paper's commercial backers.
+tjohnson,Thomas Johnson,named in the loan agreement,guardian,Manchester Guardian,documented,The original Manchester Guardian loan agreement names him as a merchant.
+twilkins,Thomas Wilkins,named in the loan agreement,guardian,Manchester Guardian,documented,The loan agreement names him as a merchant; a secondary source lists him as a cotton merchant.
+jpotter,John Potter,father & son,tpotter,Thomas Potter,documented,Father to Thomas and Richard Potter.
+jpotter,John Potter,father & son,rpotter,Richard Potter,documented,Father to Thomas and Richard Potter.
+tpotter,Thomas Potter,brothers,rpotter,Richard Potter,documented,The brother of Richard Potter; in partnership with him in cotton and textiles.
+gphilips,Sir George Philips,cousins,rphilips,Robert Philips,documented,Robert Philips is recorded as the cousin of Sir George Philips.
+duckworth,William Duckworth,son-in-law,rphilips,Robert Philips,documented,A Unitarian attorney and son-in-law of Robert Philips.
+gwwood,George William Wood,family relation,rphilips,Robert Philips,verify,Recorded as a relative of the Philips family.
+gphilips,Sir George Philips,partner,philipswood,"Philips, Wood & Co",documented,"Partnerships in Philips, Wood & Co, with strong links to enslaved labour in Brazil."
+gwwood,George William Wood,partner,philipswood,"Philips, Wood & Co",documented,"Partner in Philips, Wood & Co."
+rphilips,Robert Philips,partner,philipswood,"Philips, Wood & Co",documented,"Partnerships spanned Philips, Wood & Co."
+shuttleworth,John Shuttleworth,co-founder,shuttleworthtaylor,"Shuttleworth, Taylor & Co",documented,"Co-founded the firm, which imported cotton produced by enslaved people."
+jetaylor,John Edward Taylor,partner,shuttleworthtaylor,"Shuttleworth, Taylor & Co",documented,"Partnered in Shuttleworth, Taylor & Co."
+gwwood,George William Wood,partner,shuttleworthtaylor,"Shuttleworth, Taylor & Co",documented,"Partner in Shuttleworth, Taylor & Co."
+rphilips,Robert Philips,partner,shuttleworthtaylor,"Shuttleworth, Taylor & Co",documented,"Partnerships spanned Shuttleworth, Taylor & Co."
+tpotter,Thomas Potter,first mayor,corporation,Manchester Corporation,documented,"First mayor of Manchester, serving from 1838 to 1840."
+mosley,Mosley family,sold manorial rights to,corporation,Manchester Corporation,documented,Sold the rights of lord of the manor of Manchester to the Corporation in 1846.
+roper,Esther Roper,partner,gorebooth,Eva Gore-Booth,documented,Partner of Esther Roper; campaigned for women's and workers' rights.
+roper,Esther Roper,secretary,mnsws,Manchester National Society for Women's Suffrage,documented,Appointed secretary in 1893; focused on recruiting working-class women.
+roper,Esther Roper,organiser,nesws,North of England Society for Women's Suffrage,documented,"North of England Society for Women's Suffrage, 1890s to early 1900s."
+gorebooth,Eva Gore-Booth,organiser,nesws,North of England Society for Women's Suffrage,documented,Named under the North of England Society in her People row.
+gorebooth,Eva Gore-Booth,co-founder,mswtc,Manchester & Salford Women's Trades Council,documented,1895. Formed the council with Sarah Dickenson and Frances Ashwell.
+dickenson,Sarah Dickenson,co-founder,mswtc,Manchester & Salford Women's Trades Council,documented,1895. Named in the events sheet as a founder.
+quaile,Mary Quaile,secretary,mswtc,Manchester & Salford Women's Trades Council,documented,Secretary of the Manchester Women's Trade Union Council.
+becker,Lydia Becker,spoke at,freetradehall,Free Trade Hall,documented,Named among the hall's connected women.
+fildes,Mary Fildes,connected,freetradehall,Free Trade Hall,documented,Named among the hall's connected women.
+gorebooth,Eva Gore-Booth,connected,freetradehall,Free Trade Hall,documented,Named among the hall's connected women.
+pochin,Agnes Pochin,spoke at,freetradehall,Free Trade Hall,documented,"1868. Delivered a speech at the Free Trade Hall; her husband, then Mayor of Salford, chaired the meeting."
+brightmclaren,Priscilla Bright McLaren,spoke at first public meeting,mnsws,Manchester National Society for Women's Suffrage,documented,"14 April 1868, Free Trade Hall."
+robertson,Anne Robertson,spoke at first public meeting,mnsws,Manchester National Society for Women's Suffrage,documented,"14 April 1868, Free Trade Hall."
+wolstenholme,Elizabeth Wolstenholme-Elmy,founding participant,mnsws,Manchester National Society for Women's Suffrage,documented,January 1867. Present at the society's formation.
+rpankhurst,Richard Pankhurst,founding participant,mnsws,Manchester National Society for Women's Suffrage,documented,January 1867. Present at the society's formation.
+ubright,Ursula Mellor Bright,founding participant,mnsws,Manchester National Society for Women's Suffrage,documented,January 1867. Present at the society's formation.
+jacobbright,Jacob Bright,founding participant,mnsws,Manchester National Society for Women's Suffrage,documented,January 1867. Present at the society's formation.
+butler,Josephine Butler,executive committee,mnsws,Manchester National Society for Women's Suffrage,documented,30 October 1868. Joined the new executive committee.
+wolstenholme,Elizabeth Wolstenholme-Elmy,founder,schoolmistresses,Manchester Schoolmistresses Association,documented,2 December 1865. Inaugurated the association.
+aclough,Anne Clough,honorary member,schoolmistresses,Manchester Schoolmistresses Association,documented,2 December 1865. Honorary member at the inauguration.
+davies,Emily Davies,addressed,schoolmistresses,Manchester Schoolmistresses Association,documented,October 1866. Advocated women's access to university-level education.
+kenney,Annie Kenney,senior leadership,wspu,Women's Social & Political Union,documented,The only working-class woman in a senior leadership position in the WSPU.
+pankhurst,Emmeline Pankhurst,founder,wspu,Women's Social & Political Union,documented,Her Nelson Street home is recorded as the birthplace of the suffragette movement.
+pankhurst,Emmeline Pankhurst,lived at,pankhurstcentre,62 Nelson Street,documented,Home of Emmeline Pankhurst.
+pankhurst,Emmeline Pankhurst,Poor Law Guardian,guardianscm,Chorlton-on-Medlock Board of Guardians,documented,1894. Elected Poor Law Guardian for Chorlton-on-Medlock.
+mitchell,Hannah Mitchell,member,ilp,Independent Labour Party,documented,ILP and trade unions; socialist.
+martyn,Caroline Martyn,speaker,ilp,Independent Labour Party,documented,ILP and trade unions; worked alongside Keir Hardie.
+fildes,Mary Fildes,president,mfrs,Manchester Female Reform Society,documented,Irish-born president of the Manchester Female Reform Society.
+fildes,Mary Fildes,led the female reformers' contingent,stpeters,St Peter's Field,documented,16 August 1819. The peaceful protest turned tragic when cavalry charged the crowd.
+birley,Hugh Hornby Birley,leading role in the massacre,stpeters,St Peter's Field,documented,Recorded as having a leading role in the Peterloo Massacre.
+ashton,Margaret Ashton,first woman city councillor,townhall,Manchester Town Hall,documented,1908. Advocated public health initiatives including mother and baby clinics.
+becker,Lydia Becker,connected,townhall,Manchester Town Hall,documented,Named among the Town Hall's connected women.
+becker,Lydia Becker,connected,portico,Portico Library,documented,Named among the Portico Library's connected women.
+gaskell,Elizabeth Gaskell,connected,portico,Portico Library,documented,Named among the Portico Library's connected women.
+becker,Lydia Becker,research access,chethams,Chetham's Library,documented,Named among Chetham's Library's connected women.
+gaskell,Elizabeth Gaskell,connected,chethams,Chetham's Library,documented,Named among Chetham's Library's connected women.
+becker,Lydia Becker,women's higher education,lea,Ladies' Educational Association,interpretive,The association pushed for women's access to higher education in the same decade and city.
+maxwell,Lily Maxwell,test case,mnsws,Manchester National Society for Women's Suffrage,documented,"Chorlton v Lings; one of the first women to vote, illegally."
+rgrindon,Rosa Leo Grindon,women's literary organisation,becker,Lydia Becker,interpretive,The workbook asks the workshop to connect Rosa to Grindon's household network and Becker's women's literary organisation.
+ubright,Ursula Mellor Bright,spouse,jacobbright,Jacob Bright,documented,Wife of Jacob Bright.
+mbright,Margaret Elizabeth Bright,spouse,jbright,John Bright,documented,Second wife of John Bright; married 1847.
+mbright,Margaret Elizabeth Bright,sister,jacobbright,Jacob Bright,verify,Recorded as 'sister to Jacob Bright'; probably sister-in-law. Worth resolving.
+clarkson,Thomas Clarkson,founder member,abolitionsoc,Society for Effecting the Abolition of Slavery,documented,Society for Effecting the Abolition of Slavery.
+sharp,Granville Sharp,founder member,abolitionsoc,Society for Effecting the Abolition of Slavery,documented,"Anti-slavery, with Wilberforce in London."
+clarkson,Thomas Clarkson,spouse,cclarkson,Catherine Buck Clarkson,documented,Married in 1796; their only child died before his father.
+cobden,Richard Cobden,spouse,ccobden,Catherine Anne Cobden,documented,Married in 1840; five surviving children.
+marx,Karl Marx,spouse,jenny,Jenny von Westphalen Marx,documented,Childhood sweetheart; married in 1843.
+engels,Friedrich Engels,long-term partner,burns,Mary Burns,documented,"Long-term relationships with Mary Burns and later her sister Lydia, but did not marry."
+engels,Friedrich Engels,collaborator,marx,Karl Marx,interpretive,Both recorded under Socialism in the workbook; the relationship itself is not stated.
+remond,Sarah Parker Remond,delivered speeches at,athenaeum,Manchester Athenaeum,documented,Delivered speeches in the Manchester Athenaeum.
+remond,Sarah Parker Remond,anti-slavery campaigning,unionemanc,Union and Emancipation Society,interpretive,Both sit in the workbook's anti-slavery cluster; the link is not stated directly.
+gibson,TM Gibson,supported Lincoln in the US Civil War,unionemanc,Union and Emancipation Society,verify,Recorded in the anti-slavery supporters block.
+brotherton,Joseph Brotherton,vegetarianism,vegsoc,Vegetarian Society,documented,Recorded under Vegetarianism; the society was founded in Salford in 1847.
+helenb,Helen Brotherton,vice-president,vegsoc,Vegetarian Society,documented,Vice-president of the Vegetarian Society.
+brotherton,Joseph Brotherton,spouse,martha,Martha Brotherton,documented,Husband of Martha Harvey.
+martha,Martha Brotherton,active member,biblechristian,Bible Christian Church,documented,Active in the Bible Christian Church and social reform movements.
+brotherton,Joseph Brotherton,preacher,biblechristian,Bible Christian Church,documented,"Recorded as Preacher, MP; the church promoted vegetarianism and temperance."
+helenb,Helen Brotherton,daughter,martha,Martha Brotherton,documented,Daughter of Martha and Joseph Brotherton.
+helenb,Helen Brotherton,daughter,brotherton,Joseph Brotherton,documented,Daughter of Martha and Joseph Brotherton.
+brotherton,Joseph Brotherton,buried at,weaste,Weaste Cemetery,documented,Final resting place of Joseph and Martha Brotherton.
+martha,Martha Brotherton,buried at,weaste,Weaste Cemetery,documented,Final resting place of Joseph and Martha Brotherton.
+gaskell,Elizabeth Gaskell,congregation,crossstreet,Cross Street Chapel,documented,Named among Cross Street Chapel's connected women.
+gaskell,Elizabeth Gaskell,lived at,plymouthgrove,84 Plymouth Grove,documented,Her house was completed at 84 Plymouth Grove in 1850.
+whitworth,Joseph Whitworth,spouse,mlwhitworth,Mary Louisa Whitworth,documented,Second wife; married 1871 after Frances Anker's death in 1870.
+rylands,John Rylands,spouse,erylands,Enriqueta Augustina Rylands,documented,"Married Enriqueta in 1875, eight months after Martha's death."
+erylands,Enriqueta Augustina Rylands,founded,rylandslib,John Rylands Library,documented,Founded the John Rylands Library in memory of her husband.
+cooke,Alice Cooke,catalogued the collection of,erylands,Enriqueta Augustina Rylands,documented,Catalogued the Enriqueta collection.
+rylands,John Rylands,Manchester Royal Jubilee Exhibition,jwilliamson,James Williamson,verify,Both recorded under the Manchester Royal Jubilee Exhibition.
+waterhouse,Alfred Waterhouse,architect,townhall,Manchester Town Hall,documented,The Town Hall was built to Waterhouse's design.
+heron,Joseph Heron,Town Clerk; led the building,townhall,Manchester Town Hall,documented,Town Clerk who led on building the Town Hall in Waterhouse's design.
+lane,Richard Lane,redesigned the esplanade,mri,Manchester Royal Infirmary,documented,Redesign of the esplanade outside the Royal Infirmary.
+arnout,J Arnout,lithograph of,mri,Manchester Royal Infirmary,documented,"Lithograph of the Royal Infirmary, 1857."
+whitworth,Joseph Whitworth,statue at,mri,Manchester Royal Infirmary,documented,Statues at the Royal Infirmary.
+dalton,John Dalton,statue at,mri,Manchester Royal Infirmary,documented,Statues at the Royal Infirmary.
+watt,James Watt,statue at,mri,Manchester Royal Infirmary,documented,Statues at the Royal Infirmary.
+wfairbairn,William Fairbairn,statue at,mri,Manchester Royal Infirmary,documented,Statues at the Royal Infirmary.
+murray,Murray brothers,mill owner,ancoats,Ancoats,documented,"Factory owners, Ancoats."
+mcconnel,McConnel,mill owner,ancoats,Ancoats,documented,"Factory owners, Ancoats."
+kennedy,Kennedy,mill owner,ancoats,Ancoats,documented,"Mill owners, Oxford Road and the River Medlock."
+tfairbairn,Thomas Fairbairn,headed the executive committee,arttreasures,Art Treasures Exhibition,documented,"1857. Local industrialist, art collector and patron."
+caminada,Jerome Caminada,spouse,mcaminada,Mary Ellen Caminada,documented,Husband of Mary Ellen Walsh; married 1871.
+jgroves,James Groves,founder,salfordlads,Salford Lads Club,documented,Salford Lads Club; Groves and Whitnall Breweries.
+wgroves,William Groves,founder,salfordlads,Salford Lads Club,documented,Salford Lads Club; Groves and Whitnall Breweries.
+jgroves,James Groves,brothers,wgroves,William Groves,verify,Both recorded as founders of the same club and brewery.
+fanque,Pablo Fanque,spouse,marlaw,Susannah Marlaw,documented,Susannah performed in his circus and died when a stand collapsed in 1848.
+horniman,Annie Horniman,founded & managed,gaiety,Gaiety Theatre,documented,Founded and managed the Gaiety Theatre.
+lala,Miss Lala,performed at,gaiety,Gaiety Theatre,documented,"Frequently performed in the Gaiety Theatre, Manchester."
+swatts,S&J Watts,warehouse,ancoats,Ancoats,interpretive,"Their warehouse, now the Britannia Hotel, sits in the same commercial fabric."
+sichel,Julius Sichel,diaries held by,manmuseum,"Manchester Museum, Oxford Road",documented,Manchester Museum has his diaries.
+armitt,Mary Louisa Armitt,ornithology & natural history,manmuseum,"Manchester Museum, Oxford Road",interpretive,"A polymath who contributed to ornithology; her library went to Ambleside, not Manchester."
+sophiataylor,Sophia Russell Taylor,Manchester salons,gaskell,Elizabeth Gaskell,interpretive,Hosted cultural salons; Gaskell moved in Manchester's Unitarian elite. Potential cross-network salon link.

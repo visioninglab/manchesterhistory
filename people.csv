@@ -1,0 +1,223 @@
+id,name,kind,field,dates,active_from,active_to,active_source,role,note,data_note,workbook_id,links
+buxton,Richard Buxton,person,nat,1786–1865,1820,1869,workbook,Botanist & shoemaker,Self-taught; wrote an 1849 guide to plants within sixteen miles of Manchester. Working-class autodidact.,,NH-001,9
+horsefield,John Horsefield,person,nat,1792–1854,1800,1859,workbook,Botanist & handloom weaver,Founded the Prestwich Botanical Society in 1820 and led the regional networks for over thirty years.,,NH-002,16
+hobson,Edward Hobson,person,nat,1782–1830,1810,1829,workbook,Bryologist & artisan naturalist,Early Manchester specialist in mosses and liverworts; prepared Musci Britannici material.,,NH-003,2
+jsidebotham,Joseph Sidebotham,person,nat,1824–1885,1840,1889,workbook,Cotton industrialist & naturalist,"Botany, entomology, microscopy and photography. Collections entered Manchester Museum.",,NH-004,6
+jlphilips,John Leigh Philips,person,nat,1761–1814,1780,1819,workbook,Textile manufacturer & collector,His private collection became foundational to Manchester's museum institutions.,Date conflict: a University page gives 1761–1841; the Museum archive gives 1761–1814.,NH-005,3
+cribb,Robert Cribb,person,nat,dates unknown,1820,1829,workbook,Textile worker & lepidopterist,Credited with finding the Manchester moth at Kersal Moor in 1829. Credit later disputed.,,NH-006,2
+rwood,R. Wood,person,nat,dates unknown,1820,1839,workbook,Insect collector,The Manchester moth was named for Wood rather than Cribb. Relationship to Cribb needs careful sourcing.,,NH-007,3
+carrington,Benjamin Carrington,person,nat,1827–1893,1850,1899,workbook,Physician & botanist,"Bryophytes, cryptogams, fungi and lichens. Author of Hepaticae Britannicae exsiccatae.",,NH-008,4
+bailey,Charles Bailey,person,nat,1838–1924,1860,1919,workbook,Botanist & collector,"Built one of the three major personal herbaria absorbed by Manchester Museum, in 1917.",,NH-009,3
+melvill,Cosmo Melvill,person,nat,1845–1929,1860,1909,workbook,Naturalist & collector,Botany and conchology. His general herbarium entered the Museum in 1904.,,NH-010,3
+sgibson,Samuel Gibson,person,nat,dates unknown,1830,1849,workbook,Artisan botanist & collector,"Ferns, algae and other cryptogams represented in Manchester's herbarium.",,NH-011,2
+nowell,John Nowell,person,nat,dates unknown,1840,1869,workbook,Bryologist,Collaborated with Buxton on a fasciculus of British mosses.,,NH-012,3
+crozier,George Crozier,person,nat,dates unknown,1800,1839,workbook,Artisan naturalist,Remembered by Grindon as practising natural history alongside manual work in a Shudehill workshop.,,NH-013,1
+crowther,John Crowther,person,nat,1768–unknown,1770,1849,workbook,Artisan botanist,An early participant in the rotating Lancashire botanical meetings; described by Grindon as a 'Banksian'.,,NH-014,2
+thsidebotham,Thomas Henry Sidebotham,person,nat,dates unknown,1800,1899,workbook,Naturalist,Potential member of the wider Sidebotham scientific network. Identity needs confirming.,,NH-015,1
+crowe,John Crowe,person,nat,19th century,1800,1899,workbook,Botanist,Named by Grindon among Manchester botanists attending regional gatherings.,,NH-016,1
+warburton,John Warburton,person,nat,19th century,1800,1899,workbook,Botanist,Named by Grindon among Manchester botanists attending regional gatherings.,,NH-017,1
+hulme,George Hulme,person,nat,19th century,1800,1899,workbook,Botanist,Named by Grindon among Prestwich botanists attending regional gatherings.,,NH-018,2
+eclough,Edwin Clough,person,nat,19th century,1800,1899,workbook,Botanist,Named by Grindon among Ashton-under-Lyne botanists at regional gatherings.,,NH-019,2
+hnewton,Henry Newton,person,nat,19th century,1800,1899,workbook,Botanist,Ashton-under-Lyne. Which Newton this is remains to be confirmed.,,NH-020,2
+bleackley,Tom Bleackley,person,nat,19th century,1800,1899,workbook,Botanist,Whitefield; named by Grindon among local botanists at regional gatherings.,,NH-021,2
+jshaw,John Shaw,person,nat,19th century,1800,1899,workbook,Botanist,Eccles; named by Grindon among local botanists at regional gatherings.,,NH-022,1
+darbyshire,John Darbyshire,person,nat,19th century,1800,1899,workbook,Botanist,Newton; named by Grindon among local botanists at regional gatherings.,,NH-023,1
+bentley,William Bentley,person,nat,19th century,1800,1899,workbook,Botanist,Royton; spelling and full identity need verifying.,,NH-024,1
+devonport,James Devonport,person,nat,19th century,1800,1899,workbook,Botanist,Droylsden; named by Grindon among local botanists at regional gatherings.,,NH-025,1
+jturner,John Turner,person,nat,19th century,1800,1899,workbook,Botanist,Middleton. Needs disambiguating from other John Turners.,,NH-026,1
+hopkins,Mrs Hopkins,person,nat,1879–1881 active,1879,1881,workbook,Plant collector,"Herbarium sheets survive under this name alone. Full name, biography and collecting locations lost.",Recorded only as 'Mrs Hopkins'. Recovering her own name is an open workshop task.,NH-027,1
+jaffrey,Mrs P. Jaffrey,person,nat,1882 active,1882,1882,workbook,Fern collector,Darjeeling ferns documented in Manchester's herbarium guide. A colonial collecting route with the intermediaries unnamed.,Recorded only as 'Mrs P. Jaffrey'. The collector and her intermediaries are unidentified.,NH-028,1
+grindon,Leo H. Grindon,person,nat,1818–1904,1850,1899,workbook,"Cashier, self-taught naturalist & adult educator",Founded the Manchester Field-Naturalists' Society; wrote Manchester Flora (1859) and Country Rambles (1882). Lectured in botany at the Royal School of Medicine from 1852.,ID recorded as 'sw' and flagged DUPLICATE ID in the workbook.,sw,16
+rgrindon,Rosa Leo Grindon,person,suff,1820–1900,1860,1889,workbook,Lecturer,Wrote 'Shakespeare plays from a women's point of view'. Connector between natural history and women's literary organisation.,,200069,2
+wcwilliamson,William Crawford Williamson,person,nat,dates missing,,,,Curator & professor,"First curator of the Peter Street museum, 1835, and Professor of Natural History at Owens College.","No ID, no dates, no source in the workbook.",—,2
+curtis,John Curtis,person,nat,external,,,,Taxonomist,"Described and named the Manchester moth, apparently from a specimen attributed to Wood.",Appears only inside relationship text; has no People row.,—,1
+pearson,William Henry Pearson,person,nat,external,,,,Botanist,Named in Carrington's herbarium network.,Appears only inside relationship text; has no People row.,—,1
+brittain,Thomas Brittain,person,nat,external,,,,Microscopist,"Named among the founders of the first Manchester Microscopical Society, 1858.",Appears only in the Organisations sheet; has no People row.,—,1
+cash,James Cash,person,nat,external,,,,Cryptogamist,Named in the Manchester Cryptogamic Society entry.,Appears only in the Organisations sheet; has no People row.,—,1
+jetaylor,John Edward Taylor,person,press,1791–1844,1820,1849,workbook,Founder & editor,"Founded the Manchester Guardian. Liberal, Unitarian, active 1820s–1840s.",Duplicated in the workbook as 200013 with the same dates.,200100,5
+jetaylor2,John Edward Taylor II,person,press,1830–1905,1850,1909,workbook,Editor & owner,"Son of John Edward Taylor; co-owner in 1852, sole owner in 1856.",,200111,2
+cowdroy,William Cowdroy Jr.,person,press,1775–1831,1820,1839,workbook,"Editor, Manchester Gazette",Member of the Little Circle; contributed to the founding of the Manchester Guardian.,,200106,1
+prentice,Archibald Prentice,person,press,1792–1857,1820,1859,workbook,"Editor, Manchester Times",Member of the Little Circle; radical; financial backer of the Manchester Guardian.,,200108,1
+rscott,Russell Scott,person,press,1801–1880,1820,1889,workbook,Coal merchant & philanthropist,Brother-in-law to John Edward Taylor; invested in the Guardian and became proprietor after Taylor's death.,,200110,2
+sophiataylor,Sophia Russell Taylor,person,arts,1793–1866,,,,Cultural hostess,Wife of John Edward Taylor; hosted cultural salons in Manchester.,,200097,2
+gphilips,Sir George Philips,person,trade,1766–1847,1820,1849,workbook,Financier & MP,"West India merchant and enslaver; partner in Boddington, Sharp and Philips, which owned the Success estate in Hanover, Jamaica. The Guardian backer most deeply linked with slavery.",,200101,3
+tpotter,Thomas Potter,person,trade,1774–1845,1820,1849,workbook,First Mayor of Manchester,Member of the Little Circle. Mayor 1838–40. Connected to transatlantic slavery through the cotton and textile trade.,"Also appears garbled as 200016, 'Thom & Richard Potter'.",200104,4
+rpotter,Richard Potter,person,trade,1778–1842,1820,1849,workbook,MP for Wigan,'Radical Dick'. Little Circle member; manufacturer and dealer in cotton goods; owned a Manchester textile warehouse.,,200105,3
+jpotter,John Potter,person,trade,1773–1838,1820,1839,workbook,Merchant,Host of the Little Circle meetings; father to Thomas and Richard Potter.,,200109,3
+shuttleworth,John Shuttleworth,person,trade,1786–1864,1820,1869,workbook,Industrialist & reformer,"Co-founded Shuttleworth, Taylor & Co., which imported cotton produced by enslaved people from the Sea Islands.",Duplicated as 200014 with the same dates.,200102,2
+gwwood,George William Wood,person,trade,dates missing,,,,Merchant & MP,"Partner in Philips, Wood & Co and Shuttleworth, Taylor & Co. Twice president of the Chamber of Commerce.",No ID and no dates in the workbook.,—,4
+rphilips,Robert Philips,person,trade,dates missing,,,,Merchant,"Cousin of Sir George Philips; partnerships in Philips, Wood & Co and Shuttleworth, Taylor & Co; family ties to the Hibbert and Yates enslaver families.",No ID and no dates in the workbook.,—,6
+baxter,Edward Baxter,person,trade,dates missing,,,,Cotton merchant,Unitarian calico printer and muslin manufacturer; founder-director of the Manchester Savings Bank.,No ID and no dates in the workbook.,—,1
+duckworth,William Duckworth,person,trade,dates missing,,,,Attorney,Unitarian; son-in-law of Robert Philips. Recorded in 1826 supporting the melioration of the enslaved population of the colonies.,No ID and no dates in the workbook.,—,2
+pullein,Samuel Pullein,person,trade,dates missing,,,,Calico printer,Director and trustee of the Manchester Fire and Life Assurance Company.,No ID and no dates in the workbook.,—,1
+sanderson,Thomas BW Sanderson,person,trade,dates missing,,,,Merchant & manufacturer,Dealer in cotton goods and supplies; linked to transatlantic slavery through his business operations.,No ID and no dates in the workbook.,—,1
+tjohnson,Thomas Johnson,person,trade,dates missing,,,,Merchant,Named as a merchant in the original Manchester Guardian loan agreement.,No ID and no dates in the workbook.,—,1
+twilkins,Thomas Wilkins,person,trade,dates missing,,,,Merchant,Named in the Guardian loan agreement; a secondary source lists him as a cotton merchant.,No ID and no dates in the workbook.,—,1
+whitworth,Joseph Whitworth,person,trade,1803–1887,,,,Inventor,Engineer and machine-tool maker; commemorated by statues at the Royal Infirmary.,,200023,2
+mlwhitworth,Mary Louisa Whitworth,person,trade,1823–1896,,,,Philanthropist,Second wife of Joseph Whitworth; inherited and continued his charitable work.,,200096,1
+rylands,John Rylands,person,trade,1801–1888,,,,Merchant,"Married three times; the last to Enriqueta Tennant, eight months after Martha's death.",,200024,2
+erylands,Enriqueta Augustina Rylands,person,trade,1843–1908,,,,Founder & patron,Founded the John Rylands Library in memory of her husband; a major patron of education.,,200040,3
+adamson,Daniel Adamson,person,trade,1820–1890,,,,Ship Canal engineer,"Drove the Manchester Ship Canal, opened 1894.",,200019,0
+murray,Murray brothers,person,trade,various,,,,"Factory owners, Ancoats",Mill owners on Oxford Road and the River Medlock.,,200048,1
+mcconnel,McConnel,person,trade,various,,,,"Factory owners, Ancoats",Mill owners on Oxford Road and the River Medlock.,,200049,1
+kennedy,Kennedy,person,trade,various,,,,"Factory owners, Ancoats",Mill owners on Oxford Road and the River Medlock.,,200050,1
+swatts,S&J Watts,person,trade,various,,,,Warehousemen,Their warehouse is now the Britannia Hotel.,,200058,1
+wfairbairn,William Fairbairn,person,trade,1789–1874,,,,Engineer,Commemorated by statues at the Royal Infirmary.,Spelled 'Fairburn' in the workbook.,200059,1
+tfairbairn,Thomas Fairbairn,person,trade,1823–91,,,,Industrialist & art patron,Commissioner at the Great Exhibition 1851; headed the executive committee of the Art Treasures Exhibition 1857.,ID recorded as 'sw'.,sw,1
+bazley,Thomas Bazley,person,trade,1797–1885,,,,MP,"Charitable work, status and local power.",,200030,0
+jaturner,JA Turner,person,trade,dates unknown,,,,MP,'You need to be local and charitable to get on.' Palmerstonian.,Descriptive note is embedded in the Name field.,200018,0
+callender,William Romaine Callender jnr,person,trade,1825–1876,,,,Merchant,Palmerstonian/conservative.,,200029,0
+holdsworth,William Henry Holdsworth,person,trade,dates unknown,,,,—,"Charitable work, status and local power.",,200031,0
+forwood,Arthur Brown Forwood,person,trade,1836–1898,,,,Liverpool merchant,Pro-slavery supporter.,Descriptive note is embedded in the Name field.,200009,0
+dresser,Henry Dresser,person,trade,1838–1915,,,,Merchant,London-based; broke the cotton embargo.,Name field ends mid-sentence: 'backed by'.,200010,0
+sichel,Julius Sichel,person,trade,1802–1868,,,,Austrian vice-consul,Manchester Museum holds his diaries.,Descriptive note is embedded in the Name field.,200011,1
+mosley,Mosley family,person,trade,various,,,,Lords of the manor,Sold the rights of lord of the manor of Manchester to Manchester Corporation in 1846.,Spelled 'Mosley familu'.,200046,1
+jwilliamson,James Williamson,person,trade,1842–1930,,,,MP,Involved in the Manchester Royal Jubilee Exhibition.,,200025,1
+markphillips,Mark Phillips,person,trade,1800–1873,,,,MP,—,,200033,0
+sirjohnpotter,Sir John Potter,person,trade,1815–1858,,,,—,"Charitable work, status and local power.",,200017,0
+jgroves,James Groves,person,trade,dates unknown,,,,Founder,Salford Lads Club; Groves and Whitnall Breweries.,,200041,2
+wgroves,William Groves,person,trade,dates unknown,,,,Founder,Salford Lads Club; Groves and Whitnall Breweries.,,200042,2
+beardsley,William & Joseph Beardsley,person,trade,19th century,,,,Garden proprietors,"Opened Strawberry Gardens, later Pomona Gardens, in 1845.",ID recorded as 'sw'.,sw,1
+heywood,Benjamin Heywood,person,trade,1793–1865,,,,MP & philanthropist,"Charitable work, status and local power.","Role recorded as 'MP, Philanthropost'.",200020,0
+greg,Greg family,person,trade,various,,,,Campaigners,Anti-slavery.,,200002,0
+lees,Lees family,person,trade,various,,,,Campaigners,Anti-slavery.,,200003,0
+becker,Lydia Becker,person,suff,1827–1890,1860,1899,workbook,Scientist & suffragist,"Won a gold medal in the 1864 botanical competition; founded the Manchester suffrage society and edited the Women's Suffrage Journal. Self-taught scientist, suffrage organiser, editor.",,200068,10
+roper,Esther Roper,person,suff,1868–1938,1890,1909,workbook,Suffragist,Secretary of the Manchester National Society for Women's Suffrage from 1893; recruited working-class women into the movement.,,200084,3
+gorebooth,Eva Gore-Booth,person,suff,1870–1926,1890,1919,workbook,Poet & suffragist,"Partner of Esther Roper; campaigned for women's and workers' rights. Labour, spiritualist, 1890s–1910s.",,200085,4
+pankhurst,Emmeline Pankhurst,person,suff,1858–1928,,,,Suffragette,Elected Poor Law Guardian for Chorlton-on-Medlock in 1894.,,200021,3
+kenney,Annie Kenney,person,suff,1879–1953,1900,1909,workbook,Suffragette,The only working-class woman in a senior leadership position in the WSPU.,,200079,1
+mitchell,Hannah Mitchell,person,suff,1872–1956,1890,1919,workbook,Socialist & suffragette,Involved in the fights for women's suffrage and pacifism.,,200076,1
+ashton,Margaret Ashton,person,suff,1856–1937,1890,1919,workbook,Politician,"First woman city councillor for Manchester, 1908. Pacifist; split from the suffragette movement before the war.",,200077,1
+maxwell,Lily Maxwell,person,suff,c.1800–1876,1840,1869,workbook,Suffragist,"One of the first women to vote, illegally. Connected to the Chorlton v Lings case.",,200062,1
+quaile,Mary Quaile,person,suff,1886–1958,1890,1919,workbook,Trade unionist,"Secretary of the Manchester Women's Trade Union Council. Born in Dublin, grew up in Manchester.",Spelled 'Mary Qualie'; the linked source spells it Quaile.,200078,1
+martyn,Caroline Martyn,person,suff,1867–1896,1890,1899,workbook,Socialist speaker,Worked alongside the Labour leader Keir Hardie. ILP and trade unions.,,200086,1
+ubright,Ursula Mellor Bright,person,suff,1835–1915,,,,Suffragist & activist,Wife of Jacob Bright; campaigner for women's legal and voting rights.,,200099,2
+mbright,Margaret Elizabeth Bright,person,suff,1818–1890,,,,Philanthropist,Second wife of John Bright; active in women's education.,Workbook calls her 'sister to Jacob Bright' — likely sister-in-law. Worth resolving.,200094,2
+fildes,Mary Fildes,person,suff,c.1789–1876,1810,1849,workbook,Reformer,Irish-born president of the Manchester Female Reform Society; led the female reformers' contingent at Peterloo.,,200001,3
+stopes,Marie Stopes,person,suff,1880–1958,,,,Birth control campaigner,—,Active well after the Victorian period; the People sheet has no scope flag.,200039,0
+remond,Sarah Parker Remond,person,reform,1826–1894,1850,1869,workbook,Abolitionist & physician,African-American abolitionist who campaigned in Manchester and delivered speeches at the Athenaeum.,,200066,2
+wolstenholme,Elizabeth Wolstenholme-Elmy,person,suff,—,,,,Suffragist,"Present at the formation of the Manchester Society for Women's Suffrage, 1867, and founder of the Schoolmistresses Association, 1865.",Named in the events sheet; has no People record.,—,2
+rpankhurst,Richard Pankhurst,person,suff,—,,,,Barrister,"Present at the formation of the Manchester Society for Women's Suffrage, 1867.",Named in the events sheet; has no People record.,—,1
+dickenson,Sarah Dickenson,person,suff,—,,,,Trade unionist,"Co-formed the Manchester and Salford Women's Trades Council, 1895.",Named in the events sheet; has no People record.,—,1
+pochin,Agnes Pochin,person,suff,—,,,,Suffrage speaker,"Spoke at the first public meeting at the Free Trade Hall, 1868; her husband, then Mayor of Salford, chaired it.",Named in the events sheet; has no People record.,—,1
+brightmclaren,Priscilla Bright McLaren,person,suff,—,,,,Suffragist,"Spoke at the first public meeting of the Manchester National Society, 1868.",Named in the events sheet; has no People record.,—,1
+butler,Josephine Butler,person,suff,—,,,,Campaigner,Joined the society's new executive committee in October 1868.,Named in the events sheet; has no People record.,—,1
+davies,Emily Davies,person,suff,—,,,,Education campaigner,"Addressed the Manchester Schoolmistresses Board on women's higher education, October 1866.",Named in the events sheet; has no People record.,—,1
+aclough,Anne Clough,person,suff,—,,,,Educationist,"Honorary member of the Manchester Schoolmistresses Association, 1865.",Named in the events sheet; has no People record.,—,1
+robertson,Anne Robertson,person,suff,—,,,,Suffrage speaker,"Spoke at the first public meeting of the society, 1868.",Named in the events sheet; has no People record.,—,1
+sharp,Granville Sharp,person,reform,1735–1813,,,,Campaigner,"Anti-slavery, with Wilberforce in London. Died unmarried in 1813.",Descriptive note is embedded in the Name field.,200005,1
+clarkson,Thomas Clarkson,person,reform,1760–1846,,,,Campaigner,"Quaker abolitionist. Married in 1796; their only child, Thomas, died before his father. Westminster Abbey.",,200006,2
+cclarkson,Catherine Buck Clarkson,person,reform,dates not known,,,,Supporter,Supported her husband's abolitionist work and managed home life during the campaigns.,,200092,1
+jbright,John Bright,person,reform,1811–1889,,,,Campaigner,Free Trade and Liberal. Married Elizabeth Priestman in 1839; she died in 1841. Remarried Margaret Elizabeth Leatham in 1847.,,200012,1
+jacobbright,Jacob Bright,person,reform,1821–1899,,,,—,Husband of Ursula Mellor Bright.,,200032,3
+cobden,Richard Cobden,person,reform,1804–1865,1830,1859,workbook,Supporter & MP,Anti-slavery and Free Trade. Married in 1840; five surviving children. Westminster Abbey.,,200008,1
+ccobden,Catherine Anne Cobden,person,reform,1815–1877,,,,Campaigner,Supported education and published her husband's letters posthumously.,Cobden's own row calls her 'Catherine Anne Williams'; her row calls her Cobden.,200091,1
+engels,Friedrich Engels,person,reform,1820–1895,,,,Socialist,"Had long-term relationships with Mary Burns and later her sister Lydia, but did not marry.",,200035,2
+marx,Karl Marx,person,reform,1818–1883,,,,Socialist,Childhood sweetheart; married in 1843.,,200034,2
+jenny,Jenny von Westphalen Marx,person,reform,1814–1881,,,,Writer & supporter,Born an aristocrat; endured poverty and exile for the socialist cause.,,200093,1
+burns,Mary Burns,person,reform,1821–1863,1840,1869,workbook,Activist,Introduced Engels to Manchester.,,200081,1
+gibson,TM Gibson,person,reform,1803–1889,,,,Supporter,Anti-slavery.,,200007,1
+owen,Robert Owen,person,reform,1771–1858,,,,—,"Charitable work, status and local power.",,200057,0
+watkin,Absalom Watkin,person,reform,1787–1861,1820,1869,workbook,Parliamentary reformer,Member of the Little Circle; supported parliamentary reform; financial backer of the Manchester Guardian.,Duplicated as 200015 with the same dates.,200103,1
+brotherton,Joseph Brotherton,person,reform,1783–1857,1820,1859,workbook,Preacher & MP,Member of the Little Circle; vegetarian; financial backer of the Manchester Guardian. Buried at Weaste Cemetery.,Duplicated as 200037 with the same dates.,200107,6
+martha,Martha Brotherton,person,arts,1782–1861,,,,Writer & reformer,"Author of Vegetable Cookery (1812), the first known vegetarian cookbook; active in the Bible Christian Church.",Also appears as 200038 'Mary Brotherton' with identical dates — almost certainly the same person.,200087,4
+helenb,Helen Brotherton,person,reform,1812–1898,,,,—,Daughter of Martha and Joseph Brotherton; vice-president of the Vegetarian Society; dedicated to charity and reform in Salford.,,200088,3
+waterhouse,Alfred Waterhouse,person,civic,1830–1905,,,,Architect,Designed Manchester Town Hall.,,200045,1
+potts,Edward Potts,person,civic,1839–1909,1870,1899,workbook,Architect,"Designed and built multiple mills, especially in Oldham.","Relationships field reads '2,3,7' — an unresolved cross-reference.",200072,0
+lane,Richard Lane,person,civic,1795–1880,,,,Architect,Redesigned the esplanade outside the Royal Infirmary; campaigning and design for outdoor public spaces.,"Role field contains a description, not a role.",200052,1
+arnout,J Arnout,person,civic,dates unknown,,,,Lithographer,"Lithograph of the Royal Infirmary, 1857.","Role field contains a description, not a role.",200051,1
+heron,Joseph Heron,person,civic,1809–1889,,,,Town Clerk,Led on building the Town Hall to Waterhouse's design.,,200060,1
+fraser,Bishop James Fraser,person,civic,1818–1885,,,,Bishop,Statue in Albert Square.,,200044,0
+dalton,John Dalton,person,civic,1766–1844,,,,Scientist,Statue at the Royal Infirmary.,,200053,1
+watt,James Watt,person,civic,1736–1819,,,,Engineer,Statue at the Royal Infirmary.,,200054,1
+wellington,Duke of Wellington,person,civic,1769–1852,,,,—,Statue in Albert Square.,,200055,0
+peel,Robert Peel,person,civic,1788–1850,,,,Police,Married in 1820; daughter of General Sir John Floyd.,,200036,0
+caminada,Jerome Caminada,person,civic,1844–1914,1860,1889,workbook,Police officer,Dubbed Manchester's Sherlock Holmes. Led a police raid on a cross-dressing ball in Hulme.,,200070,1
+mcaminada,Mary Ellen Caminada,person,civic,dates not known,,,,Homemaker & supporter,Wife of Jerome Caminada; raised the family during his public career. Married 1871.,,200095,1
+stokes,Harry Stokes,person,civic,c.1799–1859,1830,1859,workbook,Constable,Assigned female at birth but lived as a man. Owned a bar on Quay Street.,,200061,0
+henshaw,Thomas Henshaw,person,civic,1731–1810,,,,Founder,Blind Asylum. Disability.,Institution name is embedded in the Name field.,200026,0
+birley,Hugh Hornby Birley,person,civic,1778–1845,,,,Founder,Deaf institute. A leading role in the Peterloo Massacre.,"Role field records the institution, not a role.",200028,1
+pendlebury,John Pendlebury,person,civic,dates unknown,,,,—,—,,200027,0
+cooke,Alice Cooke,person,civic,1867–1940,1880,1899,workbook,Academic,Catalogued the Enriqueta collection; studied at Manchester University.,,200073,1
+foster,Agnes Foster,person,civic,dates unknown,1850,1889,workbook,Salvationist,Co-founder of the Jamaican Salvation Army but lived in Manchester; became a soldier in the Eccles corps.,Spelled 'Jamacian'.,200067,0
+gaskell,Elizabeth Gaskell,person,arts,1810–1865,1830,1869,workbook,Writer & philanthropist,"Wrote novels about industrial Manchester; involved in charities. Liberal, Unitarian, 1830s–1860s.",,200082,5
+bronte,Charlotte Brontë,person,arts,1816–1855,1840,1849,workbook,Writer,Wrote Jane Eyre in Manchester.,,200064,0
+horniman,Annie Horniman,person,arts,1860–1937,1880,1909,workbook,Theatre patron,Founded and managed the Gaiety Theatre. Close friends with W.B. Yeats.,,200074,1
+fanque,Pablo Fanque,person,arts,1810–1871,1840,1869,workbook,Equestrian & circus proprietor,The first recorded non-white British circus owner. Inspired a song by the Beatles.,Note spells it 'Beetles'.,200063,1
+marlaw,Susannah Marlaw,person,arts,c.1815–1848,,,,Performer,Wife of Pablo Fanque; performed in his circus and died when a circus stand collapsed in 1848.,,200098,1
+lala,Miss Lala,person,arts,1858–unknown,1870,1889,workbook,Acrobat,Mixed-race performer in a travelling circus; frequently performed at the Gaiety Theatre.,,200071,1
+rose,Robert Rose,person,arts,dates unknown,1840,1849,workbook,Poet,Born in the West Indies and lived in Salford. Vice-chair of the 'Poets Corner'.,,200065,0
+corkling,Mary Corkling,person,arts,1850–1928,,,,Artist & food campaigner,—,,200022,0
+armitt,Mary Louisa Armitt,person,arts,1851–1911,1851,1911,inferred,Writer & polymath,Born in Salford; contributed to music criticism and ornithology and founded the Armitt Library in Ambleside.,,200089,1
+delaney,Shelagh Delaney,person,arts,1938–2011,1938,2011,inferred,Playwright,"From Broughton, Salford; wrote A Taste of Honey (1958).",Twentieth century; the People sheet carries no scope flag.,200090,0
+wharton,Arthur Wharton,person,arts,1865–1930,1880,1909,workbook,Footballer,The first black professional footballer.,Gender recorded as F; the record and its source describe a man.,200075,0
+peters,James Peters,person,arts,1879–1954,1900,1909,workbook,Rugby player,The first black man to play rugby union for England; remained the only one until 1988.,,200080,0
+isitt,Kate Isitt,person,arts,1910s–1940s active,1910,1949,workbook,Journalist,"Journalist for the Guardian, originally from New Zealand.",No ID and no dates; active well after the Victorian period.,—,0
+litphil,Manchester Literary & Philosophical Society,org,nat,1781,1781,1910,inferred,Learned society,"Lectures and networks linking science, civic culture and industry.",,ORG-REL-001,1
+mechinst,Manchester Mechanics' Institute,org,nat,1824,1824,1910,inferred,Adult education,Self-education and lectures; a bridge between artisan learning and formal institutions. Princess Street.,,ORG-REL-002,2
+mspnh,Manchester Society for the Promotion of Natural History,org,nat,1821,1821,1850,inferred,Society & museum precursor,Formed to display John Leigh Philips's and other private collections; foundational to Manchester Museum.,,ORG-NH-001,3
+mnhs,Manchester Natural History Society,org,nat,19th century,1830,1888,inferred,Natural-history society,Associated with the Peter Street museum; collections later transferred to Owens College.,Formal naming and legal continuity with the 1821 society still to be clarified.,ORG-NH-002,3
+prestwichbs,Prestwich Botanical Society,org,nat,1820,1820,1900,inferred,Working-class botanical society,"Pub-based specimen identification, oral teaching and pooled purchase of books and herbaria.",,ORG-NH-003,3
+ulbs,United Lancashire botanical societies,org,nat,by 1830,1830,1880,inferred,Federated rotating network,Regional meetings linking botanical groups around north Manchester and Lancashire.,"Whether this had a formal name, minutes or membership list is unresolved.",ORG-NH-004,15
+mfns,Manchester Field-Naturalists' Society,org,nat,1860,1860,1910,inferred,Field naturalists' society,Organised excursions and adult natural-history learning; marks the institutionalisation of field science.,,ORG-NH-005,3
+mms,Manchester Microscopical Society,org,nat,1858; refounded 1880,1858,1910,inferred,Microscopical society,"Connected specimen study, instrument use, artisan participation and professional science.",The 1858 and 1880 bodies may not be continuous.,ORG-NH-006,3
+owensmm,Owens College & Manchester Museum,org,nat,1851; museum later,1851,1910,inferred,College and museum,Absorbed and institutionalised collections assembled by local societies and private collectors.,,ORG-NH-007,3
+mes,Manchester Entomological Society,org,nat,1902,1902,1910,inferred,Entomological society,A post-Victorian continuation of Manchester amateur entomology and museum contribution.,Flagged post-Victorian in the workbook.,ORG-NH-008,0
+mcs,Manchester Cryptogamic Society,org,nat,19th century,1850,1900,inferred,Specialist botanical society,"Potential link between moss, liverwort, fern and fungus specialists and the herbarium.",Foundation date and formal name unconfirmed.,ORG-NH-009,2
+msb,Manchester Society of Botanists,org,nat,early 19th century,1800,1850,inferred,Informal working-class network,"A loose grouping with no regular meeting place, funds, books or rules, united by an interest in plants.",Informal: recorded so it is not mistaken for a formal body.,ORG-NH-010,2
+bbes,Bury Botanical & Entomological Society,org,nat,by 1830,1830,1880,inferred,Botanical & entomological society,A potential connection between botany and entomology in the wider artisan network.,"Date, membership and relationship to Prestwich unconfirmed.",ORG-NH-011,1
+guardian,Manchester Guardian,org,press,1821,1821,1910,inferred,Newspaper,Founded by John Edward Taylor and financed by a circle of Manchester merchants and reformers.,,—,13
+littlecircle,The Little Circle,org,press,1810s–1820s,1815,1830,inferred,Reform discussion group,Met at John Potter's house; its members contributed to the founding of the Manchester Guardian.,,—,9
+philipswood,"Philips, Wood & Co",org,trade,early 19th century,1800,1845,inferred,Hat-making firm,Strong links to enslaved labour in Brazil.,,—,3
+shuttleworthtaylor,"Shuttleworth, Taylor & Co",org,trade,early 19th century,1810,1855,inferred,Cotton firm,Imported cotton produced by enslaved people from the Sea Islands region of the United States.,,—,4
+arttreasures,Art Treasures Exhibition,org,arts,1857,1857,1857,inferred,Exhibition,Held at Old Trafford; the collection later dispersed to Manchester Art Gallery and the Whitworth.,,—,1
+mnsws,Manchester National Society for Women's Suffrage,org,suff,1867,1867,1910,inferred,Suffrage society,One of the first formal suffrage organisations in the UK; published the Women's Suffrage Journal.,,—,11
+nesws,North of England Society for Women's Suffrage,org,suff,1890s,1890,1910,inferred,Suffrage society,Focused on women's labour rights.,,—,2
+mswtc,Manchester & Salford Women's Trades Council,org,suff,1895,1895,1910,inferred,Labour organisation,Encouraged women's participation in trade unions; later intersected with suffrage.,,—,3
+wspu,Women's Social & Political Union,org,suff,1903,1903,1910,inferred,Militant suffrage organisation,—,,—,2
+ilp,Independent Labour Party,org,suff,1893,1893,1910,inferred,Political party,Socialism and trade unionism.,,—,2
+mfrs,Manchester Female Reform Society,org,suff,1819,1819,1835,inferred,Reform society,Mary Fildes was president; the society's contingent marched at Peterloo.,,—,1
+schoolmistresses,Manchester Schoolmistresses Association,org,suff,1865,1865,1885,inferred,Professional association,Supported women teachers and advocated for gender equity in education.,,—,3
+lea,Ladies' Educational Association,org,suff,1865,1865,1895,inferred,Education body,Pushed for women's access to higher education; a precursor to university inclusion.,,—,1
+abolitionsoc,Society for Effecting the Abolition of Slavery,org,reform,1787,1787,1840,inferred,Abolition society,—,,—,2
+unionemanc,Union and Emancipation Society,org,reform,1863,1863,1870,inferred,Anti-slavery society,Campaigned against slavery and for working-class rights during the US Civil War.,,—,2
+vegsoc,Vegetarian Society,org,reform,1847,1847,1910,inferred,Campaigning society,Founded in Salford.,,—,2
+biblechristian,Bible Christian Church,org,reform,1809,1809,1910,inferred,Church,"Promoted vegetarianism, temperance and social reform; a significant Salford presence.",,—,2
+corporation,Manchester Corporation,org,civic,1838,1838,1910,inferred,Municipal government,Established under the Municipal Corporations Act; the start of modern local government.,,—,2
+statsoc,Manchester Statistical Society,org,civic,1833,1833,1910,inferred,Research society,One of the world's oldest statistical societies; supported reform with evidence.,,—,0
+athenaeum,Manchester Athenaeum,org,civic,1837,1837,1910,inferred,Cultural & educational body,"A venue for literary, scientific and political debate among gentlemen merchants.",,—,1
+guardianscm,Chorlton-on-Medlock Board of Guardians,org,civic,c.1834,1834,1910,inferred,Poor Law governance,Managed workhouses and relief.,,—,1
+crossstreet,Cross Street Chapel,org,reform,rebuilt 1869,1800,1910,inferred,Unitarian chapel,"A Unitarian hub advocating women's education, abolition and suffrage.",,—,1
+kersal,Kersal Moor,place,nat,1820s onward,1820,1900,inferred,Collecting landscape,Site of Buxton and Horsefield's meeting and of the Manchester moth discovery. Salford.,,PL-NH-001,4
+mereclough,Mere Clough,place,nat,19th century,1800,1900,inferred,Clough / field site,An important botanical field site associated with John Horsefield and local rare plants. Prestwich.,,PL-NH-002,2
+agecroft,Agecroft & the Irwell Valley,place,nat,19th century,1800,1900,inferred,River valley,A collecting and walking landscape used to remember artisan naturalists and local geological change.,,PL-NH-003,1
+besses,Besses o' th' Barn / Whitefield,place,nat,early–mid 19th c.,1800,1860,inferred,Home & working landscape,"Horsefield's home and weaving base, close to the Prestwich botanical network. Bury.",,PL-NH-004,2
+goldenlion,Golden Lion,place,nat,19th century,1800,1900,inferred,Pub / meeting place,Remembered by Grindon as a site of vigorous botanical discussion.,"Which Golden Lion, and when meetings occurred, is unresolved.",PL-NH-005,3
+prestwich,Prestwich,place,nat,19th century,1800,1900,inferred,Township & network centre,The institutional and landscape centre of working-class botanical organisation.,,PL-NH-006,3
+chatmoss,Chat Moss,place,nat,19th century,1800,1900,inferred,Mossland,"A major mossland, both a natural-history site and a landscape transformed by infrastructure and agriculture.",,PL-NH-007,1
+carringtonmoss,Carrington Moss,place,nat,19th century,1800,1900,inferred,Mossland,One of the extensive mosses identified by Grindon around Manchester. Trafford.,,PL-NH-008,1
+ashtonmoss,Ashton Moss,place,nat,19th century,1800,1900,inferred,Mossland,Former mossland increasingly brought under cultivation during the Victorian period. Tameside.,,PL-NH-009,2
+cotterill,Cotterill Clough,place,nat,19th century,1800,1900,inferred,Collecting site,A celebrated collecting place for unusual plants within the naturalists' excursion geography.,,PL-NH-012,1
+peterst,Peter Street Natural History Museum,place,nat,opened 1835,1835,1888,inferred,Museum building,The first major public home of the Natural History Society's collections.,,PL-NH-013,3
+peelpark,Peel Park Museum,place,nat,mid-19th century,1850,1900,inferred,Museum,A neighbouring municipal museum referenced in Grindon's regional writing. Salford.,,PL-NH-014,1
+manmuseum,"Manchester Museum, Oxford Road",place,nat,public opening 1888,1888,1910,inferred,Museum / university,"The institutional destination for society, private and artisan natural-history collections.",,PL-NH-015,10
+herbarium,Manchester Museum Herbarium,place,nat,19th–20th century,1860,1910,inferred,Collection space,"Destination for major personal herbaria and smaller collections, including those of incompletely identified women collectors.",,PL-NH-016,13
+pomona,Pomona Gardens,place,arts,1845 onward,1845,1900,inferred,Commercial garden,"Opened as Strawberry Gardens; connects horticulture, leisure and urban development.",,PL-NH-017,1
+chorltonmedlock,Chorlton-on-Medlock,place,nat,19th century,1800,1910,inferred,Residential & educational district,"Grindon's home area and the location of medical, educational and museum institutions.",,PL-NH-018,1
+shudehill,Shudehill workshop,place,nat,early 19th century,1800,1850,inferred,Workplace & informal science site,An example of natural history practised alongside manual work rather than in a formal institution.,,PL-NH-019,1
+rsm,Manchester Royal School of Medicine,place,nat,19th century,1824,1880,inferred,Educational institution,Grindon lectured in botany here from 1852 until its absorption into Owens College.,,PL-NH-021,1
+irwell,River Irwell,place,nat,19th century,1800,1910,inferred,River system,"Connects industrial pollution, urban growth, river valleys and naturalists' observations.",,PL-NH-022,1
+townhall,Manchester Town Hall,place,civic,1877,1877,1910,inferred,Civic building,"Used for public lectures, suffrage meetings and civic ceremonies.",,—,4
+freetradehall,Free Trade Hall,place,suff,1853,1853,1910,inferred,Public hall,Hosted major speeches including suffrage and labour activism.,,—,4
+portico,Portico Library,place,arts,1806,1806,1910,inferred,Library,A space where women's writing and lectures took place.,,—,2
+chethams,Chetham's Library,place,arts,1653,1800,1910,inferred,Library,A hub for radical and literary activity that supported women's access.,,—,2
+plymouthgrove,84 Plymouth Grove,place,arts,1850,1850,1910,inferred,House,"A salon space for writers, social reformers and women thinkers.",,—,1
+stpeters,St Peter's Field,place,suff,1819,1819,1819,inferred,Public ground,"Site of the Peterloo Massacre, now St Peter's Square.",,—,2
+gaiety,Gaiety Theatre,place,arts,19th century,1880,1910,inferred,Theatre,Founded and managed by Annie Horniman.,,—,2
+rylandslib,John Rylands Library,place,arts,1899,1899,1910,inferred,Library,Funded by Enriqueta Rylands in memory of her husband; a rare example of female-led civic philanthropy.,,—,1
+salfordlads,Salford Lads Club,place,arts,1903,1903,1910,inferred,Youth club,Founded by the Groves brothers of Groves and Whitnall Breweries.,,—,2
+mri,Manchester Royal Infirmary,place,civic,1752,1800,1910,inferred,Hospital,"Its esplanade carried statues of Dalton, Watt, Whitworth and Fairbairn.",,—,6
+ancoats,Ancoats,place,trade,late 18th c. onward,1780,1910,inferred,Mill district,Mills on Oxford Road and the River Medlock.,,—,4
+pankhurstcentre,62 Nelson Street,place,suff,1840s house,1840,1910,inferred,House,Home of Emmeline Pankhurst; the birthplace of the suffragette movement.,,—,1
+weaste,Weaste Cemetery,place,reform,1857,1857,1910,inferred,Cemetery,Final resting place of Joseph and Martha Brotherton.,,—,2
+athenaeumbld,"Athenaeum, Princess Street",place,civic,1837–39,1837,1910,inferred,Building,"Venue for literary, scientific and political debate.",,—,0
