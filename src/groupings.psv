@@ -1,0 +1,25 @@
+# The People sheet's Category column is already a grouping: dozens of records carry the
+# same value. Each row here turns one of those values into a node, so the grouping the
+# spreadsheet already makes becomes something you can see and argue with. A person joins
+# the group when the phrase appears in their Category cell, so someone filed under
+# "Anti Slavery, Free Trade/Liberals" joins both.
+# Artisan botany is deliberately absent: those records are already joined by the societies
+# they belonged to, and a second hub would only thicken what is there.
+# category phrase|node id|node name|field
+Anti Slavery|COL-011|Anti-slavery campaigning|reform
+Anti-slavery|COL-011|Anti-slavery campaigning|reform
+Pro slavery|COL-012|Pro-slavery interests|trade
+Free Trade/Liberals|COL-013|Free trade and Liberalism|reform
+Free Trade|COL-013|Free trade and Liberalism|reform
+Palmerstonians/conservatives|COL-014|Palmerstonian conservatism|civic
+Charitable work, status and local power|COL-015|Charitable work, status and local power|civic
+Journalism|COL-016|Journalism|press
+Journalist|COL-016|Journalism|press
+Politics|COL-017|Elected politics and local power|civic
+Industry|COL-018|Industry and manufacture|trade
+Disability|COL-019|Provision for blind and disabled people|civic
+Museum collections|COL-020|Museum collections|nat
+Manchester Royal Jubilee Exhibition|COL-021|Manchester Royal Jubilee Exhibition, 1887|arts
+Circus|COL-022|Circus and popular performance|arts
+Performing Arts|COL-022|Circus and popular performance|arts
+Socialism|COL-023|Socialism and the labour movement|reform

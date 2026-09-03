@@ -302,8 +302,8 @@ td.narrow{width:110px} td.mid{width:180px} td.wide{width:300px} td.tiny{width:66
       <div class="sect">
         <h2>Strength of evidence<button class="all" data-all="ev">all</button></h2>
         <div class="chips" id="evToggles"></div>
-        <p class="hint">Dashed links the workbook flags as unconfirmed; dotted ones are
-          hypotheses it offers for testing.</p>
+        <p class="hint">Solid where a record states it. Dashed where it is flagged as
+          still to be confirmed. Dotted where it is a reading offered for testing.</p>
       </div>
       <div class="sect">
         <h2>Research status<button class="all" data-all="status">all</button></h2>
@@ -312,16 +312,16 @@ td.narrow{width:110px} td.mid{width:180px} td.wide{width:300px} td.tiny{width:66
       <div class="sect">
         <h2>Priority<button class="all" data-all="priority">all</button></h2>
         <div class="chips" id="priorityChips"></div>
-        <p class="hint">The workbook&rsquo;s own ranking of what to research next. Turn
-          <em>Context</em> off to drop the 104 background rows &mdash; mostly buildings and
-          national timeline entries &mdash; and leave the network it wants argued about.</p>
+        <p class="hint">The collection&rsquo;s own ranking of what to look at next. Turn
+          <em>Context</em> off to drop the background rows &mdash; buildings, national
+          timeline entries and the headings the Category column makes.</p>
       </div>
       <div class="sect">
-        <h2>Open tasks</h2>
+        <h2>Loose ends</h2>
         <button class="pushbtn" id="isoBtn">Nothing linked to it<span class="n" id="isoN">0</span></button>
         <button class="pushbtn" id="ghostBtn">Named, but no record<span class="n" id="ghostN">0</span></button>
-        <button class="pushbtn" id="dupBtn">Duplicates to decide<span class="n" id="dupN">0</span></button>
-        <button class="pushbtn" id="qcBtn">Carries a QC flag<span class="n" id="qcN">0</span></button>
+        <button class="pushbtn" id="mergedBtn">Absorbed a duplicate<span class="n" id="mergedN">0</span></button>
+        <button class="pushbtn" id="qcBtn">Carries a data flag<span class="n" id="qcN">0</span></button>
       </div>
     </aside>
 
@@ -338,7 +338,7 @@ td.narrow{width:110px} td.mid{width:180px} td.wide{width:300px} td.tiny{width:66
           <i><svg width="14" height="10" aria-hidden="true"><rect x="1" y="1" width="8" height="8" rx="1.5" fill="currentColor"/></svg>society</i>
           <i><svg width="14" height="12" aria-hidden="true"><path d="M5.5 0.5 L10.5 5.5 L5.5 10.5 L0.5 5.5 Z" fill="currentColor"/></svg>place</i>
           <i><svg width="14" height="11" aria-hidden="true"><path d="M5.5 0.5 L10.5 9.5 L0.5 9.5 Z" fill="currentColor"/></svg>event</i>
-          <i>hollow = no record of its own</i>
+          <i>hollow = named, not a record of its own</i>
         </div>
       </div>
 

@@ -34,3 +34,4 @@ GH-NESWS|North of England Society for Women's Suffrage|org|suff|ghost|Named in E
 COL-009|The Little Circle|org|press|derived|Not a sheet row: the group named in the Notes column of eight People records as the circle that founded and financed the Manchester Guardian. Made a node so the claim is visible and testable.
 PL-GUARDIAN|Manchester Guardian HQ|place|press|derived|Not a sheet row: the value the workbook puts in the BUILDING column for twelve People records. Made a node so that column becomes visible as a network.
 PL-ARTTREASURES|Art Treasures Exhibition, Old Trafford|place|arts|derived|Not a sheet row: the value the workbook puts in the BUILDING column for Thomas Fairbairn, who chaired its executive committee in 1857.
+PL-GAIETY|Gaiety Theatre, Manchester|place|arts|derived|Not a sheet row: the theatre two People records name in their own text - the one Annie Horniman founded and managed, and the one Miss Lala performed in.

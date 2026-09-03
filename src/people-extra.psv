@@ -2,7 +2,7 @@
 # Anything not listed here takes the default: status=existing, priority=existing,
 # recordType=Person, sourceId=id.
 # keys: politics religion building specialism background knowledgeRole collections
-#       destination status priority sourceUrl workshopNote qcFlag recordType sourceId
+#       destination status priority sourceUrl openQuestion qcFlag recordType sourceId
 #       idStatus dupStatus dupGroup keeperId action dupReason
 
 # ---- politics / religion / building (the Manchester Guardian set) ----
@@ -151,11 +151,11 @@ VM-ADD-012|action|KEEP - ID FIXED
 VM-ADD-012|dupReason|The source ID sw was reused for three different records. A unique VM-ADD ID has been assigned; this is not evidence that the people are duplicates.
 
 # ---- QC flags carried from the workbook ----
-200045|qcFlag|FIRST NAME MISSING
-200050|qcFlag|FIRST NAME MISSING
-200049|qcFlag|FIRST NAME MISSING
-200035|qcFlag|FIRST NAME MISSING
-NH-027|qcFlag|FIRST NAME MISSING
+200045|qcFlag|First name missing in the source. Supplied here as Alfred Waterhouse, architect of the town hall the record names.
+200050|qcFlag|First name missing in the source. Supplied here as John Kennedy, of the Ancoats firm McConnel & Kennedy - check before relying on it.
+200049|qcFlag|First name missing in the source. Supplied here as James McConnel, of the Ancoats firm McConnel & Kennedy - check before relying on it.
+200035|qcFlag|First name missing in the source. Supplied here as Friedrich Engels.
+NH-027|qcFlag|First name missing in the source, and not recoverable from it.
 200075|qcFlag|Gender recorded as F for Arthur Wharton - check against the source
 
 # ---- scientific specialism / background / knowledge role ----
@@ -223,123 +223,123 @@ NH-028|specialism|Pteridology / ferns
 NH-028|background|Unknown
 NH-028|knowledgeRole|Collector
 
-# ---- collections, destinations, research status, priority, workshop notes ----
+# ---- collections, destinations, research status, priority, open questions ----
 200069|collections|Manchester Ladies' Literary Society activity
 200069|status|Existing - enriched
 200069|priority|High
 200069|sourceUrl|https://gaskellsociety.co.uk/event/rosa-grindon/
-200069|workshopNote|Connect Rosa to Leo Grindon's household/intellectual network and Lydia Becker's women's literary organisation.
+200069|openQuestion|Connect Rosa to Leo Grindon's household/intellectual network and Lydia Becker's women's literary organisation.
 200068|collections|Herbarium specimens from the 1864 Botanical Competition
 200068|destination|Manchester Museum Herbarium
 200068|status|Existing - enriched
 200068|priority|Essential
 200068|sourceUrl|@bot
-200068|workshopNote|Make the link botany to exclusion from formal science to women's intellectual organisation to suffrage explicit.
+200068|openQuestion|Make the link botany to exclusion from formal science to women's intellectual organisation to suffrage explicit.
 200089|collections|Ornithological work; Armitt Library
 200089|destination|Armitt Library, Ambleside
 200089|status|Existing - enriched
 200089|priority|High
-200089|workshopNote|Broader natural-history connector rather than a core botany/entomology figure; add a source during verification.
+200089|openQuestion|Broader natural-history connector rather than a core botany/entomology figure; add a source during verification.
 VM-ADD-011|collections|Manchester Flora; Country Rambles; teaching herbarium; field excursions
 VM-ADD-011|destination|Manchester Museum Herbarium
 VM-ADD-011|status|Existing - enriched
 VM-ADD-011|priority|Essential
 VM-ADD-011|sourceUrl|@exeter
-VM-ADD-011|workshopNote|Connect Grindon to Lydia Becker, Joseph Sidebotham, local artisan botanists and the Field-Naturalists' Society.
+VM-ADD-011|openQuestion|Connect Grindon to Lydia Becker, Joseph Sidebotham, local artisan botanists and the Field-Naturalists' Society.
 NH-001|collections|A Botanical Guide... (1849); moss collections with John Nowell
 NH-001|destination|Manchester Museum Herbarium
 NH-001|status|Researched addition
 NH-001|priority|Essential
 NH-001|sourceUrl|@sage
-NH-001|workshopNote|Ask who introduced Buxton to other botanists and how his knowledge circulated.
+NH-001|openQuestion|Ask who introduced Buxton to other botanists and how his knowledge circulated.
 NH-002|collections|Society meetings; shared books and herbaria; Narcissus 'Horsfieldii'
 NH-002|status|Researched addition
 NH-002|priority|Essential
 NH-002|sourceUrl|@he1406
-NH-002|workshopNote|Capture pub meeting sites, book-pooling practices and his links to Peterloo/radical culture.
+NH-002|openQuestion|Capture pub meeting sites, book-pooling practices and his links to Peterloo/radical culture.
 NH-003|collections|British mosses and hepatics; Musci Britannici material
 NH-003|destination|Manchester Museum Herbarium
 NH-003|status|Researched addition
 NH-003|priority|Essential
 NH-003|sourceUrl|@herb
-NH-003|workshopNote|Verify occupation, society memberships and direct relationships.
+NH-003|openQuestion|Verify occupation, society memberships and direct relationships.
 NH-004|collections|Lepidoptera and wider natural-history collections; microscopy; photography
 NH-004|destination|Manchester Museum
 NH-004|status|Researched addition
 NH-004|priority|Essential
 NH-004|sourceUrl|@eup
-NH-004|workshopNote|A key bridge between industrial wealth, technology, collecting and civic science.
+NH-004|openQuestion|A key bridge between industrial wealth, technology, collecting and civic science.
 NH-005|collections|Private natural-history and insect collections
 NH-005|destination|Manchester Society for the Promotion of Natural History; Manchester Museum
 NH-005|status|Researched addition
 NH-005|priority|Essential
 NH-005|sourceUrl|@mma
-NH-005|workshopNote|Note a date discrepancy: one current University webpage states 1761-1841; the Museum archive and scholarship give 1761-1814.
+NH-005|openQuestion|Note a date discrepancy: one current University webpage states 1761-1841; the Museum archive and scholarship give 1761-1814.
 NH-006|collections|Manchester moth specimens
 NH-006|destination|Manchester Museum and other museums
 NH-006|status|Researched addition
 NH-006|priority|Essential
 NH-006|sourceUrl|@ent
-NH-006|workshopNote|Verify the chain Cribb to Wood to Curtis and record conflicting versions rather than collapsing them.
+NH-006|openQuestion|Verify the chain Cribb to Wood to Curtis and record conflicting versions rather than collapsing them.
 NH-007|collections|Manchester moth specimen and correspondence/identification chain
 NH-007|status|Workshop candidate - verify
 NH-007|priority|Essential
 NH-007|sourceUrl|@ent
-NH-007|workshopNote|Confirm full name, occupation and precise handling of Cribb's specimens.
+NH-007|openQuestion|Confirm full name, occupation and precise handling of Cribb's specimens.
 NH-008|collections|Hepaticae Britannicae exsiccatae and herbarium material
 NH-008|destination|Manchester Museum Herbarium
 NH-008|status|Researched addition
 NH-008|priority|High
 NH-008|sourceUrl|@bal
-NH-008|workshopNote|Map his medical, microscopical and herbarium relationships.
+NH-008|openQuestion|Map his medical, microscopical and herbarium relationships.
 NH-009|collections|Large British and European herbarium
 NH-009|destination|Manchester Museum Herbarium (1917)
 NH-009|status|Researched addition
 NH-009|priority|High
 NH-009|sourceUrl|@herb
-NH-009|workshopNote|Trace how the collection was financed, organised and transferred.
+NH-009|openQuestion|Trace how the collection was financed, organised and transferred.
 NH-010|collections|General herbarium
 NH-010|destination|Manchester Museum Herbarium (1904)
 NH-010|status|Researched addition
 NH-010|priority|High
 NH-010|sourceUrl|@herb
-NH-010|workshopNote|Investigate commercial, imperial and specimen-supply networks.
+NH-010|openQuestion|Investigate commercial, imperial and specimen-supply networks.
 NH-011|collections|British ferns, algae and allied plants
 NH-011|destination|Manchester Museum Herbarium
 NH-011|status|Workshop candidate - verify
 NH-011|priority|High
 NH-011|sourceUrl|@herb
-NH-011|workshopNote|Confirm dates, occupation and whether inclusion should be person-based or network-based.
+NH-011|openQuestion|Confirm dates, occupation and whether inclusion should be person-based or network-based.
 NH-012|collections|Fasciculus of British Mosses with Richard Buxton
 NH-012|destination|Manchester Museum Herbarium
 NH-012|status|Workshop candidate - verify
 NH-012|priority|High
 NH-012|sourceUrl|@herb
-NH-012|workshopNote|Confirm biography and Greater Manchester connection.
+NH-012|openQuestion|Confirm biography and Greater Manchester connection.
 NH-013|status|Workshop candidate - verify
 NH-013|priority|High
 NH-013|sourceUrl|@gut
-NH-013|workshopNote|Identify occupation, full dates and specimens/publications.
+NH-013|openQuestion|Identify occupation, full dates and specimens/publications.
 NH-014|status|Workshop candidate - verify
 NH-014|priority|High
 NH-014|sourceUrl|@gut
-NH-014|workshopNote|Clarify Banksian, occupation and meeting circuit.
+NH-014|openQuestion|Clarify Banksian, occupation and meeting circuit.
 NH-015|status|Workshop candidate - verify
 NH-015|priority|Investigate
 NH-015|sourceUrl|@eup
-NH-015|workshopNote|Confirm identity, dates, specialism and relationship to Joseph Sidebotham.
-NH-020|workshopNote|Confirm which Newton and find full identity.
-NH-025|workshopNote|Verify spelling and full identity.
-NH-026|workshopNote|Disambiguate from other John Turners.
+NH-015|openQuestion|Confirm identity, dates, specialism and relationship to Joseph Sidebotham.
+NH-020|openQuestion|Confirm which Newton and find full identity.
+NH-025|openQuestion|Verify spelling and full identity.
+NH-026|openQuestion|Disambiguate from other John Turners.
 NH-027|collections|Herbarium sheets dated 1879-1881
 NH-027|destination|Manchester Museum Herbarium
 NH-027|status|Workshop candidate - verify
 NH-027|priority|Investigate
 NH-027|sourceUrl|@herb
-NH-027|workshopNote|Recover full name, biography and collecting locations.
+NH-027|openQuestion|Recover full name, biography and collecting locations.
 NH-028|collections|Darjeeling ferns
 NH-028|destination|Manchester Museum Herbarium
 NH-028|status|Workshop candidate - verify
 NH-028|priority|Investigate
 NH-028|sourceUrl|@herb
-NH-028|workshopNote|Identify the collector and the intermediaries through whom specimens reached Manchester.
+NH-028|openQuestion|Identify the collector and the intermediaries through whom specimens reached Manchester.

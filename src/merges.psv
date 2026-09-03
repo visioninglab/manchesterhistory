@@ -1,0 +1,15 @@
+# Records that are the same thing twice. The first id is dropped; every link that
+# pointed at it is re-pointed at the second, and any field the survivor leaves empty is
+# filled from the record being dropped. The survivor keeps a "mergedFrom" note so the
+# merge stays visible rather than silently disappearing.
+# dropped|kept|reason
+200013|200100|Duplicate Review DUP-001. Two records for John Edward Taylor, founder of the Manchester Guardian; 200100 is the fuller record and the workbook names it as the one to keep.
+200014|200102|Duplicate Review DUP-002. Two records for John Shuttleworth; the workbook found no unique fields on 200014.
+200015|200103|Duplicate Review DUP-003. Two records for Absalom Watkin; the workbook found no unique fields on 200015.
+200037|200107|Duplicate Review DUP-004. Two records for Joseph Brotherton; the workbook asked for the spouse and Salford connection to be merged into 200107 first.
+200016|200104|Duplicate Review DUP-005. A composite row covering both Potter brothers. Thomas Potter keeps this record's fields; Richard Potter has his own record at 200105.
+200017|200109|Sir John Potter, mayor of Manchester and son of Thomas Potter, held two records. Found here rather than in the workbook's own duplicate review.
+PL-BASE-061|PL-BASE-002|Two records for the Manchester Royal Infirmary. Found here rather than in the workbook's own duplicate review.
+PL-BASE-017|PL-BASE-042|A bare "Cathedral" record duplicating Manchester Cathedral. Found here rather than in the workbook's own duplicate review.
+PL-BASE-028|PL-BASE-027|Two records for the Co-operative Wholesale Society building on Balloon Street. Found here rather than in the workbook's own duplicate review.
+PL-BASE-055|PL-BASE-007|"Shops (e.g., Market Street)" duplicates the Market Street record. Found here rather than in the workbook's own duplicate review.

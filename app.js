@@ -49,7 +49,7 @@
 
   /* ---------------- model ---------------- */
   let nodes = [], links = [], byId = new Map(), adj = new Map();
-  let isolates = [], ghostList = [], dupList = [], qcList = [];
+  let isolates = [], ghostList = [], mergedList = [], qcList = [];
   let hist = [];
   const pos = new Map();
 
@@ -119,7 +119,7 @@
 
     isolates = nodes.filter(n => n.deg === 0);
     ghostList = nodes.filter(n => n.kindOf === "ghost");
-    dupList = nodes.filter(n => has(n, "dupStatus"));
+    mergedList = nodes.filter(n => has(n, "mergedFrom"));
     qcList = nodes.filter(n => has(n, "qcFlag"));
 
     hist = [];
@@ -156,7 +156,7 @@
   const GAPS = {
     iso: n => n.deg === 0,
     ghost: n => n.kindOf === "ghost",
-    dup: n => has(n, "dupStatus"),
+    merged: n => has(n, "mergedFrom"),
     qc: n => has(n, "qcFlag")
   };
 
@@ -210,7 +210,7 @@
     symbol.type(SHAPE[d.type] || d3.symbolCircle);
     return symbol();
   }
-  const DASH = { ghost: "2 2", collective: "4 2", derived: "1 2" };
+  const DASH = { ghost: "2 2", collective: "4 2", grouping: "4 2", derived: "1 2" };
 
   let linkSel, nodeSel, textSel, lastShape = [-1, -1];
 
@@ -362,7 +362,7 @@
     document.getElementById("t-todo").textContent = vn.filter(n => n.status === "verify").length;
     document.getElementById("isoN").textContent = isolates.length;
     document.getElementById("ghostN").textContent = ghostList.length;
-    document.getElementById("dupN").textContent = dupList.length;
+    document.getElementById("mergedN").textContent = mergedList.length;
     document.getElementById("qcN").textContent = qcList.length;
   }
 
@@ -409,11 +409,13 @@
         nodes.filter(n => n.type === "event").length + ' dated events. ' +
         relCount + ' of the ' + links.length + ' links come from the workbook’s own ' +
         'Relationships sheet, which names the relationship and rates its evidence; the rest ' +
-        'are read out of its Connected people, Key figures and Building columns.</p>' +
+        'are read out of its Connected people, Key figures, Category and Building columns, '
+        + 'or were added in cleaning where a record named something the collection holds.</p>' +
       '</div>' +
       '<div class="sect"><h2>Evidence</h2>' + evRows + '</div>' +
       '<div class="sect"><h2>Research status</h2>' + stRows +
-        '<p class="hint">Workshop candidates are the to-do list. Filter to them on the left.</p></div>' +
+        '<p class="hint">Rows marked <em>Needs checking</em> are the ones still to be confirmed. '
+        + 'Filter to them on the left.</p></div>' +
       '<div class="sect"><h2>Who bridges the most fields</h2>' +
         '<p class="hint">People whose links reach across the most fields of activity — ' +
         'the candidates for how knowledge actually travelled.</p><ul class="brokers">' +
@@ -421,11 +423,13 @@
           [...b.n.fields].map(f => '<i style="background:' + cssvar(f) + '"></i>').join("") +
           '</span><span>' + esc(b.n.label) + '</span><span class="n">' + b.f +
           '</span></button></li>').join("") + '</ul></div>' +
-      '<div class="sect"><h2>Open tasks</h2><p class="pnote">' +
-        isolates.length + ' records have nothing linked to them yet. ' +
-        ghostList.length + ' people are named by the workbook but have no record of their own. ' +
-        dupList.length + ' rows carry a duplicate decision, and ' +
-        qcList.length + ' carry a QC flag. Each is a button on the left.</p></div>' +
+      '<div class="sect"><h2>Loose ends</h2><p class="pnote">' +
+        (isolates.length
+          ? isolates.length + ' records still have nothing linked to them. '
+          : 'Every record is joined to at least one other. ') +
+        ghostList.length + ' people are named by the collection but have no record of their own, ' +
+        mergedList.length + ' records absorbed a duplicate, and ' +
+        qcList.length + ' carry a data flag. Each is a button on the left.</p></div>' +
       (typeof META !== "undefined" && META.unresolved && META.unresolved.length
         ? '<div class="sect"><h2>Did not resolve</h2><p class="hint">Text the workbook puts ' +
           'in a connection column that matches no record, so no line is drawn: ' +
@@ -445,7 +449,7 @@
     ["connectedOrgs", "Connected organisations"], ["connectedPlaces", "Places"],
     ["keyPlaces", "Key places"], ["relationships", "Relationships column"],
     ["spouse", "Relationship column"], ["scope", "Scope"],
-    ["recordType", "Record type"], ["idStatus", "ID status"], ["sourceId", "Workbook ID"]
+    ["recordType", "Record type"], ["idStatus", "ID status"], ["sourceId", "Source ID"], ["mergedFrom", "Absorbed"]
   ];
 
   function renderNode(n) {
@@ -464,11 +468,11 @@
     const badges = [];
     if (n.kindOf === "ghost") badges.push('<span class="badge hot">named, no record</span>');
     if (n.kindOf === "collective") badges.push('<span class="badge">a group, not a person</span>');
+    if (n.kindOf === "grouping") badges.push('<span class="badge">a heading, not a record</span>');
     if (n.kindOf === "derived") badges.push('<span class="badge">from a column, not a row</span>');
     if (n.status === "verify") badges.push('<span class="badge hot">to verify</span>');
     if (n.priority === "essential") badges.push('<span class="badge go">essential</span>');
-    if (has(n, "dupStatus")) badges.push('<span class="badge hot">' +
-      esc(n.dupGroup || "duplicate") + '</span>');
+    if (has(n, "mergedFrom")) badges.push('<span class="badge">merged</span>');
 
     const meta = ROWS.filter(r => has(n, r[0]))
       .map(r => '<dt>' + esc(r[1]) + '</dt><dd>' + esc(n[r[0]]) + '</dd>').join("");
@@ -486,13 +490,11 @@
       '</div>' +
       (badges.length ? '<div class="badges">' + badges.join("") + '</div>' : "") +
       (has(n, "note") && n.note !== n.role ? '<p class="pnote">' + esc(n.note) + '</p>' : "") +
-      (has(n, "dupStatus") ? '<p class="flag"><b>' + esc(n.dupStatus) +
-        (has(n, "action") ? " · " + esc(n.action) : "") + '</b>' +
-        esc(n.dupReason || "") +
-        (has(n, "keeperId") ? " Record to keep: " + esc(n.keeperId) + "." : "") + '</p>' : "") +
+      (has(n, "mergedFrom") ? '<p class="flag"><b>Absorbed ' + esc(n.mergedFrom) +
+        '</b>' + esc(n.mergeNote || "") + '</p>' : "") +
       (has(n, "qcFlag") ? '<p class="flag"><b>Data-quality flag</b>' + esc(n.qcFlag) + '</p>' : "") +
-      (has(n, "workshopNote") ? '<p class="ask"><b>For the workshop</b>' +
-        esc(n.workshopNote) + '</p>' : "") +
+      (has(n, "openQuestion") ? '<p class="ask"><b>Open question</b>' +
+        esc(n.openQuestion) + '</p>' : "") +
       '<dl class="meta">' +
         '<dt>Record</dt><dd style="font-family:\'IBM Plex Mono\',monospace">' + esc(n.id) + '</dd>' +
         '<dt>Active</dt><dd>' + esc(spanText(n)) + '</dd>' +
@@ -524,7 +526,7 @@
       '<p class="pnote">' + esc(EVIDENCE[l.ev].note) + '</p>' +
       (has(l, "note") ? '<div class="sect"><h2>What the workbook says</h2>' +
         '<p class="pnote">' + esc(l.note) + '</p></div>' : "") +
-      (has(l, "followUp") ? '<p class="ask"><b>Workshop follow-up</b>' +
+      (has(l, "followUp") ? '<p class="ask"><b>Follow-up</b>' +
         esc(l.followUp) + '</p>' : "") +
       (has(l, "sourceUrl") ? '<dl class="meta"><dt>Source</dt><dd><a href="' +
         esc(l.sourceUrl) + '" target="_blank" rel="noopener">' +
@@ -609,7 +611,7 @@
 
   const gapBtns = { iso: document.getElementById("isoBtn"),
                     ghost: document.getElementById("ghostBtn"),
-                    dup: document.getElementById("dupBtn"),
+                    merged: document.getElementById("mergedBtn"),
                     qc: document.getElementById("qcBtn") };
   function clearGaps() {
     state.gap = "";
@@ -743,8 +745,8 @@
       ["collections", "Collections", "wide", "area"], ["destination", "Now held at", "mid", "text"],
       ["status", "Research status", "mid", "select:STATUS"],
       ["priority", "Priority", "narrow", "select:PRIORITY"],
-      ["workshopNote", "Workshop note", "wide", "area"], ["qcFlag", "QC flag", "mid", "area"],
-      ["dupStatus", "Duplicate", "mid", "text"], ["action", "Action", "mid", "text"],
+      ["openQuestion", "Open question", "wide", "area"], ["qcFlag", "Data flag", "mid", "area"],
+      ["mergedFrom", "Absorbed", "mid", "text"],
       ["note", "Note", "wide", "area"], ["link", "Source", "mid", "text"]
     ],
     org: [
@@ -755,7 +757,7 @@
       ["keyPlaces", "Key places", "mid", "text"],
       ["status", "Research status", "mid", "select:STATUS"],
       ["priority", "Priority", "narrow", "select:PRIORITY"],
-      ["workshopNote", "Workshop note", "wide", "area"], ["qcFlag", "QC flag", "mid", "area"],
+      ["openQuestion", "Open question", "wide", "area"], ["qcFlag", "Data flag", "mid", "area"],
       ["link", "Source", "mid", "text"]
     ],
     place: [
@@ -766,7 +768,7 @@
       ["connectedOrgs", "Connected organisations", "wide", "area"],
       ["status", "Research status", "mid", "select:STATUS"],
       ["priority", "Priority", "narrow", "select:PRIORITY"],
-      ["workshopNote", "Workshop question", "wide", "area"], ["link", "Source", "mid", "text"]
+      ["openQuestion", "Open question", "wide", "area"], ["link", "Source", "mid", "text"]
     ],
     event: [
       ["name", "Event", "wide", "area"], ["domain", "Field", "narrow", "select:DOMAINS"],
@@ -784,7 +786,7 @@
       ["target", "To", "mid", "node"], ["ev", "Evidence", "narrow", "select:EVIDENCE"],
       ["period", "Period", "narrow", "text"],
       ["note", "What the workbook says", "wide", "area"],
-      ["followUp", "Workshop follow-up", "wide", "area"],
+      ["followUp", "Follow-up", "wide", "area"],
       ["sourceUrl", "Source", "mid", "text"]
     ]
   };
@@ -848,7 +850,7 @@
 
     const body = '<tbody>' + rows.map(r => {
       const cls = [r.origin === "new" ? "added" : r.origin === "edited" ? "edited" : "",
-        (!isLinks && (has(r, "dupStatus") || has(r, "qcFlag"))) ? "flagged" : ""]
+        (!isLinks && has(r, "qcFlag")) ? "flagged" : ""]
         .filter(Boolean).join(" ");
       const mark = r.origin === "new" ? "+" : r.origin === "edited" ? "•" : "";
       return '<tr class="' + cls + '" data-id="' + esc(r.id) + '" data-kind="' +
@@ -938,7 +940,7 @@
       const sorted = nodes.slice().sort((a, b) => b.deg - a.deg);
       commit("edge", "NEW~" + stamp, { _op: "new",
         source: sorted[0].id, target: sorted[1].id, rel: "linked to", ev: "verify",
-        period: "", note: "Added in the workshop — needs a source.", followUp: "",
+        period: "", note: "Added here — needs a source.", followUp: "",
         _at: new Date().toISOString() });
     } else {
       const t = state.sheetTab;
@@ -946,7 +948,7 @@
       commit("row", "NEW-" + stamp, { _op: "new", name: name, label: name, type: t,
         domain: "nat", kindOf: "record", status: "verify", priority: "high",
         dates: "", role: "", note: "", af: "", at: "",
-        workshopNote: "Added in the workshop — needs a source.",
+        openQuestion: "Added here — needs a source.",
         _at: new Date().toISOString() });
     }
     const wrap = document.querySelector(".tablewrap");

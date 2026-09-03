@@ -70,14 +70,14 @@ EVIDENCE = collections.OrderedDict([
  ("verify",      {"label":"Needs verification","dash":"5 3",
                   "note":"The workbook flags this end of the link as still to be confirmed."}),
  ("interpretive",{"label":"Interpretive","dash":"1.5 3",
-                  "note":"A hypothesis the workbook offers for the workshop to test."}),
+                  "note":"A hypothesis the workbook offers for testing."}),
 ])
 STATUS = collections.OrderedDict([
  ("existing",  {"label":"Existing database"}),
  ("workbook",  {"label":"Existing workbook"}),
  ("enriched",  {"label":"Existing - enriched"}),
  ("researched",{"label":"Researched addition"}),
- ("verify",    {"label":"Workshop candidate - verify"}),
+ ("verify",    {"label":"Needs checking"}),
 ])
 ST = {"Existing database":"existing","Existing - enriched":"enriched",
       "Researched addition":"researched","Workshop candidate - verify":"verify",
@@ -192,7 +192,7 @@ for pid, kv in extra.items():
 for i in range(16, 27):
     n = nodes.get("NH-%03d" % i)
     if not n: continue
-    n.setdefault("workshopNote", "Find full identity and relationship evidence.")
+    n.setdefault("openQuestion", "Find full identity and relationship evidence.")
     n.setdefault("sourceUrl", U["gut"])
     n["status"], n["priority"] = "verify", "investigate"
     n.setdefault("specialism", "Botany"); n.setdefault("background", "Unknown")
@@ -206,7 +206,7 @@ for f in rows("orgs.psv", 13):
          "founded": founded, "orgType": otype, "role": role,
          "connectedPeople": people, "keyPlaces": places,
          "status": ST.get(status, "workbook"), "priority": PR.get(priority, "context"),
-         "sourceUrl": url(src), "workshopNote": wnote, "qcFlag": qc,
+         "sourceUrl": url(src), "openQuestion": wnote, "qcFlag": qc,
          "recordType": "Organisation", "sourceId": oid, "kindOf": "record",
          "decades": founded, "note": role, "link": url(src)})
 
@@ -218,7 +218,7 @@ for f in rows("places.psv", 13):
          "placeType": ptype, "founded": date, "areas": area, "role": relevance,
          "connectedPeople": people, "connectedOrgs": orgs,
          "status": ST.get(status, "workbook"), "priority": PR.get(priority, "context"),
-         "sourceUrl": url(src), "workshopNote": question,
+         "sourceUrl": url(src), "openQuestion": question,
          "recordType": "Place", "sourceId": plid, "kindOf": "record",
          "decades": date, "note": relevance, "link": url(src)})
 
@@ -245,10 +245,57 @@ for gid, name, typ, domain, kind, note in rows("extra-nodes.psv", 6):
                        if kind == "ghost" else "Collective referred to by the workbook",
          "sourceId": "", "link": "", "decades": ""})
 
+# ---------------------------------------------------------------- merges
+# Records that turned out to be the same thing twice. The survivor absorbs any field the
+# dropped record filled in, every link is re-pointed at it, and it carries a note saying
+# what was folded in, so a merge is visible rather than silent.
+REDIRECT = {}
+merge_alias = {}
+KEEP_OWN = {"id", "name", "label", "type", "domain", "kindOf", "sourceId", "deg"}
+for dead, keeper, reason in rows("merges.psv", 3):
+    if dead not in nodes:   raise SystemExit("merges: unknown record " + dead)
+    if keeper not in nodes: raise SystemExit("merges: unknown survivor " + keeper)
+    d, k = nodes[dead], nodes[keeper]
+    for f, v in d.items():
+        if f in KEEP_OWN: continue
+        if v and not k.get(f): k[f] = v
+    k["mergedFrom"] = dead if d["name"] == k["name"] else "%s (%s)" % (d["name"], dead)
+    k["mergeNote"] = reason
+    merge_alias[d["name"].lower()] = keeper
+    REDIRECT[dead] = keeper
+    del nodes[dead]
+
+# The duplicate review has been acted on, so its working columns come out of the model.
+for n in nodes.values():
+    for f in ("dupStatus", "dupGroup", "keeperId", "action", "dupReason"):
+        n.pop(f, None)
+
+# ---------------------------------------------------------------- groupings
+# The Category column already sorts people into groups; these turn the recurring values
+# into nodes so the grouping the spreadsheet makes is visible instead of implied.
+GROUPS, membership, used_groups = [], [], collections.OrderedDict()
+for phrase, gid, gname, gdom in rows("groupings.psv", 4):
+    GROUPS.append((phrase, gid, gname, gdom))
+for n in nodes.values():
+    if n["type"] != "person" or not n.get("category"): continue
+    cat = n["category"].lower()
+    for phrase, gid, gname, gdom in GROUPS:
+        if phrase.lower() in cat:
+            used_groups[gid] = (gname, gdom)
+            membership.append((n["id"], gid, phrase))
+for gid, (gname, gdom) in used_groups.items():
+    add({"id": gid, "name": gname, "type": "org", "domain": gdom, "kindOf": "grouping",
+         "note": "Not a row in the workbook: the group its People sheet makes by filing "
+                 "records under this heading in the Category column.",
+         "role": "", "status": "workbook", "priority": "context",
+         "recordType": "Grouping taken from the Category column",
+         "sourceId": "", "link": "", "decades": ""})
+
 # ---------------------------------------------------------------- name index
 alias = {}
 for a, target in rows("aliases.psv", 2):
     alias[a.lower()] = target
+alias.update(merge_alias)
 
 index = collections.defaultdict(list)          # lowercase name -> [ids]
 for n in nodes.values():
@@ -283,9 +330,10 @@ def resolve(fragment, prefer=None):
     if not hits:
         unresolved[t] += 1
         return None
+    hits = [REDIRECT.get(h, h) for h in hits]
     if prefer:
         for h in hits:
-            if nodes[h]["type"] == prefer: return h
+            if h in nodes and nodes[h]["type"] == prefer: return h
     return hits[0]
 
 def split(s):
@@ -300,7 +348,7 @@ def build_scan_index():
         if n["type"] != "person": continue
         nm = n["name"]
         if len(nm) < 8 or " " not in nm: continue
-        SCANNABLE.append((re.compile(r"" + re.escape(nm) + r""), n["id"]))
+        SCANNABLE.append((re.compile(r"(?<!\w)" + re.escape(nm) + r"(?!\w)"), n["id"]))
     SCANNABLE.sort(key=lambda p: -len(p[0].pattern))
 
 def scan(text, self_id):
@@ -327,7 +375,9 @@ links = collections.OrderedDict()
 def key(a, b): return "~".join(sorted([a, b]))
 
 def link(a, b, rel, ev, note, src="", period="", follow="", relId=""):
+    a, b = REDIRECT.get(a, a), REDIRECT.get(b, b)
     if not a or not b or a == b: return
+    if a not in nodes or b not in nodes: return
     k = key(a, b)
     L = links.get(k)
     if L is None:
@@ -356,7 +406,7 @@ for n in list(nodes.values()):
         # them for names we hold rather than chopping the sentence into fragments.
         prose = n.get("relationships", "")
         for hit, tid in scan(prose, n["id"]):
-            rel = "spouse" if re.search(r"(wife|husband|married)", prose, re.I) else "named in relationships"
+            rel = "spouse" if re.search(r"\b(wife|husband|married)\b", prose, re.I) else "named in relationships"
             link(n["id"], tid, rel, ev_for(n),
                  "Workbook Relationships column for " + n["name"] + ": " + prose, n.get("link", ""))
         for frag in split(prose):
@@ -424,12 +474,21 @@ for rid, a, typ, b, period, summary, src, ev, follow in rel_rows:
         if end not in nodes: raise SystemExit("%s: unknown endpoint %r" % (rid, end))
     link(a, b, typ, EV.get(ev, "verify"), summary, url(src), period, follow, rid)
 
-# duplicate-review edges, so a merge candidate sits next to its keeper
-for n in nodes.values():
-    k = n.get("keeperId", "")
-    if k and k in nodes:
-        link(n["id"], k, "duplicate of", "documented",
-             "Duplicate Review: " + n.get("dupReason", ""), n.get("link", ""))
+# the Category column's own groupings
+for pid, gid, phrase in membership:
+    link(pid, gid, "filed under", "documented",
+         "The People sheet files %s under “%s” in its Category column: %s"
+         % (nodes[pid]["name"], phrase, nodes[pid].get("category", "")),
+         nodes[pid].get("link", ""))
+
+# links added here, where a record named something the workbook holds but no column
+# carried the connection. Each one says what it rests on.
+for a, rel, b, ev, note, src in rows("added-links.psv", 6):
+    for end in (a, b):
+        if REDIRECT.get(end, end) not in nodes:
+            raise SystemExit("added-links: unknown record %r" % end)
+    if ev not in EVIDENCE: raise SystemExit("added-links: bad evidence %r" % ev)
+    link(a, b, rel, ev, note, url(src))
 
 # ---------------------------------------------------------------- spans, degree
 for n in nodes.values():
@@ -464,9 +523,8 @@ def js(o): return json.dumps(o, ensure_ascii=False, separators=(",", ":"))
 FIELDS = ["id","label","name","type","domain","kindOf","gender","birth","death","dates",
           "dateQc","role","category","relationships","spouse","decades","areas","note",
           "link","specialism","background","knowledgeRole","collections","destination",
-          "politics","religion","building","status","priority","sourceUrl","workshopNote",
-          "qcFlag","recordType","sourceId","idStatus","dupStatus","dupGroup","keeperId",
-          "action","dupReason","founded","orgType","placeType","connectedPeople",
+          "politics","religion","building","status","priority","sourceUrl","openQuestion",
+          "qcFlag","recordType","sourceId","idStatus","mergedFrom","mergeNote","founded","orgType","placeType","connectedPeople",
           "connectedOrgs","connectedPlaces","keyPlaces","keyFigures","year","sortYear",
           "theme","scope","span","spanSource","deg"]
 
@@ -509,8 +567,8 @@ write_csv("people.csv",
   ["id","name","kind","field","gender","birth","death","dates_original","date_qc","role",
    "category","specialism","background","knowledge_role","decades_active","gm_areas",
    "collections","destination","politics","religion","building","note","relationships",
-   "record_type","source_id","duplicate_status","duplicate_group","keeper_id",
-   "recommended_action","research_status","priority","workshop_note","qc_flag",
+   "record_type","source_id","merged_from","merge_note",
+   "research_status","priority","open_question","qc_flag",
    "active_from","active_to","active_source","links","link"],
   [[n["id"],n["name"],n.get("kindOf",""),n["domain"],n.get("gender",""),n.get("birth",""),
     n.get("death",""),n.get("dates",""),n.get("dateQc",""),n.get("role",""),
@@ -518,15 +576,15 @@ write_csv("people.csv",
     n.get("knowledgeRole",""),n.get("decades",""),n.get("areas",""),
     n.get("collections",""),n.get("destination",""),n.get("politics",""),
     n.get("religion",""),n.get("building",""),n.get("note",""),n.get("relationships",""),
-    n.get("recordType",""),n.get("sourceId",""),n.get("dupStatus",""),n.get("dupGroup",""),
-    n.get("keeperId",""),n.get("action",""),STATUS[n["status"]]["label"],
-    PRIORITY[n["priority"]]["label"],n.get("workshopNote",""),n.get("qcFlag",""),
+    n.get("recordType",""),n.get("sourceId",""),n.get("mergedFrom",""),n.get("mergeNote",""),
+    STATUS[n["status"]]["label"],
+    PRIORITY[n["priority"]]["label"],n.get("openQuestion",""),n.get("qcFlag",""),
     (n["span"] or ["",""])[0],(n["span"] or ["",""])[1],n.get("spanSource",""),
     n["deg"],n.get("link","")] for n in sorted(people, key=lambda x: x["name"])])
 
 write_csv("links.csv",
   ["relationship_id","source_id","source","relationship","target_id","target","evidence",
-   "period","evidence_summary","workshop_follow_up","source_url"],
+   "period","evidence_summary","follow_up","source_url"],
   [[L.get("relId",""),L["source"],nodes[L["source"]]["label"],L["rel"],L["target"],
     nodes[L["target"]]["label"],EVIDENCE[L["ev"]]["label"],L.get("period",""),
     L["note"].replace("\n"," / "),L.get("followUp",""),L.get("sourceUrl","")]
@@ -535,25 +593,25 @@ write_csv("links.csv",
 write_csv("places.csv",
   ["id","name","field","place_type","date","gm_area","natural_history_relevance",
    "connected_people","connected_organisations","research_status","priority",
-   "workshop_question","links","source_url"],
+   "open_question","links","source_url"],
   [[n["id"],n["name"],n["domain"],n.get("placeType",""),n.get("founded",""),
     n.get("areas",""),n.get("role",""),n.get("connectedPeople",""),
     n.get("connectedOrgs",""),STATUS[n["status"]]["label"],PRIORITY[n["priority"]]["label"],
-    n.get("workshopNote",""),n["deg"],n.get("sourceUrl","")]
+    n.get("openQuestion",""),n["deg"],n.get("sourceUrl","")]
    for n in nodes.values() if n["type"] == "place"])
 
 write_csv("organisations.csv",
   ["id","name","field","founded","type","role_in_network","connected_people","key_places",
-   "research_status","priority","workshop_note","qc_flag","links","source_url"],
+   "research_status","priority","open_question","qc_flag","links","source_url"],
   [[n["id"],n["name"],n["domain"],n.get("founded",""),n.get("orgType",""),n.get("role",""),
     n.get("connectedPeople",""),n.get("keyPlaces",""),STATUS[n["status"]]["label"],
-    PRIORITY[n["priority"]]["label"],n.get("workshopNote",""),n.get("qcFlag",""),
+    PRIORITY[n["priority"]]["label"],n.get("openQuestion",""),n.get("qcFlag",""),
     n["deg"],n.get("sourceUrl","")]
    for n in nodes.values() if n["type"] == "org"])
 
 write_csv("timeline.csv",
   ["id","year","event","field","key_figures","organisation","place","theme",
-   "research_status","scope","links","source_url","workshop_note"],
+   "research_status","scope","links","source_url","open_question"],
   [[n["id"],n.get("year",""),n["name"],n["domain"],n.get("keyFigures",""),
     n.get("connectedOrgs",""),n.get("connectedPlaces",""),n.get("theme",""),
     STATUS[n["status"]]["label"],n.get("scope",""),n["deg"],n.get("sourceUrl",""),
