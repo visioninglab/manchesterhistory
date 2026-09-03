@@ -202,7 +202,14 @@
       && state.statuses.has(n.status) && state.priorities.has(n.priority) && inWindow(n);
   }
   const famOf = l => CONNECTION[l.kind] ? CONNECTION[l.kind].family : "other";
-  const relLabel = l => (CONNECTION[l.kind] ? CONNECTION[l.kind].label : l.rel);
+  /* A connection reads one way round. Standing at the source, use the wording the
+     link was written with; standing at the other end, use the type's other wording. */
+  function relLabel(l, from) {
+    const c = CONNECTION[l.kind];
+    if (!c) return l.rel;
+    if (!from || nid(l.source) === from) return l.rel || c.label;
+    return c.rev || c.label;
+  }
 
   function visibleLink(l) {
     return state.evs.has(l.ev) && state.families.has(famOf(l))
@@ -613,7 +620,7 @@
       const o = byId.get(nid(l.source) === n.id ? nid(l.target) : nid(l.source));
       return '<li><button data-go="' + esc(o.id) + '">' +
         '<span class="mark" style="background:' + cssvar(o.domain) + '"></span>' +
-        '<span class="rel">' + esc(relLabel(l)) + '</span>' +
+        '<span class="rel">' + esc(relLabel(l, n.id)) + '</span>' +
         '<span class="who">' + esc(o.label) + '</span>' +
         '<span class="ev">' + esc(EVIDENCE[l.ev].label.toLowerCase()) + '</span></button></li>';
     }).join("");
@@ -651,7 +658,8 @@
       '<div class="eyebrow">' + esc(FAMILIES[famOf(l)].label) + ' &middot; ' +
         esc(EVIDENCE[l.ev].label) + '</div>' +
       '<h2 class="pname">' + esc(a.label) +
-        '<br><span class="joiner">' + esc(relLabel(l)) + '</span><br>' + esc(b.label) + '</h2>' +
+        '<br><span class="joiner">' + esc(relLabel(l, nid(l.source))) +
+        '</span><br>' + esc(b.label) + '</h2>' +
       (has(l, "period") ? '<p class="pdates">' + esc(l.period) + '</p>' : "") + '</div>' +
       (has(l, "note") ? '<p class="pnote">' + esc(l.note) + '</p>' : "") +
       '<p class="hint">' +

@@ -124,9 +124,10 @@ def rows(name, n):
     return out
 
 CONNECTION = collections.OrderedDict()
-for _k, _label, _fam, _note in rows("connection-types.psv", 4):
+for _k, _label, _fam, _note, _rev in rows("connection-types.psv", 5):
     if _fam not in FAMILIES: raise SystemExit("connection-types: bad family " + _fam)
-    CONNECTION[_k] = {"label": _label, "family": _fam, "note": _note}
+    CONNECTION[_k] = {"label": _label, "family": _fam, "note": _note,
+                      "rev": _rev or _label}
 
 # ---------------------------------------------------------------- decade spans
 CENT = re.compile(r"(\d{2})(?:st|nd|rd|th)\s+century", re.I)
@@ -587,13 +588,14 @@ for n in list(nodes.values()):
         for frag in split(n.get("connectedOrgs", "")):
             tgt = resolve(frag, prefer="org")
             if tgt:
-                kinded(n["id"], tgt, "basedat", ev_for(n), n.get("sourceUrl", ""),
+                kinded(tgt, n["id"], place_kind(n["id"]), ev_for(n),
+                       n.get("sourceUrl", ""),
                        "Connected organisations column for " + n["name"] + ": " + frag.strip())
     elif n["type"] == "event":
         for frag in split(n.get("keyFigures", "")):
             tgt = resolve(frag, prefer="person")
             if tgt:
-                kinded(n["id"], tgt, "tookpart", ev_for(n), n.get("sourceUrl", ""),
+                kinded(tgt, n["id"], "tookpart", ev_for(n), n.get("sourceUrl", ""),
                        "Key figures column for " + n["year"] + ": " + frag.strip())
         for frag in split(n.get("connectedOrgs", "")):
             tgt = resolve(frag, prefer="org")
