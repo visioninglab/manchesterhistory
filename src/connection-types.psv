@@ -1,0 +1,53 @@
+# The kinds of connection this network can hold. Every link is assigned one, either
+# because the source says what the relationship was, or because the shape of the two
+# ends and the column it came from settle it. Where neither does, it falls to
+# "named alongside", which claims nothing more than that the source puts them together.
+# key|label|family|what it means
+#
+# --- family and household -------------------------------------------------------
+married|married to|kin|A marriage the source states.
+sibling|sibling of|kin|Brother or sister.
+parentchild|parent and child|kin|
+kin|related to|kin|Cousins, in-laws, and family the source names without saying how.
+household|in the same household as|kin|Lived or worked in the same house.
+#
+# --- work and money -------------------------------------------------------------
+partner|business partner of|work|Named partners in the same firm.
+employed|employed by|work|
+financed|put money into|work|Lent, subscribed or endowed.
+builtby|built or designed|work|Architect, engineer or builder of a thing.
+traded|worked or traded from|work|Ran a business out of a place.
+owned|owned or sold|work|
+#
+# --- science and collecting -----------------------------------------------------
+collectedat|collected at|science|Went there for specimens.
+heldat|collection held at|science|Where somebody's collection ended up.
+passedto|specimens passed to|science|A specimen changed hands, and often the credit with it.
+introduced|introduced to the network by|science|Somebody brought somebody else in.
+collaborated|worked with|science|Collected, identified or published together.
+#
+# --- membership and founding ----------------------------------------------------
+member|member of|belonging|Belonged to a society, firm or body.
+founded|founded|belonging|
+led|led|belonging|President, secretary, editor or chair.
+partof|part of|belonging|One of a group the source treats as a single thing.
+groupedunder|grouped under|belonging|Filed under the same heading in the source.
+#
+# --- places and buildings -------------------------------------------------------
+basedat|based at|place|Its address, or where it stood.
+metat|met at|place|Where a society or a group gathered.
+workedat|worked at|place|
+happenedat|happened at|place|Where an event took place.
+buriedat|buried at|place|
+commemorated|commemorated at|place|A statue, a plaque or a name on a building.
+namedafter|named after|place|
+nearby|next to|place|Two places joined by geography rather than by people.
+sameplace|the same place under two names|place|
+#
+# --- events ---------------------------------------------------------------------
+tookpart|took part in|event|
+organisedby|organised by|event|
+#
+# --- everything else ------------------------------------------------------------
+associate|named alongside|other|The source puts these two together without saying why.
+reading|a reading, not a claim|other|Joined here because the material suggests it, for testing.

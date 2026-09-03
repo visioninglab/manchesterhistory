@@ -97,6 +97,17 @@ EV = {"Researched":"documented","Needs verification":"verify",
 DATEQC = {"P":"Parsed from source","U":"Unknown","A":"Approximate",
           "V":"Various / group record","E":"Death year expanded from abbreviated source"}
 
+# ---------------------------------------------------------------- connection types
+FAMILIES = collections.OrderedDict([
+ ("kin",      {"label":"Family and household"}),
+ ("work",     {"label":"Work and money"}),
+ ("science",  {"label":"Science and collecting"}),
+ ("belonging",{"label":"Membership and founding"}),
+ ("place",    {"label":"Places and buildings"}),
+ ("event",    {"label":"Events"}),
+ ("other",    {"label":"Named together"}),
+])
+
 # ---------------------------------------------------------------- reading
 def rows(name, n):
     out = []
@@ -111,6 +122,11 @@ def rows(name, n):
                              % (path, ln, len(f), n, raw[:120]))
         out.append(f)
     return out
+
+CONNECTION = collections.OrderedDict()
+for _k, _label, _fam, _note in rows("connection-types.psv", 4):
+    if _fam not in FAMILIES: raise SystemExit("connection-types: bad family " + _fam)
+    CONNECTION[_k] = {"label": _label, "family": _fam, "note": _note}
 
 # ---------------------------------------------------------------- decade spans
 CENT = re.compile(r"(\d{2})(?:st|nd|rd|th)\s+century", re.I)
@@ -406,7 +422,8 @@ def scan(text, self_id):
         m = rx.search(text)
         if not m: continue
         if any(m.start() < e and s < m.end() for s, e in used): continue
-        used.append((m.start(), m.end())); found.append((m.group(0), tid))
+        if re.search(r"[A-Z][a-z]+ $", text[:m.start()]): continue
+        used.append((m.start(), m.end())); found.append((m.group(0), tid, m.start()))
     return found
 
 GROUPISH = re.compile(r"(societ|network|club|association|circle|guild|gathering|"
@@ -419,7 +436,8 @@ links = collections.OrderedDict()
 
 def key(a, b): return "~".join(sorted([a, b]))
 
-def link(a, b, rel, ev, note, src="", period="", follow="", relId="", basis=""):
+def link(a, b, rel, ev, note, src="", period="", follow="", relId="", basis="",
+         kind="associate"):
     """basis is where a link came from; note is what it actually tells you."""
     a, b = REDIRECT.get(a, a), REDIRECT.get(b, b)
     if not a or not b or a == b: return
@@ -427,17 +445,21 @@ def link(a, b, rel, ev, note, src="", period="", follow="", relId="", basis=""):
     k = key(a, b)
     L = links.get(k)
     if L is None:
+        if kind not in CONNECTION: raise SystemExit("unknown connection type " + kind)
         links[k] = {"id": k, "source": a, "target": b, "rel": rel, "ev": ev,
-                    "note": note, "basis": basis, "sourceUrl": src, "period": period,
-                    "followUp": follow, "relId": relId}
+                    "kind": kind, "note": note, "basis": basis, "sourceUrl": src,
+                    "period": period, "followUp": follow, "relId": relId}
         return
     rank = {"documented": 3, "verify": 2, "interpretive": 1}
     if relId and not L["relId"]:                       # a Relationships row wins outright
-        L.update({"rel": rel, "ev": ev, "note": note, "sourceUrl": src,
+        L.update({"rel": rel, "ev": ev, "kind": kind, "note": note, "sourceUrl": src,
                   "period": period, "followUp": follow, "relId": relId,
                   "basis": _join(L.get("basis", ""), basis)})
         return
-    if rel not in L["rel"]: L["rel"] += " · " + rel
+    if L["kind"] in ("associate", "reading") and kind not in ("associate", "reading"):
+        L["kind"], L["rel"] = kind, rel          # anything beats "named alongside"
+    elif rel not in L["rel"]:
+        L["rel"] += " · " + rel
     L["note"] = _join(L["note"], note)
     L["basis"] = _join(L.get("basis", ""), basis)
     if not L["relId"] and rank[ev] > rank[L["ev"]]: L["ev"] = ev
@@ -446,101 +468,168 @@ def _join(a, b):
     if not b or b in a: return a
     return (a + "\n" + b).strip()
 
+FIELD_SITE = re.compile(r"moss|clough|landscape|river|valley|field site|township|"
+                        r"wood|moor|garden", re.I)
+HOLDING    = re.compile(r"museum|collection|herbarium", re.I)
+WORKPLACE  = re.compile(r"educational|medical|office|workplace|institution|school|"
+                        r"library|hall|works", re.I)
+MEETING    = re.compile(r"pub|meeting", re.I)
+KINWORDS = [
+ (re.compile(r"\b(wife|husband|married|spouse)\b", re.I), "married"),
+ (re.compile(r"\b(sister|brother)\b", re.I), "sibling"),
+ (re.compile(r"\b(daughter|son|father|mother)\b(?!-in-law)", re.I), "parentchild"),
+ (re.compile(r"in-law|cousin|niece|nephew|aunt|uncle|family", re.I), "kin"),
+]
+ROLEWORDS = [
+ (re.compile(r"founder|founded|co-founder", re.I), "founded"),
+ (re.compile(r"president|secretary|chair|curator|keeper|editor", re.I), "led"),
+]
+
+def kin_kind(prose, fallback="associate"):
+    for rx, k in KINWORDS:
+        if rx.search(prose or ""): return k
+    return fallback
+
+def belong_kind(target, prose=""):
+    """A person joined to an organisation: how, as far as the source lets us say."""
+    t = nodes[target]
+    if t.get("kindOf") in ("collective", "grouping"): return "partof"
+    for rx, k in ROLEWORDS:
+        if rx.search(prose or ""): return k
+    return "member"
+
+def place_kind(target):
+    """A person joined to a place: what they were doing there."""
+    t = nodes[target]
+    pt = (t.get("placeType") or "") + " " + t["name"]
+    if MEETING.search(pt):   return "metat"
+    if FIELD_SITE.search(pt): return "collectedat"
+    if HOLDING.search(pt):   return "heldat"
+    if WORKPLACE.search(pt): return "workedat"
+    return "basedat"
+
+def pair_kind(a, b, prose=""):
+    """The type a connection gets when the source names it without saying what it is."""
+    ta, tb = nodes[a]["type"], nodes[b]["type"]
+    if ta == "person" and tb == "person": return kin_kind(prose)
+    if "org" in (ta, tb):
+        person, org = (a, b) if ta == "person" else (b, a)
+        if ta == "person" or tb == "person": return belong_kind(org, prose)
+        if "place" in (ta, tb): return "basedat"
+        return "partof"
+    if ta == "person" and tb == "place": return place_kind(b)
+    if tb == "person" and ta == "place": return place_kind(a)
+    if ta == "place" and tb == "place":  return "nearby"
+    return "associate"
+
 # derived: how confident the workbook is about the row the connection came from
 def ev_for(n):
     return "verify" if n["status"] == "verify" else "documented"
 
 build_scan_index()
 
+def kinded(a, b, kind, ev, src, basis, note=""):
+    """Every derived link is typed, and takes its wording from the type."""
+    link(a, b, CONNECTION[kind]["label"], ev, note, src, basis=basis, kind=kind)
+
 for n in list(nodes.values()):
     if n["type"] == "person":
         # The Relationships and Relationship/wife columns are prose, not lists, so scan
         # them for names we hold rather than chopping the sentence into fragments.
         prose = n.get("relationships", "")
-        for hit, tid in scan(prose, n["id"]):
-            rel = "spouse" if re.search(r"\b(wife|husband|married)\b", prose, re.I) else "connected to"
-            link(n["id"],  tid,  rel,  ev_for(n),  "",  n.get("link", ""),
-                 basis="Relationships column for " + n["name"] + ": " + prose)
+        for hit, tid, at in scan(prose, n["id"]):
+            near = prose[prose.rfind(";", 0, at) + 1:at]   # its own clause, no further
+            kinded(n["id"], tid, pair_kind(n["id"], tid, near or prose), ev_for(n),
+                   n.get("link", ""),
+                   "Relationships column for " + n["name"] + ": " + prose)
         for frag in split(prose):
             f2 = TRIM.sub("", frag.strip()).strip(".;")
             if f2 and not scan(frag, n["id"]) and looks_like_group(f2):
                 tgt = resolve(frag)
-                if tgt: link(n["id"],  tgt,  "connected to",  ev_for(n),  "", 
-                             n.get("link", ""),
-                 basis="Relationships column for " + n["name"] + ": " + frag.strip())
+                if tgt:
+                    kinded(n["id"], tgt, pair_kind(n["id"], tgt, frag), ev_for(n),
+                           n.get("link", ""),
+                           "Relationships column for " + n["name"] + ": " + frag.strip())
         sp = n.get("spouse", "")
         if sp and not sp.startswith("http"):
-            for hit, tid in scan(sp, n["id"]):
-                link(n["id"],  tid,  "spouse",  "documented",  "",  n.get("link", ""),
-                 basis="Relationship column: " + sp)
+            for hit, tid, at in scan(sp, n["id"]):
+                kinded(n["id"], tid, kin_kind(sp[sp.rfind(";", 0, at) + 1:at] or sp,
+                                             "married"),
+                       "documented",
+                       n.get("link", ""), "Relationship column: " + sp)
         if n.get("building"):
             tgt = resolve(n["building"], prefer="place")
-            if tgt: link(n["id"],  tgt,  "based at",  "documented",  "",  n.get("link", ""),
-                 basis="Building column: " + n["building"])
+            if tgt:
+                kinded(n["id"], tgt, "basedat", "documented", n.get("link", ""),
+                       "Building column: " + n["building"])
         if "Little Circle" in n.get("note", ""):
-            link(n["id"], "COL-009", "member of the Little Circle", "documented",
-                 n["note"], n.get("link", ""))
+            kinded(n["id"], "COL-009", "member", "documented", n.get("link", ""),
+                   "Named in the Notes column as one of the Little Circle: " + n["note"])
     elif n["type"] == "org":
         for frag in split(n.get("connectedPeople", "")):
             tgt = resolve(frag, prefer="person")
-            if tgt: link(n["id"],  tgt,  "connected to",  ev_for(n),  "", 
-                         n.get("sourceUrl", ""),
-                 basis="Connected people column for " + n["name"] + ": " + frag.strip())
+            if tgt:
+                kinded(tgt, n["id"], pair_kind(tgt, n["id"], frag), ev_for(n),
+                       n.get("sourceUrl", ""),
+                       "Connected people column for " + n["name"] + ": " + frag.strip())
         for frag in split(n.get("keyPlaces", "")):
             tgt = resolve(frag, prefer="place")
-            if tgt: link(n["id"],  tgt,  "met at",  ev_for(n),  "", 
-                         n.get("sourceUrl", ""),
-                 basis="Key places column for " + n["name"] + ": " + frag.strip())
+            if tgt:
+                kinded(n["id"], tgt, "metat", ev_for(n), n.get("sourceUrl", ""),
+                       "Key places column for " + n["name"] + ": " + frag.strip())
     elif n["type"] == "place":
         for frag in split(n.get("connectedPeople", "")):
             tgt = resolve(frag, prefer="person")
-            if tgt: link(n["id"],  tgt,  "connected to",  ev_for(n),  "", 
-                         n.get("sourceUrl", ""),
-                 basis="Connected people column for " + n["name"] + ": " + frag.strip())
+            if tgt:
+                kinded(tgt, n["id"], place_kind(n["id"]), ev_for(n),
+                       n.get("sourceUrl", ""),
+                       "Connected people column for " + n["name"] + ": " + frag.strip())
         for frag in split(n.get("connectedOrgs", "")):
             tgt = resolve(frag, prefer="org")
-            if tgt: link(n["id"],  tgt,  "connected to",  ev_for(n),  "", 
-                         n.get("sourceUrl", ""),
-                 basis="Connected organisations column for " + n["name"] + ": " + frag.strip())
+            if tgt:
+                kinded(n["id"], tgt, "basedat", ev_for(n), n.get("sourceUrl", ""),
+                       "Connected organisations column for " + n["name"] + ": " + frag.strip())
     elif n["type"] == "event":
         for frag in split(n.get("keyFigures", "")):
             tgt = resolve(frag, prefer="person")
-            if tgt: link(n["id"],  tgt,  "took part in",  ev_for(n),  "", 
-                         n.get("sourceUrl", ""),
-                 basis="Key figures column for " + n["year"] + ": " + frag.strip())
+            if tgt:
+                kinded(n["id"], tgt, "tookpart", ev_for(n), n.get("sourceUrl", ""),
+                       "Key figures column for " + n["year"] + ": " + frag.strip())
         for frag in split(n.get("connectedOrgs", "")):
             tgt = resolve(frag, prefer="org")
-            if tgt: link(n["id"],  tgt,  "organisation",  ev_for(n),  "", 
-                         n.get("sourceUrl", ""),
-                 basis="Organisation column for " + n["year"] + ": " + frag.strip())
+            if tgt:
+                kinded(n["id"], tgt, "organisedby", ev_for(n), n.get("sourceUrl", ""),
+                       "Organisation column for " + n["year"] + ": " + frag.strip())
         for frag in split(n.get("connectedPlaces", "")):
             tgt = resolve(frag, prefer="place")
-            if tgt: link(n["id"],  tgt,  "happened at",  ev_for(n),  "", 
-                         n.get("sourceUrl", ""),
-                 basis="Place column for " + n["year"] + ": " + frag.strip())
+            if tgt:
+                kinded(n["id"], tgt, "happenedat", ev_for(n), n.get("sourceUrl", ""),
+                       "Place column for " + n["year"] + ": " + frag.strip())
 
 # the Relationships sheet, last so it wins
-rel_rows = rows("relationships.psv", 9)
-for rid, a, typ, b, period, summary, src, ev, follow in rel_rows:
+rel_rows = rows("relationships.psv", 10)
+for rid, a, typ, b, period, summary, src, ev, follow, kind in rel_rows:
     for end in (a, b):
         if end not in nodes: raise SystemExit("%s: unknown endpoint %r" % (rid, end))
     link(a, b, typ, EV.get(ev, "verify"), summary, url(src), period, follow, rid,
-         basis="Relationships sheet, row " + rid)
+         basis="Relationships sheet, row " + rid, kind=kind)
 
 # the Category column's own groupings
 for pid, gid, phrase in membership:
-    link(pid, gid, "grouped under", "documented", "", nodes[pid].get("link", ""),
+    link(pid, gid, CONNECTION["groupedunder"]["label"], "documented", "",
+         nodes[pid].get("link", ""), kind="groupedunder",
          basis="Filed under “%s” in the source's own Category column: %s"
                % (phrase, nodes[pid].get("category", "")))
 
 # links added here, where a record named something the workbook holds but no column
 # carried the connection. Each one says what it rests on.
-for a, rel, b, ev, note, src in rows("added-links.psv", 6):
+for a, rel, b, ev, note, src, kind in rows("added-links.psv", 7):
     for end in (a, b):
         if REDIRECT.get(end, end) not in nodes:
             raise SystemExit("added-links: unknown record %r" % end)
     if ev not in EVIDENCE: raise SystemExit("added-links: bad evidence %r" % ev)
-    link(a, b, rel, ev, "", url(src), basis=note)
+    if kind not in CONNECTION: raise SystemExit("added-links: bad type %r" % kind)
+    link(a, b, rel, ev, "", url(src), basis=note, kind=kind)
 
 # ---------------------------------------------------------------- spans, degree
 for n in nodes.values():
@@ -611,6 +700,7 @@ out.write("/* Victorian Manchester natural-history workbook, cleaned edition.\n"
           "   GENERATED by build.py from src/*.psv - do not hand-edit.\n"
           "   Built %s. */\n\n" % datetime.date.today().isoformat())
 for name, obj in (("DOMAINS", DOMAINS), ("TYPES", TYPES), ("EVIDENCE", EVIDENCE),
+                  ("FAMILIES", FAMILIES), ("CONNECTION", CONNECTION),
                   ("STATUS", STATUS), ("PRIORITY", PRIORITY)):
     out.write("const %s = %s;\n\n" % (name, js(obj)))
 
@@ -662,9 +752,12 @@ write_csv("people.csv",
 
 write_csv("links.csv",
   ["relationship_id","source_id","source","relationship","target_id","target","evidence",
-   "period","evidence_summary","basis","follow_up","source_url"],
+   "connection_type","connection_group","period","evidence_summary","basis",
+   "follow_up","source_url"],
   [[L.get("relId",""),L["source"],nodes[L["source"]]["label"],L["rel"],L["target"],
-    nodes[L["target"]]["label"],EVIDENCE[L["ev"]]["label"],L.get("period",""),
+    nodes[L["target"]]["label"],EVIDENCE[L["ev"]]["label"],
+    CONNECTION[L["kind"]]["label"],FAMILIES[CONNECTION[L["kind"]]["family"]]["label"],
+    L.get("period",""),
     L["note"].replace("\n"," / "),L.get("basis","").replace("\n"," / "),
     L.get("followUp",""),L.get("sourceUrl","")]
    for L in links.values()])

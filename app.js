@@ -146,6 +146,7 @@
     domains: new Set(Object.keys(DOMAINS)),
     types: new Set(Object.keys(TYPES)),
     evs: new Set(Object.keys(EVIDENCE)),
+    families: new Set(Object.keys(FAMILIES)),
     statuses: new Set(Object.keys(STATUS)),
     priorities: new Set(Object.keys(PRIORITY)),
     from: 0, to: DECN - 1, undated: true,
@@ -200,8 +201,11 @@
     return state.domains.has(n.domain) && state.types.has(n.type)
       && state.statuses.has(n.status) && state.priorities.has(n.priority) && inWindow(n);
   }
+  const famOf = l => CONNECTION[l.kind] ? CONNECTION[l.kind].family : "other";
+  const relLabel = l => (CONNECTION[l.kind] ? CONNECTION[l.kind].label : l.rel);
+
   function visibleLink(l) {
-    return state.evs.has(l.ev)
+    return state.evs.has(l.ev) && state.families.has(famOf(l))
       && visibleNode(byId.get(nid(l.source)))
       && visibleNode(byId.get(nid(l.target)));
   }
@@ -471,6 +475,14 @@
           [...b.n.fields].map(f => '<i style="background:' + cssvar(f) + '"></i>').join("") +
           '</span><span>' + esc(b.n.label) + '</span><span class="n">' + b.f +
           '</span></button></li>').join("") + '</ul></div>' +
+      '<div class="sect"><h2>What joins them</h2>' +
+        Object.keys(FAMILIES).map(kk => {
+          const c = links.filter(l => famOf(l) === kk).length;
+          return c ? '<div class="statline"><b>' + c + '</b><span>' +
+            esc(FAMILIES[kk].label) + '</span></div>' : "";
+        }).join("") +
+        '<p class="hint">Marriages, memberships, buildings, specimens changing hands. ' +
+        'Filter by these on the left.</p></div>' +
       '<div class="sect"><h2>How sure any of it is</h2>' + evRows +
         '<p class="hint">A solid line is stated in the collection. A dashed one still ' +
         'needs confirming. A dotted one is a reading offered for testing, not a fact.</p>' +
@@ -570,7 +582,7 @@
       const o = byId.get(nid(l.source) === n.id ? nid(l.target) : nid(l.source));
       return '<li><button data-go="' + esc(o.id) + '">' +
         '<span class="mark" style="background:' + cssvar(o.domain) + '"></span>' +
-        '<span class="rel">' + esc(l.rel) + '</span>' +
+        '<span class="rel">' + esc(relLabel(l)) + '</span>' +
         '<span class="who">' + esc(o.label) + '</span>' +
         '<span class="ev">' + esc(EVIDENCE[l.ev].label.toLowerCase()) + '</span></button></li>';
     }).join("");
@@ -605,12 +617,16 @@
     const a = byId.get(nid(l.source)), b = byId.get(nid(l.target));
     detail.innerHTML = '<div class="panel">' +
       '<button class="backbtn" data-go="">&larr; Whole network</button><div>' +
-      '<div class="eyebrow">' + esc(EVIDENCE[l.ev].label) + '</div>' +
+      '<div class="eyebrow">' + esc(FAMILIES[famOf(l)].label) + ' &middot; ' +
+        esc(EVIDENCE[l.ev].label) + '</div>' +
       '<h2 class="pname">' + esc(a.label) +
-        '<br><span class="joiner">' + esc(l.rel) + '</span><br>' + esc(b.label) + '</h2>' +
+        '<br><span class="joiner">' + esc(relLabel(l)) + '</span><br>' + esc(b.label) + '</h2>' +
       (has(l, "period") ? '<p class="pdates">' + esc(l.period) + '</p>' : "") + '</div>' +
       (has(l, "note") ? '<p class="pnote">' + esc(l.note) + '</p>' : "") +
-      '<p class="hint">' + esc(EVIDENCE[l.ev].note) + '</p>' +
+      '<p class="hint">' +
+        (CONNECTION[l.kind] && CONNECTION[l.kind].note
+          ? esc(CONNECTION[l.kind].note) + ' ' : "") +
+        esc(EVIDENCE[l.ev].note) + '</p>' +
       '<div class="sect"><h2>Both ends</h2><ul class="edges">' +
         [a, b].map(o => '<li><button data-go="' + esc(o.id) + '">' +
           '<span class="mark" style="background:' + cssvar(o.domain) + '"></span>' +
@@ -666,6 +682,7 @@
     state.domains = new Set(p ? p.domains : Object.keys(DOMAINS));
     state.types = new Set(Object.keys(TYPES));
     state.evs = new Set(Object.keys(EVIDENCE));
+    state.families = new Set(Object.keys(FAMILIES));
     state.statuses = new Set(Object.keys(STATUS));
     state.priorities = new Set(Object.keys(PRIORITY));
     state.from = 0; state.to = DECN - 1;
@@ -706,6 +723,9 @@
         'x2="21" y2="6" stroke="currentColor" stroke-width="2" stroke-linecap="round"' + dash +
         '/></svg></span>', EVIDENCE[kk].label, links.filter(l => l.ev === kk).length);
     }).join("");
+    document.getElementById("famChips").innerHTML = Object.keys(FAMILIES).map(kk =>
+      chip("fam", kk, state.families.has(kk), "", FAMILIES[kk].label,
+        links.filter(l => famOf(l) === kk).length)).join("");
     document.getElementById("statusChips").innerHTML = Object.keys(STATUS).map(kk =>
       chip("status", kk, state.statuses.has(kk), "", STATUS[kk].label,
         nodes.filter(n => n.status === kk).length)).join("");
@@ -714,9 +734,10 @@
         nodes.filter(n => n.priority === kk).length)).join("");
   }
 
-  const SETS = { dom: "domains", type: "types", ev: "evs",
+  const SETS = { dom: "domains", type: "types", ev: "evs", fam: "families",
                  status: "statuses", priority: "priorities" };
-  const ALL = { dom: DOMAINS, type: TYPES, ev: EVIDENCE, status: STATUS, priority: PRIORITY };
+  const ALL = { dom: DOMAINS, type: TYPES, ev: EVIDENCE, fam: FAMILIES,
+                status: STATUS, priority: PRIORITY };
 
   document.querySelector(".rail.left").addEventListener("click", e => {
     const pre = e.target.closest("[data-preset]");
@@ -727,7 +748,8 @@
       state[SETS[g]] = new Set(Object.keys(ALL[g]));
       clearGaps(); dropPreset(); buildChips(); paint(); return;
     }
-    const c = e.target.closest("[data-dom],[data-type],[data-ev],[data-status],[data-priority]");
+    const c = e.target.closest("[data-dom],[data-type],[data-ev],[data-fam],"
+      + "[data-status],[data-priority]");
     if (!c) return;
     for (const g in SETS) {
       const v = c.getAttribute("data-" + g);
@@ -735,7 +757,7 @@
       const set = state[SETS[g]];
       if (set.has(v)) set.delete(v); else set.add(v);
       c.classList.toggle("off", !set.has(v));
-      if (g !== "ev") { clearGaps(); dropPreset(); }
+      if (g !== "ev" && g !== "fam") { clearGaps(); dropPreset(); }
       paint();
       return;
     }
@@ -920,7 +942,8 @@
       ["link", "Source", "mid", "text"]
     ],
     links: [
-      ["source", "From", "mid", "node"], ["rel", "Relationship", "mid", "text"],
+      ["source", "From", "mid", "node"], ["kind", "Kind", "mid", "select:CONNECTION"],
+      ["rel", "As written", "mid", "text"],
       ["target", "To", "mid", "node"], ["ev", "Evidence", "narrow", "select:EVIDENCE"],
       ["period", "Period", "narrow", "text"],
       ["note", "What it says", "wide", "area"],
@@ -929,7 +952,8 @@
       ["sourceUrl", "Source", "mid", "text"]
     ]
   };
-  const VOCAB = { DOMAINS: DOMAINS, STATUS: STATUS, PRIORITY: PRIORITY, EVIDENCE: EVIDENCE };
+  const VOCAB = { DOMAINS: DOMAINS, STATUS: STATUS, PRIORITY: PRIORITY,
+                  EVIDENCE: EVIDENCE, CONNECTION: CONNECTION };
 
   let optCache = "";
   function buildOptCache() {

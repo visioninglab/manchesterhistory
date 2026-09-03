@@ -3,120 +3,121 @@
 #   documented   the connection is stated in one of the two records' own text
 #   verify       asserted here from outside the source; check it before relying on it
 #   interpretive a reading offered for testing, not a claim
-# a|relationship|b|evidence|note|source
+# a|relationship|b|evidence|note|source|kind
 #
 # --- stated in the records' own text ----------------------------------------
-PL-BASE-004|terminus of|PL-BASE-003|documented|The Castlefield Basin record calls it the terminus of the Bridgewater Canal.|
-PL-BASE-033|crosses|PL-BASE-004|documented|Both records place these structures in Castlefield: the basin and the railway viaduct above it.|
-PL-BASE-056|stood around|PL-BASE-004|documented|The warehouse record names the Castlefield area, where the basin is.|
-PL-BASE-035|created by|PL-BASE-034|documented|The Port of Manchester record says it was established following the opening of the Manchester Ship Canal.|
-ORG-BASE-002|extended the powers of|ORG-BASE-001|documented|The Improvement Act record says it gave expanded administrative powers to the Corporation.|
-200046|sold the manorial rights to|ORG-BASE-001|documented|The Mosley family record says they sold the rights of lord of the manor of Manchester to Manchester Corporation in 1846.|
-200081|brought him to Manchester|200035|documented|Mary Burns's record says she introduced Engels to Manchester.|
-200074|founded and managed|PL-GAIETY|documented|Annie Horniman's record says she founded and managed the Gaiety Theatre.|
-200071|performed at|PL-GAIETY|documented|Miss Lala's record says she frequently performed at the Gaiety Theatre, Manchester.|
-200057|milled on|PL-BASE-058|documented|Robert Owen's record places his mills on Oxford Road and the River Medlock.|
-200072|built mills like these|PL-BASE-045|documented|Edward Potts's record says he designed and built multiple mills, especially in Oldham.|
-200048|ran mills in Ancoats|PL-BASE-045|documented|The Murray brothers' record files them as factory owners in Ancoats.|
-200049|ran mills in Ancoats|PL-BASE-045|documented|McConnel's record files him as a factory owner in Ancoats.|
-200050|ran mills in Ancoats|PL-BASE-045|documented|Kennedy's record files him as a factory owner in Ancoats.|
-200039|studied at|PL-BASE-021|documented|Marie Stopes's record says she studied at Manchester University, of which Owens College was the precursor.|
-200053|commemorated by a statue at|PL-BASE-002|documented|The record files John Dalton under "statues MRI" - the statues outside the Manchester Royal Infirmary.|
-200054|commemorated by a statue at|PL-BASE-002|documented|The record files James Watt under "statues MRI" - the statues outside the Manchester Royal Infirmary.|
-200055|commemorated by a statue at|PL-BASE-002|documented|The record files the Duke of Wellington under "statues MRI" - the statues outside the Manchester Royal Infirmary.|
-200045|architect of|PL-BASE-029|documented|The record gives his category simply as "Town hall".|
-TL-WOM-014|happened at|PL-BASE-013|documented|The event is the opening of Peel Park.|
-TL-WOM-015|happened at|PL-BASE-020|documented|The event is the inauguration of Salford Museum and Art Gallery.|
-PL-BASE-014|opened the same year as|PL-BASE-013|documented|Both records give 1846, and the Peel Park record says the parks were funded by public subscription.|
-PL-BASE-015|opened the same year as|PL-BASE-013|documented|Both records give 1846, and the Peel Park record says the parks were funded by public subscription.|
-PL-BASE-026|part of the same complex as|PL-BASE-025|documented|Both records name Strangeways: the prison and the police courts and assizes beside it.|
-PL-BASE-016|on the same street as|PL-BASE-040|documented|Both records give King Street.|
-ORG-BASE-011|traded from|PL-BASE-027|documented|The CWS record describes the six-storey Balloon Street warehouse; the Co-operative Society record describes the movement that ran it.|
-COL-010|gathered at|PL-BASE-027|documented|The Women's Co-operative Guild is recorded as gathering at the CWS building.|
-ORG-BASE-007|shared its ground with|PL-BASE-051|documented|The Hulme Hall Settlement record names women's reform work and university extension courses; the Association's record names women's access to higher education.|
-200059|shares the collection's category with|200052|documented|Both records carry "campaigning and design for outdoor public spaces".|
-VM-ADD-002|son-in-law of|VM-ADD-003|documented|Duckworth's record says he was a Unitarian attorney and son-in-law of Robert Philips.|
-VM-ADD-002|recorded together in 1826|200100|documented|Duckworth's record says that along with John Edward Taylor and George William Wood he was recorded in 1826 as supporting meliorating the condition of the slave population of the colonies.|
-VM-ADD-002|recorded together in 1826|VM-ADD-006|documented|Duckworth's record names George William Wood alongside him in the same 1826 record.|
-VM-ADD-003|cousin of|200101|documented|Robert Philips's record calls him the cousin of Sir George Philips.|
-VM-ADD-006|partner in Philips, Wood & Co with|VM-ADD-003|documented|Wood's record names him a partner in Philips, Wood & Co and Shuttleworth, Taylor & Co, the firms named on Robert Philips's record.|
-VM-ADD-007|named in the Manchester Guardian loan agreement|COL-009|documented|The record says the original Manchester Guardian loan agreement names him as a merchant.|
-VM-ADD-008|named in the Manchester Guardian loan agreement|COL-009|documented|The record says the original Manchester Guardian loan agreement names him as a merchant.|
-VM-ADD-009|wrote for|PL-GUARDIAN|documented|Her record describes a journalist for the Guardian.|
-VM-ADD-001|part of|COL-003|documented|The record describes a cotton merchant, manufacturer and calico printer linked to the transatlantic slave economy.|
-VM-ADD-002|part of|COL-003|documented|The record describes an attorney who would have benefited from the cotton trade through family property.|
-VM-ADD-003|part of|COL-003|documented|The record describes partnerships in Philips, Wood & Co and familial relations with enslaving families.|
-VM-ADD-004|part of|COL-003|documented|The record describes a calico printer associated with transatlantic slavery.|
-VM-ADD-005|part of|COL-003|documented|The record describes a merchant and manufacturer of cotton goods linked to transatlantic slavery.|
-VM-ADD-006|part of|COL-003|documented|The record describes a leading Manchester merchant, twice president of the Chamber of Commerce, linked to transatlantic slavery.|
-VM-ADD-007|part of|COL-003|documented|The record names him a merchant in the Manchester Guardian loan agreement.|
-VM-ADD-008|part of|COL-003|documented|The record lists him as a cotton merchant, which the source says suggests a link to slavery.|
+PL-BASE-004|terminus of|PL-BASE-003|documented|The Castlefield Basin record calls it the terminus of the Bridgewater Canal.||nearby
+PL-BASE-033|crosses|PL-BASE-004|documented|Both records place these structures in Castlefield: the basin and the railway viaduct above it.||nearby
+PL-BASE-056|stood around|PL-BASE-004|documented|The warehouse record names the Castlefield area, where the basin is.||nearby
+PL-BASE-035|created by|PL-BASE-034|documented|The Port of Manchester record says it was established following the opening of the Manchester Ship Canal.||builtby
+ORG-BASE-002|extended the powers of|ORG-BASE-001|documented|The Improvement Act record says it gave expanded administrative powers to the Corporation.||owned
+200046|sold the manorial rights to|ORG-BASE-001|documented|The Mosley family record says they sold the rights of lord of the manor of Manchester to Manchester Corporation in 1846.||owned
+200081|brought him to Manchester|200035|documented|Mary Burns's record says she introduced Engels to Manchester.||introduced
+200074|founded and managed|PL-GAIETY|documented|Annie Horniman's record says she founded and managed the Gaiety Theatre.||founded
+200071|performed at|PL-GAIETY|documented|Miss Lala's record says she frequently performed at the Gaiety Theatre, Manchester.||traded
+200057|milled on|PL-BASE-058|documented|Robert Owen's record places his mills on Oxford Road and the River Medlock.||traded
+200072|built mills like these|PL-BASE-045|documented|Edward Potts's record says he designed and built multiple mills, especially in Oldham.||builtby
+200048|ran mills in Ancoats|PL-BASE-045|documented|The Murray brothers' record files them as factory owners in Ancoats.||traded
+200049|ran mills in Ancoats|PL-BASE-045|documented|McConnel's record files him as a factory owner in Ancoats.||traded
+200050|ran mills in Ancoats|PL-BASE-045|documented|Kennedy's record files him as a factory owner in Ancoats.||traded
+200039|studied at|PL-BASE-021|documented|Marie Stopes's record says she studied at Manchester University, of which Owens College was the precursor.||workedat
+200053|commemorated by a statue at|PL-BASE-002|documented|The record files John Dalton under "statues MRI" - the statues outside the Manchester Royal Infirmary.||commemorated
+200054|commemorated by a statue at|PL-BASE-002|documented|The record files James Watt under "statues MRI" - the statues outside the Manchester Royal Infirmary.||commemorated
+200055|commemorated by a statue at|PL-BASE-002|documented|The record files the Duke of Wellington under "statues MRI" - the statues outside the Manchester Royal Infirmary.||commemorated
+200045|architect of|PL-BASE-029|documented|The record gives his category simply as "Town hall".||builtby
+TL-WOM-014|happened at|PL-BASE-013|documented|The event is the opening of Peel Park.||happenedat
+TL-WOM-015|happened at|PL-BASE-020|documented|The event is the inauguration of Salford Museum and Art Gallery.||happenedat
+PL-BASE-014|opened the same year as|PL-BASE-013|documented|Both records give 1846, and the Peel Park record says the parks were funded by public subscription.||nearby
+PL-BASE-015|opened the same year as|PL-BASE-013|documented|Both records give 1846, and the Peel Park record says the parks were funded by public subscription.||nearby
+PL-BASE-026|part of the same complex as|PL-BASE-025|documented|Both records name Strangeways: the prison and the police courts and assizes beside it.||nearby
+PL-BASE-016|on the same street as|PL-BASE-040|documented|Both records give King Street.||nearby
+ORG-BASE-011|traded from|PL-BASE-027|documented|The CWS record describes the six-storey Balloon Street warehouse; the Co-operative Society record describes the movement that ran it.||traded
+COL-010|gathered at|PL-BASE-027|documented|The Women's Co-operative Guild is recorded as gathering at the CWS building.||metat
+ORG-BASE-007|shared its ground with|PL-BASE-051|documented|The Hulme Hall Settlement record names women's reform work and university extension courses; the Association's record names women's access to higher education.||nearby
+200059|shares the collection's category with|200052|documented|Both records carry "campaigning and design for outdoor public spaces".||groupedunder
+VM-ADD-002|son-in-law of|VM-ADD-003|documented|Duckworth's record says he was a Unitarian attorney and son-in-law of Robert Philips.||kin
+VM-ADD-002|recorded together in 1826|200100|documented|Duckworth's record says that along with John Edward Taylor and George William Wood he was recorded in 1826 as supporting meliorating the condition of the slave population of the colonies.||associate
+VM-ADD-002|recorded together in 1826|VM-ADD-006|documented|Duckworth's record names George William Wood alongside him in the same 1826 record.||associate
+VM-ADD-003|cousin of|200101|documented|Robert Philips's record calls him the cousin of Sir George Philips.||kin
+VM-ADD-006|partner in Philips, Wood & Co with|VM-ADD-003|documented|Wood's record names him a partner in Philips, Wood & Co and Shuttleworth, Taylor & Co, the firms named on Robert Philips's record.||partner
+VM-ADD-007|named in the Manchester Guardian loan agreement|COL-009|documented|The record says the original Manchester Guardian loan agreement names him as a merchant.||financed
+VM-ADD-008|named in the Manchester Guardian loan agreement|COL-009|documented|The record says the original Manchester Guardian loan agreement names him as a merchant.||financed
+VM-ADD-009|wrote for|PL-GUARDIAN|documented|Her record describes a journalist for the Guardian.||traded
+VM-ADD-001|part of|COL-003|documented|The record describes a cotton merchant, manufacturer and calico printer linked to the transatlantic slave economy.||partof
+VM-ADD-002|part of|COL-003|documented|The record describes an attorney who would have benefited from the cotton trade through family property.||partof
+VM-ADD-003|part of|COL-003|documented|The record describes partnerships in Philips, Wood & Co and familial relations with enslaving families.||partof
+VM-ADD-004|part of|COL-003|documented|The record describes a calico printer associated with transatlantic slavery.||partof
+VM-ADD-005|part of|COL-003|documented|The record describes a merchant and manufacturer of cotton goods linked to transatlantic slavery.||partof
+VM-ADD-006|part of|COL-003|documented|The record describes a leading Manchester merchant, twice president of the Chamber of Commerce, linked to transatlantic slavery.||partof
+VM-ADD-007|part of|COL-003|documented|The record names him a merchant in the Manchester Guardian loan agreement.||partof
+VM-ADD-008|part of|COL-003|documented|The record lists him as a cotton merchant, which the source says suggests a link to slavery.||partof
 #
 # --- asserted here; check before relying on it -------------------------------
-200049|business partner of|200050|verify|McConnel and Kennedy ran the Ancoats firm together. The collection files both as factory owners in Ancoats without naming the partnership.|
-200045|architect of|PL-BASE-026|verify|Alfred Waterhouse designed Strangeways prison and its assize courts as well as the town hall. The record gives only the town hall.|
-PL-BASE-013|named after|200036|verify|Peel Park in Salford was named for Sir Robert Peel, whose record is filed under Salford.|
-PL-BASE-014|named after|200033|verify|Philips Park was named for Mark Philips, who campaigned and subscribed for it. The record spells the surname Phillips.|
-PL-BASE-020|stands in|PL-BASE-013|verify|Salford Museum and Art Gallery stands in Peel Park. The collection keeps them as two separate records.|
-TL-BASE-001|returned him to Parliament|200033|verify|Mark Philips became one of Manchester's first two MPs at the election that followed the 1832 Reform Act.|
-ORG-BASE-008|founded by|200020|verify|Benjamin Heywood was among the founders of the Manchester Statistical Society in 1833. The record has him only as an MP and philanthropist.|
-PL-BASE-036|built by|ORG-BASE-001|verify|The Thirlmere aqueduct was built by Manchester Corporation to bring Lake District water to the city.|
-PL-BASE-031|traded on|PL-BASE-007|verify|Lewis's opened its Manchester store on Market Street in 1880.|
-PL-BASE-046|joins the network at|PL-BASE-057|verify|The Ashton Canal met the Rochdale Canal at Ducie Street, on the Piccadilly basin.|
-PL-BASE-005|joins the network at|PL-BASE-057|verify|The Rochdale Canal runs through the Piccadilly basin on its way across the city.|
-PL-BASE-018|the other cathedral|PL-BASE-042|verify|St John's is the Roman Catholic cathedral of the Salford diocese; Manchester Cathedral is the Anglican one. The collection files both under Manchester.|
-200064|friend and biographer|200082|verify|Elizabeth Gaskell and Charlotte Bronte were friends, and Gaskell wrote her life. The collection records Bronte's Manchester stay but connects her to nobody.|
-200089|field naturalist|COL-002|verify|Her record describes an ornithologist and polymath born in Salford; the collection leaves her unattached to any natural-history record.|
-200059|father of|VM-ADD-010|verify|William Fairbairn the engineer was the father of Thomas Fairbairn, who chaired the Art Treasures executive. The collection spelled the engineer's surname Fairburn; corrected here.|
-200062|took to the poll by|200068|verify|Lily Maxwell voted in 1867 after Lydia Becker found her name on the register and took her to the poll; the Chorlton v Lings case followed.|
-200079|militant of|ORG-BASE-005|verify|Annie Kenney led WSPU organising out of Manchester; the collection records the suffrage society but connects her to nothing.|
-200076|organised with|ORG-BASE-004|verify|Hannah Mitchell's own record names the ILP and trade unions, which the collection does not resolve; the Women's Trades Council is its nearest body.|
-200022|food campaigner|ORG-BASE-014|verify|The Vegetarian Society, founded in Salford, is the collection's only food-reform body; her record calls her an artist and food campaigner without naming one.|
+200049|business partner of|200050|verify|McConnel and Kennedy ran the Ancoats firm together. The collection files both as factory owners in Ancoats without naming the partnership.||partner
+200045|architect of|PL-BASE-026|verify|Alfred Waterhouse designed Strangeways prison and its assize courts as well as the town hall. The record gives only the town hall.||builtby
+PL-BASE-013|named after|200036|verify|Peel Park in Salford was named for Sir Robert Peel, whose record is filed under Salford.||namedafter
+PL-BASE-014|named after|200033|verify|Philips Park was named for Mark Philips, who campaigned and subscribed for it. The record spells the surname Phillips.||namedafter
+PL-BASE-020|stands in|PL-BASE-013|verify|Salford Museum and Art Gallery stands in Peel Park. The collection keeps them as two separate records.||basedat
+TL-BASE-001|returned him to Parliament|200033|verify|Mark Philips became one of Manchester's first two MPs at the election that followed the 1832 Reform Act.||tookpart
+ORG-BASE-008|founded by|200020|verify|Benjamin Heywood was among the founders of the Manchester Statistical Society in 1833. The record has him only as an MP and philanthropist.||founded
+PL-BASE-036|built by|ORG-BASE-001|verify|The Thirlmere aqueduct was built by Manchester Corporation to bring Lake District water to the city.||builtby
+PL-BASE-031|traded on|PL-BASE-007|verify|Lewis's opened its Manchester store on Market Street in 1880.||traded
+PL-BASE-046|joins the network at|PL-BASE-057|verify|The Ashton Canal met the Rochdale Canal at Ducie Street, on the Piccadilly basin.||nearby
+PL-BASE-005|joins the network at|PL-BASE-057|verify|The Rochdale Canal runs through the Piccadilly basin on its way across the city.||nearby
+PL-BASE-018|the other cathedral|PL-BASE-042|verify|St John's is the Roman Catholic cathedral of the Salford diocese; Manchester Cathedral is the Anglican one. The collection files both under Manchester.||nearby
+200064|friend and biographer|200082|verify|Elizabeth Gaskell and Charlotte Bronte were friends, and Gaskell wrote her life. The collection records Bronte's Manchester stay but connects her to nobody.||collaborated
+200089|field naturalist|COL-002|verify|Her record describes an ornithologist and polymath born in Salford; the collection leaves her unattached to any natural-history record.||member
+200059|father of|VM-ADD-010|verify|William Fairbairn the engineer was the father of Thomas Fairbairn, who chaired the Art Treasures executive. The collection spelled the engineer's surname Fairburn; corrected here.||parentchild
+200062|took to the poll by|200068|verify|Lily Maxwell voted in 1867 after Lydia Becker found her name on the register and took her to the poll; the Chorlton v Lings case followed.||introduced
+200079|militant of|ORG-BASE-005|verify|Annie Kenney led WSPU organising out of Manchester; the collection records the suffrage society but connects her to nothing.||member
+200076|organised with|ORG-BASE-004|verify|Hannah Mitchell's own record names the ILP and trade unions, which the collection does not resolve; the Women's Trades Council is its nearest body.||member
+200022|food campaigner|ORG-BASE-014|verify|The Vegetarian Society, founded in Salford, is the collection's only food-reform body; her record calls her an artist and food campaigner without naming one.||member
 #
 # --- readings offered for testing --------------------------------------------
-PL-BASE-053|the same commercial quarter as|PL-BASE-016|interpretive|Bank, exchange and banking hall within a few streets of each other; the collection records the buildings but not the quarter they make.|
-PL-BASE-052|the same commercial quarter as|PL-BASE-053|interpretive|Two Edwardian commercial palaces built within a decade of each other, both now hotels.|
-PL-BASE-038|built in the same decade and manner as|PL-BASE-053|interpretive|Both records describe Edwardian Baroque buildings of the 1900s.|
-PL-BASE-043|the other side of the education argument from|ORG-BASE-007|interpretive|The Grammar School record calls it a historically male institution and part of broader education debates; the Ladies' Educational Association is the counterpart claim.|
-PL-BASE-054|women's provision, like|PL-BASE-051|interpretive|One record claims the baths mattered for women's health and hygiene, the other that the settlement mattered for women's reform work. Neither names the other.|
-200061|policed the same city as|200070|interpretive|Two Manchester police records a generation apart, one a constable who lived as a man, one the detective who raided a Hulme drag ball. The collection connects neither to a force.|
-200075|a first in his sport, like|200080|interpretive|Both records mark a first for a black sportsman in England, in Tameside and Salford; the collection keeps them apart.|
-200067|Salford religious welfare, like|ORG-BASE-015|interpretive|A Salvationist in Eccles and a Salford children's refuge, both 1870s religious welfare. Neither record names the other.|
-200090|Salford's later voice|PL-BASE-020|interpretive|Delaney (1938-2011) falls outside the Victorian span the rest of the collection covers. Joined to Salford's public cultural institution so the record is reachable, and flagged here as out of period.|
+PL-BASE-053|the same commercial quarter as|PL-BASE-016|interpretive|Bank, exchange and banking hall within a few streets of each other; the collection records the buildings but not the quarter they make.||nearby
+PL-BASE-052|the same commercial quarter as|PL-BASE-053|interpretive|Two Edwardian commercial palaces built within a decade of each other, both now hotels.||nearby
+PL-BASE-038|built in the same decade and manner as|PL-BASE-053|interpretive|Both records describe Edwardian Baroque buildings of the 1900s.||nearby
+PL-BASE-043|the other side of the education argument from|ORG-BASE-007|interpretive|The Grammar School record calls it a historically male institution and part of broader education debates; the Ladies' Educational Association is the counterpart claim.||reading
+PL-BASE-054|women's provision, like|PL-BASE-051|interpretive|One record claims the baths mattered for women's health and hygiene, the other that the settlement mattered for women's reform work. Neither names the other.||reading
+200061|policed the same city as|200070|interpretive|Two Manchester police records a generation apart, one a constable who lived as a man, one the detective who raided a Hulme drag ball. The collection connects neither to a force.||reading
+200075|a first in his sport, like|200080|interpretive|Both records mark a first for a black sportsman in England, in Tameside and Salford; the collection keeps them apart.||reading
+200067|Salford religious welfare, like|ORG-BASE-015|interpretive|A Salvationist in Eccles and a Salford children's refuge, both 1870s religious welfare. Neither record names the other.||reading
+200090|Salford's later voice|PL-BASE-020|interpretive|Delaney (1938-2011) falls outside the Victorian span the rest of the collection covers. Joined to Salford's public cultural institution so the record is reachable, and flagged here as out of period.||reading
 #
 # --- restored after re-transcription --------------------------------------------
 # The first transcription put these names in the Places sheet's Connected people column.
 # The workbook does not: it states them in the record's own relevance text. They belong
 # here, where the basis is visible.
-PL-BASE-049|home of|200021|documented|The Pankhurst Centre record calls the building the birthplace of the suffragette movement and the home of Emmeline Pankhurst.|
-PL-BASE-037|founded by|200040|documented|The John Rylands Library record says it was funded by Enriqueta Rylands in memory of her husband.|
-PL-BASE-037|memorial to|200024|documented|The library record names it a memorial to her husband, John Rylands.|
-200073|catalogued the collection of|200040|documented|Alice Cooke's record says she catalogued the Enriqueta collection.|
-PL-BASE-032|founded from the bequest of|200023|verify|The Whitworth record says it was founded from a bequest; Joseph Whitworth's is the bequest in question. The workbook does not name him on the record.|
-200003|gave collections to|PL-BASE-032|documented|The Lees family record says their material went to Manchester Art Gallery and the Whitworth.|
-200003|gave collections to|PL-BASE-008|documented|The Lees family record says their material went to Manchester Art Gallery and the Whitworth.|
-200066|spoke at|PL-BASE-048|documented|Sarah Parker Remond's record says she delivered speeches in the Manchester Athenaeum.|
-ORG-BASE-009|met in|PL-BASE-048|documented|The Athenaeum on Princess Street is the building the Manchester Athenaeum occupied.|
-200041|founded|PL-BASE-039|documented|James Groves's record files him as a founder under "Salford Lads Club, Groves and Whitnall Breweries".|
-200042|founded|PL-BASE-039|documented|William Groves's record files him as a founder under "Salford Lads Club, Groves and Whitnall Breweries".|
-200051|made a lithograph of|PL-BASE-002|documented|J. Arnout's record is a lithograph of the Royal Infirmary, 1857.|
-200088|daughter of|200107|documented|Helen Brotherton's record calls her the daughter of Martha and Joseph Brotherton.|
-200088|vice-president of|ORG-BASE-014|documented|Her record makes her vice-president of the Vegetarian Society.|
-200038|vegetarianism|ORG-BASE-014|documented|Mary Brotherton's record files her under Vegetarianism; the Vegetarian Society is the collection's body for it.|
-ORG-BASE-013|founded the society|ORG-BASE-014|documented|The Bible Christian Church record says it promoted vegetarianism, temperance and social reform; the Vegetarian Society grew out of it in Salford.|
-PL-BASE-024|burial place of|200107|documented|The Weaste Cemetery record names Joseph and Martha Brotherton among those buried there.|
-PL-BASE-024|burial place of|200087|documented|The Weaste Cemetery record names Joseph and Martha Brotherton among those buried there.|
-200044|bishop of|ORG-BASE-003|documented|Bishop James Fraser held the see the Manchester Diocese record describes.|
-200044|commemorated in Albert Square|PL-BASE-029|documented|His record says his statue stands in Albert Square, outside the town hall.|
-200060|built it as town clerk|PL-BASE-029|documented|Joseph Heron's record says the town clerk led on building the town hall to Waterhouse's design.|
-200060|commissioned|200045|documented|His record names Waterhouse's design as the one he led the building of.|
-200058|built|PL-BASE-023|documented|The S&J Watts record names the warehouse that is now the Britannia hotel.|
-ORG-BASE-010|founded by|GH-WOLSTENHOLME|documented|Elizabeth Wolstenholme is recorded as the founder of the Manchester Schoolmistresses Association.|
-ORG-BASE-012|governed relief in|PL-NH-018|documented|The Board of Guardians record and the Chorlton-on-Medlock record cover the same district.|
-PL-BASE-030|provision for disabled people|COL-019|documented|The Deaf and Dumb Institute record describes education for deaf children, which is what this heading collects.|
-PL-BASE-041|the same foundation as|PL-BASE-044|documented|Chetham's College and Chetham's Library are two records of one foundation.|
-PL-BASE-009|terminus in Castlefield|PL-BASE-004|verify|The Liverpool and Manchester Railway's Manchester terminus was on Liverpool Road, at the Castlefield basin.|
-GH-NESWS|named in her relationships|200084|documented|The record exists because Esther Roper's relationships column names the North of England Society for Women's Suffrage.|
-VM-ADD-013|professor at|ORG-NH-007|verify|William Crawford Williamson was the first professor of natural history at Owens College. His record's biographical fields are incomplete.|
-200078|trade unionist|ORG-BASE-004|verify|Mary Qualie's record gives only "Trade Unionist"; the Women's Trades Council is the collection's nearest body.|
-200065|Salford writer|PL-BASE-020|interpretive|Robert Rose, born in the West Indies and living in Salford, chaired the "Poets Corner". The building is not in the collection; joined to Salford's cultural institution so the record is reachable.|
+PL-BASE-049|home of|200021|documented|The Pankhurst Centre record calls the building the birthplace of the suffragette movement and the home of Emmeline Pankhurst.||basedat
+PL-BASE-037|founded by|200040|documented|The John Rylands Library record says it was funded by Enriqueta Rylands in memory of her husband.||founded
+PL-BASE-037|memorial to|200024|documented|The library record names it a memorial to her husband, John Rylands.||commemorated
+200073|catalogued the collection of|200040|documented|Alice Cooke's record says she catalogued the Enriqueta collection.||collaborated
+PL-BASE-032|founded from the bequest of|200023|verify|The Whitworth record says it was founded from a bequest; Joseph Whitworth's is the bequest in question. The workbook does not name him on the record.||financed
+200003|gave collections to|PL-BASE-032|documented|The Lees family record says their material went to Manchester Art Gallery and the Whitworth.||financed
+200003|gave collections to|PL-BASE-008|documented|The Lees family record says their material went to Manchester Art Gallery and the Whitworth.||financed
+200066|spoke at|PL-BASE-048|documented|Sarah Parker Remond's record says she delivered speeches in the Manchester Athenaeum.||metat
+ORG-BASE-009|met in|PL-BASE-048|documented|The Athenaeum on Princess Street is the building the Manchester Athenaeum occupied.||metat
+200041|founded|PL-BASE-039|documented|James Groves's record files him as a founder under "Salford Lads Club, Groves and Whitnall Breweries".||founded
+200042|founded|PL-BASE-039|documented|William Groves's record files him as a founder under "Salford Lads Club, Groves and Whitnall Breweries".||founded
+200051|made a lithograph of|PL-BASE-002|documented|J. Arnout's record is a lithograph of the Royal Infirmary, 1857.||builtby
+200088|daughter of|200107|documented|Helen Brotherton's record calls her the daughter of Martha and Joseph Brotherton.||parentchild
+200088|vice-president of|ORG-BASE-014|documented|Her record makes her vice-president of the Vegetarian Society.||led
+200038|vegetarianism|ORG-BASE-014|documented|Mary Brotherton's record files her under Vegetarianism; the Vegetarian Society is the collection's body for it.||member
+ORG-BASE-013|founded the society|ORG-BASE-014|documented|The Bible Christian Church record says it promoted vegetarianism, temperance and social reform; the Vegetarian Society grew out of it in Salford.||founded
+PL-BASE-024|burial place of|200107|documented|The Weaste Cemetery record names Joseph and Martha Brotherton among those buried there.||buriedat
+PL-BASE-024|burial place of|200087|documented|The Weaste Cemetery record names Joseph and Martha Brotherton among those buried there.||buriedat
+200044|bishop of|ORG-BASE-003|documented|Bishop James Fraser held the see the Manchester Diocese record describes.||led
+200044|commemorated in Albert Square|PL-BASE-029|documented|His record says his statue stands in Albert Square, outside the town hall.||commemorated
+200060|built it as town clerk|PL-BASE-029|documented|Joseph Heron's record says the town clerk led on building the town hall to Waterhouse's design.||builtby
+200060|commissioned|200045|documented|His record names Waterhouse's design as the one he led the building of.||builtby
+200058|built|PL-BASE-023|documented|The S&J Watts record names the warehouse that is now the Britannia hotel.||builtby
+ORG-BASE-010|founded by|GH-WOLSTENHOLME|documented|Elizabeth Wolstenholme is recorded as the founder of the Manchester Schoolmistresses Association.||founded
+ORG-BASE-012|governed relief in|PL-NH-018|documented|The Board of Guardians record and the Chorlton-on-Medlock record cover the same district.||led
+PL-BASE-030|provision for disabled people|COL-019|documented|The Deaf and Dumb Institute record describes education for deaf children, which is what this heading collects.||partof
+PL-BASE-041|the same foundation as|PL-BASE-044|documented|Chetham's College and Chetham's Library are two records of one foundation.||sameplace
+PL-BASE-009|terminus in Castlefield|PL-BASE-004|verify|The Liverpool and Manchester Railway's Manchester terminus was on Liverpool Road, at the Castlefield basin.||nearby
+GH-NESWS|named in her relationships|200084|documented|The record exists because Esther Roper's relationships column names the North of England Society for Women's Suffrage.||associate
+VM-ADD-013|professor at|ORG-NH-007|verify|William Crawford Williamson was the first professor of natural history at Owens College. His record's biographical fields are incomplete.||led
+200078|trade unionist|ORG-BASE-004|verify|Mary Qualie's record gives only "Trade Unionist"; the Women's Trades Council is the collection's nearest body.||member
+200065|Salford writer|PL-BASE-020|interpretive|Robert Rose, born in the West Indies and living in Salford, chaired the "Poets Corner". The building is not in the collection; joined to Salford's cultural institution so the record is reachable.||reading
+200040|married to|200024|documented|John Rylands's record names his third wife by her maiden name, Enriqueta Augustina Tennant, so the two records never meet on their own.||married
