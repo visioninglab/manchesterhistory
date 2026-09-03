@@ -220,11 +220,11 @@ svg#net.grabbing{cursor:grabbing}
   color:var(--accent);font-size:12px}
 .backbtn:hover{text-decoration:underline}
 
-.node-label{font-family:Archivo,sans-serif;font-size:9.5px;fill:var(--ink2);
-  cursor:pointer;paint-order:stroke;stroke:var(--canvas);stroke-width:3px;
+.node-label{font-family:Archivo,sans-serif;font-size:10px;fill:var(--ink2);
+  cursor:pointer;paint-order:stroke;stroke:var(--canvas);stroke-width:3.5px;
   stroke-linejoin:round}
 .node-label:hover{fill:var(--ink)}
-.node-label.big{font-size:11px;fill:var(--ink);font-weight:500}
+.node-label.big{font-size:11.5px;fill:var(--ink);font-weight:500}
 .node{cursor:pointer}
 .legendkey{position:absolute;left:14px;bottom:10px;font-size:10.5px;color:var(--ink3);
   font-family:"IBM Plex Mono",monospace;display:flex;gap:14px;flex-wrap:wrap;
@@ -1469,6 +1469,9 @@ const META = {"built":"2026-09-03","source":"Victorian_Manchester_Natural_Histor
   /* The drawn dot is as small as 7px across. Give every node a target big enough
      for a mouse, and make its name clickable too, since the name is what people aim at. */
   const hitR = d => Math.max(rad(d) + 9, 14);
+  /* Event names are whole sentences. Trim what is drawn on the graph; the panel
+     carries the full one. */
+  const shortLabel = d => d.label.length > 32 ? d.label.slice(0, 30) + "…" : d.label;
 
   function bindGraph(firstRun) {
     nodes.forEach(n => {
@@ -1527,7 +1530,7 @@ const META = {"built":"2026-09-03","source":"Victorian_Manchester_Natural_Histor
         .call(grab),
       update => update, exit => exit.remove())
       .attr("class", "node-label")
-      .text(d => d.label.length > 40 ? d.label.slice(0, 38) + "…" : d.label);
+      .text(shortLabel);
 
     position();
   }
@@ -1539,7 +1542,7 @@ const META = {"built":"2026-09-03","source":"Victorian_Manchester_Natural_Histor
     linkSel.attr("d", d => "M" + d.source.x + "," + d.source.y + "L" + d.target.x + "," + d.target.y);
     nodeSel.attr("transform", d => "translate(" + d.x + "," + d.y + ")");
     hitSel.attr("cx", d => d.x).attr("cy", d => d.y);
-    textSel.attr("x", d => d.x).attr("y", d => d.y - rad(d) - 4.5);
+    placeLabels();
   }
 
   let k = 1;
@@ -1614,20 +1617,48 @@ const META = {"built":"2026-09-03","source":"Victorian_Manchester_Natural_Histor
     tally();
   }
 
+  function placeLabels() {
+    if (!textSel) return;
+    const inv = 1 / k;
+    textSel.attr("transform", d => "translate(" + d.x + "," + (d.y - rad(d) - 4.5) +
+      ") scale(" + inv + ")");
+  }
+
+  /* Show every name that fits. Busiest first, and skip any that would land on a name
+     already placed - so zooming in spreads the dots apart and uncovers more of them. */
   function paintLabels() {
     if (!textSel) return;
     const nb = neighbourhood();
     const near = nb ? nb.near : null;
-    const showAll = k > 1.7 || state.gap;
+    const focused = nb ? nb.f : null;
+
+    const cand = nodes.filter(n => visibleNode(n) && (!near || near.has(n.id)));
+    cand.sort((a, b) => (b.id === focused) - (a.id === focused) || b.deg - a.deg);
+
+    const placed = [], show = new Set();
+    for (let i = 0; i < cand.length; i++) {
+      const nd = cand[i];
+      const big = nd.deg >= 8 || nd.id === focused;
+      const chars = shortLabel(nd).length;
+      const w = chars * (big ? 5.7 : 4.9) + 8;
+      const cx = nd.x * k, cy = (nd.y - rad(nd) - 4.5) * k;
+      const box = [cx - w / 2, cy - (big ? 13 : 11), cx + w / 2, cy + 3];
+      let clash = false;
+      for (let j = 0; j < placed.length; j++) {
+        const q = placed[j];
+        if (box[0] < q[2] && q[0] < box[2] && box[1] < q[3] && q[1] < box[3]) {
+          clash = true; break;
+        }
+      }
+      if (clash) continue;
+      placed.push(box); show.add(nd.id);
+    }
+
+    placeLabels();
     textSel
-      .attr("display", d => {
-        if (!visibleNode(d)) return "none";
-        if (near) return near.has(d.id) ? null : "none";
-        if (showAll) return null;
-        return (d.deg >= 5 || (d.type !== "person" && d.deg >= 3)) ? null : "none";
-      })
-      .attr("class", d => "node-label" + (d.deg >= 8 || (nb && d.id === nb.f) ? " big" : ""))
-      .attr("fill", d => (nb && d.id === nb.f) ? col(d) : null);
+      .attr("display", d => show.has(d.id) ? null : "none")
+      .attr("class", d => "node-label" + (d.deg >= 8 || d.id === focused ? " big" : ""))
+      .attr("fill", d => d.id === focused ? col(d) : null);
   }
 
   function tally() {
