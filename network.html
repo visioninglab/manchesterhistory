@@ -101,6 +101,15 @@ svg#net.grabbing{cursor:grabbing}
   color:var(--ink3);font-variant-numeric:tabular-nums}
 .chip .glyph{width:22px;display:flex;justify-content:center;flex:none;color:var(--ink2)}
 
+.presets{display:flex;flex-direction:column;gap:5px}
+.preset{width:100%;text-align:left;padding:8px 10px;border:1px solid var(--rule);
+  border-radius:3px;background:var(--ground);cursor:pointer;display:flex;
+  flex-direction:column;gap:3px}
+.preset:hover{border-color:var(--ink3)}
+.preset.on{border-color:var(--accent);box-shadow:inset 2px 0 0 var(--accent)}
+.preset b{font-size:12.5px;font-weight:600;display:block}
+.preset i{font-style:normal;font-size:11px;color:var(--ink3);line-height:1.35}
+.preset.on i{color:var(--ink2)}
 .pushbtn{width:100%;padding:7px 10px;border:1px solid var(--rule);border-radius:3px;
   background:var(--ground);cursor:pointer;font-size:12.5px;text-align:left;
   display:flex;align-items:center;gap:8px}
@@ -285,6 +294,10 @@ td.narrow{width:110px} td.mid{width:180px} td.wide{width:300px} td.tiny{width:66
   <div class="body" id="body">
     <aside class="rail left">
       <div class="sect">
+        <h2>Start here<button class="all" data-preset="">whole network</button></h2>
+        <div class="presets" id="presets"></div>
+      </div>
+      <div class="sect">
         <h2>Find</h2>
         <div class="searchwrap">
           <input id="q" type="search" placeholder="Buxton, Kersal Moor, Herbarium&#8230;" autocomplete="off">
@@ -338,7 +351,7 @@ td.narrow{width:110px} td.mid{width:180px} td.wide{width:300px} td.tiny{width:66
           <i><svg width="14" height="10" aria-hidden="true"><rect x="1" y="1" width="8" height="8" rx="1.5" fill="currentColor"/></svg>society</i>
           <i><svg width="14" height="12" aria-hidden="true"><path d="M5.5 0.5 L10.5 5.5 L5.5 10.5 L0.5 5.5 Z" fill="currentColor"/></svg>place</i>
           <i><svg width="14" height="11" aria-hidden="true"><path d="M5.5 0.5 L10.5 9.5 L0.5 9.5 Z" fill="currentColor"/></svg>event</i>
-          <i>hollow = named, not a record of its own</i>
+          <i>hollow = not a record of its own</i>
         </div>
       </div>
 

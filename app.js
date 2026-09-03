@@ -149,9 +149,39 @@
     statuses: new Set(Object.keys(STATUS)),
     priorities: new Set(Object.keys(PRIORITY)),
     from: 0, to: DECN - 1, undated: true,
-    gap: "", selected: null, hovered: null,
+    gap: "", preset: "", selected: null, hovered: null,
     tab: "net", sheetTab: "person", sheetQ: ""
   };
+
+  /* Five ways in, for a reader who does not yet know what they are looking at.
+     Each sets the filters and lands on the part of the network it names. */
+  const PRESETS = [
+    { id: "guardian", title: "Cotton money and the Guardian",
+      blurb: "Who paid for the Manchester Guardian, and where the money came from. " +
+             "The Little Circle financed the paper; eight of its merchants appear in " +
+             "the original loan agreement, and their records describe the cotton trade " +
+             "that made them.",
+      domains: ["press", "trade"], focus: "COL-009" },
+    { id: "herbarium", title: "How the herbarium moved",
+      blurb: "Four private collections became one museum. The Relationships sheet " +
+             "traces each transfer into the Manchester Museum Herbarium, and back out " +
+             "again to the collectors who built them.",
+      domains: ["nat"], focus: "PL-NH-016" },
+    { id: "artisans", title: "Artisan botanists and their ground",
+      blurb: "Weavers, shoemakers and gardeners who botanised on Sunday. The mosses, " +
+             "cloughs and pub back-rooms they met in are here as places, not background.",
+      domains: ["nat"], focus: "COL-001" },
+    { id: "suffrage", title: "Votes for women",
+      blurb: "From Lydia Becker's herbarium to the Manchester National Society for " +
+             "Women's Suffrage. The workbook offers the link between her botany and her " +
+             "politics as a hypothesis; it is drawn dotted, for testing.",
+      domains: ["suff", "reform"], focus: "ORG-BASE-005" },
+    { id: "slavery", title: "Slavery, for and against",
+      blurb: "The Category column sorts this collection's people into anti-slavery " +
+             "campaigners and pro-slavery interests. Both groups are here, and several " +
+             "Manchester families appear near both.",
+      domains: ["reform", "trade"], focus: "COL-011" }
+  ];
 
   const GAPS = {
     iso: n => n.deg === 0,
@@ -492,7 +522,9 @@
       (has(n, "note") && n.note !== n.role ? '<p class="pnote">' + esc(n.note) + '</p>' : "") +
       (has(n, "mergedFrom") ? '<p class="flag"><b>Absorbed ' + esc(n.mergedFrom) +
         '</b>' + esc(n.mergeNote || "") + '</p>' : "") +
-      (has(n, "qcFlag") ? '<p class="flag"><b>Data-quality flag</b>' + esc(n.qcFlag) + '</p>' : "") +
+      (has(n, "qcFlag") ? '<p class="flag"><b>Data flag</b>' + esc(n.qcFlag) + '</p>' : "") +
+      (has(n, "corrected") ? '<p class="flag"><b>Corrected here</b>' +
+        esc(n.corrected) + '</p>' : "") +
       (has(n, "openQuestion") ? '<p class="ask"><b>Open question</b>' +
         esc(n.openQuestion) + '</p>' : "") +
       '<dl class="meta">' +
@@ -544,6 +576,8 @@
   }
 
   detail.addEventListener("click", e => {
+    const pre = e.target.closest("[data-preset]");
+    if (pre) { applyPreset(pre.getAttribute("data-preset")); return; }
     const b = e.target.closest("[data-go]"); if (!b) return;
     select(b.getAttribute("data-go") || null);
   });
@@ -559,6 +593,45 @@
   function chip(attr, key, on, glyph, label, count) {
     return '<button class="chip' + (on ? "" : " off") + '" data-' + attr + '="' + key + '">' +
       glyph + '<span>' + esc(label) + '</span><span class="n">' + count + '</span></button>';
+  }
+
+  function buildPresets() {
+    document.getElementById("presets").innerHTML = PRESETS.map(p =>
+      '<button class="preset' + (state.preset === p.id ? " on" : "") +
+      '" data-preset="' + p.id + '"><b>' + esc(p.title) + '</b><i>' +
+      esc(p.blurb.split(". ")[0]) + '.</i></button>').join("");
+  }
+
+  function applyPreset(id) {
+    const p = PRESETS.filter(x => x.id === id)[0];
+    state.preset = p ? p.id : "";
+    clearGaps();
+    state.domains = new Set(p ? p.domains : Object.keys(DOMAINS));
+    state.types = new Set(Object.keys(TYPES));
+    state.evs = new Set(Object.keys(EVIDENCE));
+    state.statuses = new Set(Object.keys(STATUS));
+    state.priorities = new Set(Object.keys(PRIORITY));
+    state.from = 0; state.to = DECN - 1;
+    fromEl.value = 0; toEl.value = DECN - 1;
+    state.selected = null; state.hovered = null;
+    buildPresets(); buildChips(); paintHist(); paint();
+    if (p) { renderPreset(p); focus(p.focus); } else { renderSummary(); fit(); }
+  }
+
+  function renderPreset(p) {
+    const vis = nodes.filter(visibleNode).sort((a, b) => b.deg - a.deg).slice(0, 10);
+    detail.innerHTML = '<div class="panel">' +
+      '<button class="backbtn" data-preset="">&larr; Whole network</button>' +
+      '<div><div class="eyebrow">A way in</div>' +
+      '<h2 class="pname">' + esc(p.title) + '</h2></div>' +
+      '<p class="pnote">' + esc(p.blurb) + '</p>' +
+      '<div class="sect"><h2>Busiest here</h2><ul class="brokers">' +
+        vis.map(n => '<li><button data-go="' + esc(n.id) + '">' +
+          '<span class="dot" style="background:' + cssvar(n.domain) + '"></span>' +
+          '<span>' + esc(n.label) + '</span><span class="n">' + n.deg +
+          '</span></button></li>').join("") +
+      '</ul><p class="hint">Click a name to follow it, or use the filters below to ' +
+      'widen the view back out.</p></div></div>';
   }
 
   function buildChips() {
@@ -589,11 +662,13 @@
   const ALL = { dom: DOMAINS, type: TYPES, ev: EVIDENCE, status: STATUS, priority: PRIORITY };
 
   document.querySelector(".rail.left").addEventListener("click", e => {
+    const pre = e.target.closest("[data-preset]");
+    if (pre) { applyPreset(pre.getAttribute("data-preset")); return; }
     const all = e.target.closest("[data-all]");
     if (all) {
       const g = all.getAttribute("data-all");
       state[SETS[g]] = new Set(Object.keys(ALL[g]));
-      clearGaps(); buildChips(); paint(); return;
+      clearGaps(); dropPreset(); buildChips(); paint(); return;
     }
     const c = e.target.closest("[data-dom],[data-type],[data-ev],[data-status],[data-priority]");
     if (!c) return;
@@ -603,7 +678,7 @@
       const set = state[SETS[g]];
       if (set.has(v)) set.delete(v); else set.add(v);
       c.classList.toggle("off", !set.has(v));
-      if (g !== "ev") clearGaps();
+      if (g !== "ev") { clearGaps(); dropPreset(); }
       paint();
       return;
     }
@@ -613,6 +688,11 @@
                     ghost: document.getElementById("ghostBtn"),
                     merged: document.getElementById("mergedBtn"),
                     qc: document.getElementById("qcBtn") };
+  function dropPreset() {
+    if (!state.preset) return;
+    state.preset = "";
+    buildPresets();
+  }
   function clearGaps() {
     state.gap = "";
     Object.keys(gapBtns).forEach(g => gapBtns[g].classList.remove("on"));
@@ -747,6 +827,7 @@
       ["priority", "Priority", "narrow", "select:PRIORITY"],
       ["openQuestion", "Open question", "wide", "area"], ["qcFlag", "Data flag", "mid", "area"],
       ["mergedFrom", "Absorbed", "mid", "text"],
+      ["corrected", "Corrected here", "wide", "area"],
       ["note", "Note", "wide", "area"], ["link", "Source", "mid", "text"]
     ],
     org: [
@@ -1017,6 +1098,7 @@
   buildModel();
   bindGraph(true);
   buildChips();
+  buildPresets();
   drawHist();
   renderSummary();
   paint();

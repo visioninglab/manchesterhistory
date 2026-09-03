@@ -1,0 +1,51 @@
+# Corrections applied on top of the transcription. src/people.psv, orgs.psv, places.psv
+# and timeline.psv are re-transcribed straight from the workbook and are not edited by
+# hand; everything we change to the source's own values goes here instead, so the two stay
+# separable. Each correction is written into the record's data flag as well, so a reader
+# of the page sees it.
+# id|field|value|why
+#
+# --- names the source leaves incomplete or misspelled -------------------------
+200045|name|Alfred Waterhouse|First name missing in the source. He is the architect of the town hall the record itself names.
+200035|name|Friedrich Engels|First name missing in the source.
+200049|name|James McConnel|First name missing in the source. Of the Ancoats firm McConnel & Kennedy - check before relying on it.
+200050|name|John Kennedy|First name missing in the source. Of the Ancoats firm McConnel & Kennedy - check before relying on it.
+200005|name|Granville Sharp|The source spells it Sharpe.
+200064|name|Charlotte Brontë|The source drops the diacritic.
+200059|name|William Fairbairn|The source spells it Fairburn. He is the engineer, father of Thomas Fairbairn.
+200004|name|Unnamed founder, Society for the Abolition of Slavery|The source names this record only "Founder?" and puts the society in its notes.
+#
+# --- the Philips family -------------------------------------------------------
+200033|name|Mark Philips|The family and the MP spell it Philips; the source has Phillips on this row alone.
+PL-BASE-014|name|Philips Park|Named for Mark Philips, and spelled Philips. The source has Phillips.
+#
+# --- boroughs -----------------------------------------------------------------
+PL-BASE-006|area|Manchester|The Portico Library is on Mosley Street in Manchester. The source files it under Salford.
+PL-BASE-013|area|Salford|Peel Park is in Salford. The source files it under Manchester.
+PL-BASE-020|area|Salford|Salford Museum and Art Gallery. The source files it under Manchester.
+PL-BASE-024|area|Salford|Weaste Cemetery is in Salford. The source files it under Manchester.
+PL-BASE-039|area|Salford|Salford Lads Club. The source files it under Manchester.
+PL-BASE-056|area|Manchester|The Castlefield warehouses are in Manchester. The source files them under Salford.
+#
+# --- the source's own column drift and text damage ----------------------------
+PL-BASE-039|relevance|Youth club known for its cultural significance; associated with The Smiths.|The source leaves the relevance column empty and puts this text in Connected people.
+PL-BASE-039|connectedPeople||Cleared: the cell held relevance text, not people.
+PL-BASE-045|relevance|Manchester's first cotton mill was built in the early 1780s; by 1830 there were 99 cotton-spinning mills.|The source leaves the relevance column empty and puts this text in Connected people.
+PL-BASE-045|connectedPeople||Cleared: the cell held relevance text, not people.
+PL-BASE-043|connectedPeople||Cleared: the cell repeats the relevance text, garbled to "0H)istorically male institution".
+PL-BASE-010|connectedPeople|Florence Nightingale (visited)|The cell trails "link to reformers", which names nobody.
+#
+# --- disambiguation -----------------------------------------------------------
+PL-NH-020|name|Mechanics' Institute building, Cooper Street|Distinguishes the building from the organisation record of the same name.
+PL-BASE-007|name|Market Street|The source abbreviates it to "Market St".
+#
+# --- corrected against the record's own subject -------------------------------
+200075|gender|M|The source records Arthur Wharton as F in both its gender columns. He was a man: the first black professional footballer.
+#
+# --- category records that are not buildings ----------------------------------
+PL-BASE-045|name|Cotton mills|The source calls this record "Factories (e.g., Cotton Mills)". It stands for a class of building, not one of them.
+PL-BASE-038|name|Hotels|The source calls this record "Hotels (e.g., Midland Hotel)". It stands for a class of building, not one of them.
+PL-BASE-056|name|Warehouses|The source calls this record "Warehouses (e.g., Castlefield area)". It stands for a class of building, not one of them.
+PL-BASE-045|kindOf|grouping|Not a building: a heading the source uses to stand for a class of them.
+PL-BASE-038|kindOf|grouping|Not a building: a heading the source uses to stand for a class of them.
+PL-BASE-056|kindOf|grouping|Not a building: a heading the source uses to stand for a class of them.

@@ -101,7 +101,7 @@ def rows(name, n):
     out = []
     path = os.path.join(SRC, name)
     for ln, raw in enumerate(io.open(path, encoding="utf-8"), 1):
-        raw = raw.rstrip("\n").rstrip("\r")
+        raw = raw.rstrip("\n").rstrip("\r").replace(u"�", "'").replace(u"’", "'").replace(u"‘", "'")
         if not raw.strip() or raw.lstrip().startswith("#"):
             continue
         f = [x.strip() for x in raw.split("|")]
@@ -236,14 +236,39 @@ for f in rows("timeline.psv", 13):
          "role": theme, "decades": year, "link": url(src)})
 
 # ghosts and collectives -----------------------------------------------------
-for gid, name, typ, domain, kind, note in rows("extra-nodes.psv", 6):
+RECTYPE = {"ghost": "Named in the workbook, no record of its own",
+           "record": "Named in the workbook, researched into a record here",
+           "collective": "Group the workbook treats as a single actor",
+           "derived": "Stated in a column rather than a row"}
+for gid, name, typ, domain, kind, dates, src, note in rows("extra-nodes.psv", 8):
     if typ not in TYPES: typ = "org"
+    birth, death = (dates.split("-") + [""])[:2] if dates else ("", "")
     add({"id": gid, "name": name, "type": typ, "domain": domain, "kindOf": kind,
-         "note": note, "role": "", "status": "verify",
-         "priority": "investigate" if kind == "ghost" else "high",
-         "recordType": "Named in the workbook, no record of its own"
-                       if kind == "ghost" else "Collective referred to by the workbook",
-         "sourceId": "", "link": "", "decades": ""})
+         "note": note, "role": "", "birth": birth, "death": death, "dates": dates,
+         "status": "researched" if kind == "record" else "verify",
+         "priority": "high" if kind in ("record", "derived") else
+                     ("investigate" if kind == "ghost" else "high"),
+         "recordType": RECTYPE[kind],
+         "sourceId": "", "link": url(src), "sourceUrl": url(src), "decades": ""})
+
+# ---------------------------------------------------------------- corrections
+# The transcription is left exactly as the workbook has it; everything we change goes
+# through this file, and lands on the record as a note so a reader can see it.
+CORRECT_FIELD = {"name": "name", "area": "areas", "relevance": "role",
+                 "connectedPeople": "connectedPeople", "connectedOrgs": "connectedOrgs",
+                 "gender": "gender", "kindOf": "kindOf", "note": "note",
+                 "domain": "domain", "role": "role", "openQuestion": "openQuestion"}
+old_names = {}
+for cid, field, value, why in rows("corrections.psv", 4):
+    if cid not in nodes: raise SystemExit("corrections: unknown record " + cid)
+    if field not in CORRECT_FIELD: raise SystemExit("corrections: unknown field " + field)
+    n, f = nodes[cid], CORRECT_FIELD[field]
+    if field == "name":
+        old_names.setdefault(n["name"], cid)
+    if field == "relevance":
+        n["note"] = value
+    n[f] = value
+    n["corrected"] = (n.get("corrected", "") + " " + why).strip()
 
 # ---------------------------------------------------------------- merges
 # Records that turned out to be the same thing twice. The survivor absorbs any field the
@@ -296,6 +321,8 @@ alias = {}
 for a, target in rows("aliases.psv", 2):
     alias[a.lower()] = target
 alias.update(merge_alias)
+for nm, cid in old_names.items():
+    alias.setdefault(nm.lower(), cid)
 
 index = collections.defaultdict(list)          # lowercase name -> [ids]
 for n in nodes.values():
@@ -408,23 +435,23 @@ for n in list(nodes.values()):
         for hit, tid in scan(prose, n["id"]):
             rel = "spouse" if re.search(r"\b(wife|husband|married)\b", prose, re.I) else "named in relationships"
             link(n["id"], tid, rel, ev_for(n),
-                 "Workbook Relationships column for " + n["name"] + ": " + prose, n.get("link", ""))
+                 "Relationships column for " + n["name"] + ": " + prose, n.get("link", ""))
         for frag in split(prose):
             f2 = TRIM.sub("", frag.strip()).strip(".;")
             if f2 and not scan(frag, n["id"]) and looks_like_group(f2):
                 tgt = resolve(frag)
                 if tgt: link(n["id"], tgt, "named in relationships", ev_for(n),
-                             "Workbook Relationships column for " + n["name"] + ": " + frag.strip(),
+                             "Relationships column for " + n["name"] + ": " + frag.strip(),
                              n.get("link", ""))
         sp = n.get("spouse", "")
         if sp and not sp.startswith("http"):
             for hit, tid in scan(sp, n["id"]):
                 link(n["id"], tid, "spouse", "documented",
-                     "Workbook Relationship / wife column: " + sp, n.get("link", ""))
+                     "Relationship column: " + sp, n.get("link", ""))
         if n.get("building"):
             tgt = resolve(n["building"], prefer="place")
             if tgt: link(n["id"], tgt, "workbook building", "documented",
-                         "Workbook Building column: " + n["building"], n.get("link", ""))
+                         "Building column: " + n["building"], n.get("link", ""))
         if "Little Circle" in n.get("note", ""):
             link(n["id"], "COL-009", "member of the Little Circle", "documented",
                  n["note"], n.get("link", ""))
@@ -432,39 +459,39 @@ for n in list(nodes.values()):
         for frag in split(n.get("connectedPeople", "")):
             tgt = resolve(frag, prefer="person")
             if tgt: link(n["id"], tgt, "connected person", ev_for(n),
-                         "Workbook Connected people column for " + n["name"] + ": " + frag.strip(),
+                         "Connected people column for " + n["name"] + ": " + frag.strip(),
                          n.get("sourceUrl", ""))
         for frag in split(n.get("keyPlaces", "")):
             tgt = resolve(frag, prefer="place")
             if tgt: link(n["id"], tgt, "key place", ev_for(n),
-                         "Workbook Key places column for " + n["name"] + ": " + frag.strip(),
+                         "Key places column for " + n["name"] + ": " + frag.strip(),
                          n.get("sourceUrl", ""))
     elif n["type"] == "place":
         for frag in split(n.get("connectedPeople", "")):
             tgt = resolve(frag, prefer="person")
             if tgt: link(n["id"], tgt, "connected person", ev_for(n),
-                         "Workbook Connected people column for " + n["name"] + ": " + frag.strip(),
+                         "Connected people column for " + n["name"] + ": " + frag.strip(),
                          n.get("sourceUrl", ""))
         for frag in split(n.get("connectedOrgs", "")):
             tgt = resolve(frag, prefer="org")
             if tgt: link(n["id"], tgt, "connected organisation", ev_for(n),
-                         "Workbook Connected organisations column for " + n["name"] + ": " + frag.strip(),
+                         "Connected organisations column for " + n["name"] + ": " + frag.strip(),
                          n.get("sourceUrl", ""))
     elif n["type"] == "event":
         for frag in split(n.get("keyFigures", "")):
             tgt = resolve(frag, prefer="person")
             if tgt: link(n["id"], tgt, "took part", ev_for(n),
-                         "Workbook Key figures column for " + n["year"] + ": " + frag.strip(),
+                         "Key figures column for " + n["year"] + ": " + frag.strip(),
                          n.get("sourceUrl", ""))
         for frag in split(n.get("connectedOrgs", "")):
             tgt = resolve(frag, prefer="org")
             if tgt: link(n["id"], tgt, "organisation", ev_for(n),
-                         "Workbook Organisation column for " + n["year"] + ": " + frag.strip(),
+                         "Organisation column for " + n["year"] + ": " + frag.strip(),
                          n.get("sourceUrl", ""))
         for frag in split(n.get("connectedPlaces", "")):
             tgt = resolve(frag, prefer="place")
             if tgt: link(n["id"], tgt, "happened at", ev_for(n),
-                         "Workbook Place column for " + n["year"] + ": " + frag.strip(),
+                         "Place column for " + n["year"] + ": " + frag.strip(),
                          n.get("sourceUrl", ""))
 
 # the Relationships sheet, last so it wins
@@ -503,6 +530,30 @@ for n in nodes.values():
             n["span"] = s
             n["spanSource"] = "inferred" if s else ""
 
+# A grouping, a collective or a ghost has no dates of its own. Give it the span of the
+# records attached to it, so it moves with them on the decade slider instead of vanishing.
+neighbours = collections.defaultdict(list)
+for L in links.values():
+    neighbours[L["source"]].append(L["target"])
+    neighbours[L["target"]].append(L["source"])
+for _ in range(2):
+    for n in nodes.values():
+        if n.get("span"): continue
+        spans = [nodes[o]["span"] for o in neighbours.get(n["id"], [])
+                 if o in nodes and nodes[o].get("span")]
+        if not spans: continue
+        n["span"] = [min(s[0] for s in spans), max(s[1] for s in spans)]
+        n["spanSource"] = "estimated"
+
+# Anyone whose activity begins after 1930 is outside the period this collection covers.
+CUTOFF = 1930
+dropped = [n for n in nodes.values() if n.get("span") and n["span"][0] > CUTOFF]
+for n in dropped:
+    del nodes[n["id"]]
+for k in [k for k, L in links.items()
+          if L["source"] not in nodes or L["target"] not in nodes]:
+    del links[k]
+
 deg = collections.Counter()
 for L in links.values():
     deg[L["source"]] += 1; deg[L["target"]] += 1
@@ -524,7 +575,7 @@ FIELDS = ["id","label","name","type","domain","kindOf","gender","birth","death",
           "dateQc","role","category","relationships","spouse","decades","areas","note",
           "link","specialism","background","knowledgeRole","collections","destination",
           "politics","religion","building","status","priority","sourceUrl","openQuestion",
-          "qcFlag","recordType","sourceId","idStatus","mergedFrom","mergeNote","founded","orgType","placeType","connectedPeople",
+          "qcFlag","corrected","recordType","sourceId","idStatus","mergedFrom","mergeNote","founded","orgType","placeType","connectedPeople",
           "connectedOrgs","connectedPlaces","keyPlaces","keyFigures","year","sortYear",
           "theme","scope","span","spanSource","deg"]
 
@@ -628,6 +679,9 @@ print("spans   %d dated, %d undated"
       % (sum(1 for n in nodes.values() if n["span"]),
          sum(1 for n in nodes.values() if not n["span"])))
 iso = [n for n in nodes.values() if n["deg"] == 0]
+if dropped:
+    print("dropped after %d: %s" % (CUTOFF, ", ".join(
+        "%s (%s, active from %s)" % (n["name"], n["id"], n["span"][0]) for n in dropped)))
 print("isolates %d (%s)" % (len(iso), dict(collections.Counter(n["type"] for n in iso))))
 if unresolved:
     print("\nunresolved connection strings (%d distinct):" % len(unresolved))

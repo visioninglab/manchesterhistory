@@ -6,340 +6,1070 @@
 #       idStatus dupStatus dupGroup keeperId action dupReason
 
 # ---- politics / religion / building (the Manchester Guardian set) ----
+200066|recordType|Person
+200066|idStatus|Original ID
+200066|dupStatus|Unique / no duplicate identified
+200066|status|Existing database
+200066|priority|Existing
+200073|recordType|Person
+200073|idStatus|Original ID
+200073|dupStatus|Unique / no duplicate identified
+200073|status|Existing database
+200073|priority|Existing
+200071|recordType|Stage name
+200071|idStatus|Original ID
+200071|dupStatus|Unique / no duplicate identified
+200071|status|Existing database
+200071|priority|Existing
+200071|qcFlag|RECORD TYPE: Stage name
+200081|recordType|Person
+200081|idStatus|Original ID
+200081|dupStatus|Unique / no duplicate identified
+200081|status|Existing database
+200081|priority|Existing
+200072|recordType|Person
+200072|idStatus|Original ID
+200072|dupStatus|Unique / no duplicate identified
+200072|status|Existing database
+200072|priority|Existing
+200045|recordType|Person
+200045|idStatus|Original ID
+200045|dupStatus|Unique / no duplicate identified
+200045|status|Existing database
+200045|priority|Existing
+200045|qcFlag|FIRST NAME MISSING
+200022|recordType|Person
+200022|idStatus|Original ID
+200022|dupStatus|Unique / no duplicate identified
+200022|status|Existing database
+200022|priority|Existing
+200039|recordType|Person
+200039|idStatus|Original ID
+200039|dupStatus|Unique / no duplicate identified
+200039|status|Existing database
+200039|priority|Existing
+200091|recordType|Person
+200091|idStatus|Original ID
+200091|dupStatus|Unique / no duplicate identified
+200091|status|Existing database
+200091|priority|Existing
+200004|recordType|Placeholder
+200004|idStatus|Original ID
+200004|dupStatus|Unique / no duplicate identified
+200004|status|Existing database
+200004|priority|Existing
+200004|qcFlag|RECORD TYPE: Placeholder
+200005|recordType|Person
+200005|idStatus|Original ID
+200005|dupStatus|Unique / no duplicate identified
+200005|politics|Died unmarried in 1813.
+200005|status|Existing database
+200005|priority|Existing
+200002|recordType|Family
+200002|idStatus|Original ID
+200002|dupStatus|Unique / no duplicate identified
+200002|status|Existing database
+200002|priority|Existing
+200002|qcFlag|RECORD TYPE: Family
+200012|recordType|Person
+200012|idStatus|Original ID
+200012|dupStatus|Unique / no duplicate identified
+200012|politics|First married Elizabeth Priestman in 1839; she died in 1841. Remarried Margaret Elizabeth Leatham in 1847. WikipediaEncyclopedia Britannica
+200012|status|Existing database
+200012|priority|Existing
+200003|recordType|Family
+200003|idStatus|Original ID
+200003|dupStatus|Unique / no duplicate identified
+200003|status|Existing database
+200003|priority|Existing
+200003|qcFlag|RECORD TYPE: Family
+200006|recordType|Person
+200006|idStatus|Original ID
+200006|dupStatus|Unique / no duplicate identified
+200006|politics|Married in 1796; their only child, Thomas, died before his father. Westminster Abbey
+200006|status|Existing database
+200006|priority|Existing
+200110|recordType|Person
+200110|idStatus|Original ID
+200110|dupStatus|Unique / no duplicate identified
 200110|politics|Liberal
 200110|religion|Unitarian
 200110|building|Manchester Guardian HQ
+200110|status|Existing database
+200110|priority|Existing
+200061|recordType|Person
+200061|idStatus|Original ID
+200061|dupStatus|Unique / no duplicate identified
+200061|status|Existing database
+200061|priority|Existing
+200097|recordType|Person
+200097|idStatus|Original ID
+200097|dupStatus|Unique / no duplicate identified
+200097|politics|–
+200097|status|Existing database
+200097|priority|Existing
+200028|recordType|Person
+200028|idStatus|Original ID
+200028|dupStatus|Unique / no duplicate identified
+200028|status|Existing database
+200028|priority|Existing
+200106|recordType|Person
+200106|idStatus|Original ID
+200106|dupStatus|Unique / no duplicate identified
 200106|politics|Liberal
 200106|religion|Unitarian
 200106|building|Manchester Guardian HQ
+200106|status|Existing database
+200106|priority|Existing
+200108|recordType|Person
+200108|idStatus|Original ID
+200108|dupStatus|Unique / no duplicate identified
 200108|politics|Radical
 200108|religion|Unitarian
 200108|building|Manchester Guardian HQ
+200108|status|Existing database
+200108|priority|Existing
+200111|recordType|Person
+200111|idStatus|Original ID
+200111|dupStatus|Unique / no duplicate identified
 200111|politics|Liberal
 200111|religion|Unitarian
 200111|building|Manchester Guardian HQ
+200111|status|Existing database
+200111|priority|Existing
+200063|recordType|Person
+200063|idStatus|Original ID
+200063|dupStatus|Unique / no duplicate identified
+200063|politics|Performed with him in his circus; died in a tragic accident in 1848.
+200063|status|Existing database
+200063|priority|Existing
+200050|recordType|Person
+200050|idStatus|Original ID
+200050|dupStatus|Unique / no duplicate identified
+200050|status|Existing database
+200050|priority|Existing
+200050|qcFlag|FIRST NAME MISSING
+200049|recordType|Person
+200049|idStatus|Original ID
+200049|dupStatus|Unique / no duplicate identified
+200049|status|Existing database
+200049|priority|Existing
+200049|qcFlag|FIRST NAME MISSING
+200048|recordType|Family / partnership
+200048|idStatus|Original ID
+200048|dupStatus|Unique / no duplicate identified
+200048|status|Existing database
+200048|priority|Existing
+200048|qcFlag|RECORD TYPE: Family / partnership
+200101|recordType|Person
+200101|idStatus|Original ID
+200101|dupStatus|Unique / no duplicate identified
 200101|politics|Whig
 200101|religion|Unitarian
 200101|building|Manchester Guardian HQ
-200104|politics|Liberal
-200104|religion|Unitarian
-200104|building|Manchester Guardian HQ
-200100|politics|Liberal
-200100|religion|Unitarian
-200100|building|Manchester Guardian HQ
-200102|politics|Liberal
-200102|religion|Unitarian
-200102|building|Manchester Guardian HQ
-200109|politics|Liberal
-200109|religion|Unitarian
-200109|building|Manchester Guardian HQ
-200105|politics|Liberal
-200105|religion|Unitarian
-200105|building|Manchester Guardian HQ
-200103|politics|Liberal
-200103|religion|Unitarian
-200103|building|Manchester Guardian HQ
-200107|politics|Liberal
-200107|religion|Unitarian
-200107|building|Manchester Guardian HQ
-200085|politics|Labour
-200085|religion|Spiritualist
-200068|politics|Liberal
-200068|religion|Nonconformist
-200086|politics|Socialist
-200084|politics|Labour-leaning
-200084|religion|Secular
-200082|politics|Liberal
-200082|religion|Unitarian
-NH-002|politics|Radical sympathies
-VM-ADD-010|building|Art Treasures Exhibition, Old Trafford
-NH-013|building|Workshop on Shudehill
-
-# ---- record types other than Person ----
-200071|recordType|Stage name
-200004|recordType|Placeholder
-200002|recordType|Family
-200003|recordType|Family
-200048|recordType|Family / partnership
-200016|recordType|Composite record
-200055|recordType|Title / unresolved person
-200046|recordType|Family
-200058|recordType|Business partnership
-200026|recordType|Institution / named legacy
-VM-ADD-012|recordType|Composite record
-
-# ---- IDs assigned or replaced during cleaning ----
-VM-ADD-001|idStatus|Assigned - source ID missing
-VM-ADD-002|idStatus|Assigned - source ID missing
-VM-ADD-003|idStatus|Assigned - source ID missing
-VM-ADD-004|idStatus|Assigned - source ID missing
-VM-ADD-005|idStatus|Assigned - source ID missing
-VM-ADD-006|idStatus|Assigned - source ID missing
-VM-ADD-007|idStatus|Assigned - source ID missing
-VM-ADD-008|idStatus|Assigned - source ID missing
-VM-ADD-009|idStatus|Assigned - source ID missing
-VM-ADD-013|idStatus|Assigned - source ID missing
-VM-ADD-010|idStatus|Replaced reused source ID sw
-VM-ADD-011|idStatus|Replaced reused source ID sw
-VM-ADD-012|idStatus|Replaced reused source ID sw
-VM-ADD-010|sourceId|sw
-VM-ADD-011|sourceId|sw
-VM-ADD-012|sourceId|sw
-VM-ADD-013|qcFlag|Assigned - source ID missing; LATEST PDF ADDITION; biographical fields incomplete
-
-# ---- duplicate review (workbook's own Duplicate Review sheet) ----
+200101|status|Existing database
+200101|priority|Existing
+200104|recordType|Person
+200104|idStatus|Original ID
 200104|dupStatus|Separate person covered by composite row
 200104|dupGroup|DUP-005
 200104|action|KEEP
-200104|dupReason|Keep the individual Thomas Potter record.
+200104|politics|Liberal
+200104|religion|Unitarian
+200104|building|Manchester Guardian HQ
+200104|status|Existing database
+200104|priority|Existing
+200104|qcFlag|DUP-005: Separate person covered by composite row; Keep the individual Thomas Potter record.
+200075|recordType|Person
+200075|idStatus|Original ID
+200075|dupStatus|Unique / no duplicate identified
+200075|status|Existing database
+200075|priority|Existing
+200041|recordType|Person
+200041|idStatus|Original ID
+200041|dupStatus|Unique / no duplicate identified
+200041|status|Existing database
+200041|priority|Existing
+200013|recordType|Person
+200013|idStatus|Original ID
 200013|dupStatus|Likely duplicate
 200013|dupGroup|DUP-001
 200013|keeperId|200100
 200013|action|MERGE THEN DELETE
-200013|dupReason|Merge any unique relationship detail into 200100, then delete after review.
+200013|politics|His first wife and first cousin; they had children, including Harriet Ann Taylor. Wikipedia
+200013|status|Existing database
+200013|priority|Existing
+200013|qcFlag|DUP-001: Likely duplicate; Merge any unique relationship detail into 200100, then delete after review.
+200042|recordType|Person
+200042|idStatus|Original ID
+200042|dupStatus|Unique / no duplicate identified
+200042|status|Existing database
+200042|priority|Existing
+200100|recordType|Person
+200100|idStatus|Original ID
 200100|dupStatus|Keeper for duplicate group
 200100|dupGroup|DUP-001
 200100|action|KEEP
-200100|dupReason|Richer John Edward Taylor record; spouse detail merged from 200013.
+200100|politics|Liberal
+200100|religion|Unitarian
+200100|building|Manchester Guardian HQ
+200100|status|Existing database
+200100|priority|Existing
+200100|qcFlag|DUP-001 KEEPER; relationship detail merged from 200013; DUP-001: Keeper for duplicate group; Richer John Edward Taylor record; spouse detail merged from 200013.
+200040|recordType|Person
+200040|idStatus|Original ID
+200040|dupStatus|Unique / no duplicate identified
+200040|status|Existing database
+200040|priority|Existing
+200095|recordType|Person
+200095|idStatus|Original ID
+200095|dupStatus|Unique / no duplicate identified
+200095|politics|–
+200095|status|Existing database
+200095|priority|Existing
+200102|recordType|Person
+200102|idStatus|Original ID
 200102|dupStatus|Keeper for duplicate group
 200102|dupGroup|DUP-002
 200102|action|KEEP
-200102|dupReason|Richer John Shuttleworth record.
-200016|dupStatus|Composite overlap
-200016|dupGroup|DUP-005
-200016|keeperId|200104 / 200105
-200016|action|DELETE AFTER REVIEW
-200016|dupReason|Composite Thomas-and-Richard Potter row is superseded by separate individual records.
-200105|dupStatus|Separate person covered by composite row
-200105|dupGroup|DUP-005
-200105|action|KEEP
-200105|dupReason|Keep the individual Richard Potter record.
-200103|dupStatus|Keeper for duplicate group
-200103|dupGroup|DUP-003
-200103|action|KEEP
-200103|dupReason|Richer Absalom Watkin record.
-200107|dupStatus|Keeper for duplicate group
-200107|dupGroup|DUP-004
-200107|action|KEEP
-200107|dupReason|Richer Joseph Brotherton record; spouse and Salford details merged from 200037.
-200014|dupStatus|Likely duplicate
-200014|dupGroup|DUP-002
-200014|keeperId|200102
-200014|action|DELETE AFTER REVIEW
-200014|dupReason|No substantial unique fields found.
-200015|dupStatus|Likely duplicate
-200015|dupGroup|DUP-003
-200015|keeperId|200103
-200015|action|DELETE AFTER REVIEW
-200015|dupReason|No substantial unique fields found.
-200037|dupStatus|Likely duplicate
-200037|dupGroup|DUP-004
-200037|keeperId|200107
-200037|action|MERGE THEN DELETE
-200037|dupReason|Merge spouse Martha Harvey and Salford connection into 200107, then delete after review.
-VM-ADD-010|dupStatus|Duplicate source ID only
-VM-ADD-010|dupGroup|ID-001
-VM-ADD-010|action|KEEP - ID FIXED
-VM-ADD-010|dupReason|The source ID sw was reused for three different records. A unique VM-ADD ID has been assigned; this is not evidence that the people are duplicates.
-VM-ADD-011|dupStatus|Duplicate source ID only
-VM-ADD-011|dupGroup|ID-001
-VM-ADD-011|action|KEEP - ID FIXED
-VM-ADD-011|dupReason|The source ID sw was reused for three different records. A unique VM-ADD ID has been assigned; this is not evidence that the people are duplicates.
-VM-ADD-012|dupStatus|Duplicate source ID only
-VM-ADD-012|dupGroup|ID-001
-VM-ADD-012|action|KEEP - ID FIXED
-VM-ADD-012|dupReason|The source ID sw was reused for three different records. A unique VM-ADD ID has been assigned; this is not evidence that the people are duplicates.
-
-# ---- QC flags carried from the workbook ----
-200045|qcFlag|First name missing in the source. Supplied here as Alfred Waterhouse, architect of the town hall the record names.
-200050|qcFlag|First name missing in the source. Supplied here as John Kennedy, of the Ancoats firm McConnel & Kennedy - check before relying on it.
-200049|qcFlag|First name missing in the source. Supplied here as James McConnel, of the Ancoats firm McConnel & Kennedy - check before relying on it.
-200035|qcFlag|First name missing in the source. Supplied here as Friedrich Engels.
-NH-027|qcFlag|First name missing in the source, and not recoverable from it.
-200075|qcFlag|Gender recorded as F for Arthur Wharton - check against the source
-
-# ---- scientific specialism / background / knowledge role ----
+200102|politics|Liberal
+200102|religion|Unitarian
+200102|building|Manchester Guardian HQ
+200102|status|Existing database
+200102|priority|Existing
+200102|qcFlag|DUP-002: Keeper for duplicate group; Richer John Shuttleworth record.
+200023|recordType|Person
+200023|idStatus|Original ID
+200023|dupStatus|Unique / no duplicate identified
+200023|politics|First married Frances Anker in 1825; after her death in 1870, he married Mary Louisa Orrell in 1871. pittdixon.go-plus.netICE Virtual LIbrary
+200023|status|Existing database
+200023|priority|Existing
+200069|recordType|Person
+200069|idStatus|Original ID
+200069|dupStatus|Unique / no duplicate identified
 200069|specialism|Intellectual and natural-history network connector
 200069|background|Lecturer; Shakespeare scholar; women's education organiser
 200069|knowledgeRole|Host; organiser; connector
-200068|specialism|Botany
-200068|background|Self-taught scientist; suffrage organiser; editor
-200068|knowledgeRole|Collector; competition entrant; writer; campaigner
-200089|specialism|Ornithology; natural history
-200089|background|Writer; polymath; institution founder
-200089|knowledgeRole|Author; collector; founder
-VM-ADD-011|specialism|Botany; natural history
-VM-ADD-011|background|Cashier; self-taught naturalist; adult educator
-VM-ADD-011|knowledgeRole|Founder; lecturer; collector; author; excursion organiser
-NH-001|specialism|Botany; bryology
-NH-001|background|Shoemaker; working-class autodidact
-NH-001|knowledgeRole|Collector; identifier; author
-NH-002|specialism|Botany; horticultural hybridisation
-NH-002|background|Handloom weaver; working-class autodidact
-NH-002|knowledgeRole|Founder; teacher; identifier; organiser
-NH-003|specialism|Bryology; cryptogams
-NH-003|background|Artisan naturalist
-NH-003|knowledgeRole|Collector; identifier; specimen preparer
-NH-004|specialism|Botany; entomology; microscopy
-NH-004|background|Cotton manufacturer; scientific collector
-NH-004|knowledgeRole|Co-founder; collector; photographer; patron
-NH-005|specialism|Natural history; entomology
-NH-005|background|Textile manufacturer; elite collector
-NH-005|knowledgeRole|Collector; patron
-NH-006|specialism|Entomology; Lepidoptera
-NH-006|background|Textile worker; amateur collector
-NH-006|knowledgeRole|Collector; discoverer
-NH-007|specialism|Entomology; Lepidoptera
-NH-007|background|Amateur collector
-NH-007|knowledgeRole|Collector; intermediary
-NH-008|specialism|Bryology; cryptogams; fungi; lichens
-NH-008|background|Physician; professionalising botanist
-NH-008|knowledgeRole|Taxonomist; author; collector
-NH-009|specialism|Botany
-NH-009|background|Collector; institutional donor
-NH-009|knowledgeRole|Collector; curator-like organiser
-NH-010|specialism|Botany; conchology
-NH-010|background|Collector
-NH-010|knowledgeRole|Collector; author; donor
-NH-011|specialism|Ferns; algae; cryptogams
-NH-011|background|Artisan naturalist
-NH-011|knowledgeRole|Collector; specimen preparer
-NH-012|specialism|Bryology
-NH-012|background|Working-class naturalist
-NH-012|knowledgeRole|Collector; collaborator
-NH-013|specialism|Botany; natural history
-NH-013|background|Manual worker / shop-based artisan
-NH-013|knowledgeRole|Collector; participant
-NH-014|specialism|Botany
-NH-014|background|Working naturalist
-NH-014|knowledgeRole|Collector; society participant
-NH-015|specialism|Natural history
-NH-015|background|Professional/industrial family network
-NH-015|knowledgeRole|Collector / participant
-NH-027|specialism|Bryology / botany - verify
-NH-027|background|Unknown
-NH-027|knowledgeRole|Collector
-NH-028|specialism|Pteridology / ferns
-NH-028|background|Unknown
-NH-028|knowledgeRole|Collector
-
-# ---- collections, destinations, research status, priority, open questions ----
 200069|collections|Manchester Ladies' Literary Society activity
 200069|status|Existing - enriched
 200069|priority|High
 200069|sourceUrl|https://gaskellsociety.co.uk/event/rosa-grindon/
 200069|openQuestion|Connect Rosa to Leo Grindon's household/intellectual network and Lydia Becker's women's literary organisation.
+200051|recordType|Person
+200051|idStatus|Original ID
+200051|dupStatus|Unique / no duplicate identified
+200051|status|Existing database
+200051|priority|Existing
+200109|recordType|Person
+200109|idStatus|Original ID
+200109|dupStatus|Unique / no duplicate identified
+200109|politics|Liberal
+200109|religion|Unitarian
+200109|building|Manchester Guardian HQ
+200109|status|Existing database
+200109|priority|Existing
+200024|recordType|Person
+200024|idStatus|Original ID
+200024|dupStatus|Unique / no duplicate identified
+200024|politics|Married Enriqueta in 1875, eight months after Martha's death. Wikipedia
+200024|status|Existing database
+200024|priority|Existing
+200018|recordType|Person
+200018|idStatus|Original ID
+200018|dupStatus|Unique / no duplicate identified
+200018|status|Existing database
+200018|priority|Existing
+200025|recordType|Person
+200025|idStatus|Original ID
+200025|dupStatus|Unique / no duplicate identified
+200025|politics|Married Margaret Gatey in 1869; Jessie Hulme in 1880; and Florence Whalley in 1909. lancaster.gov.uk
+200025|status|Existing database
+200025|priority|Existing
+200016|recordType|Composite record
+200016|idStatus|Original ID
+200016|dupStatus|Composite overlap
+200016|dupGroup|DUP-005
+200016|keeperId|200104 / 200105
+200016|action|DELETE AFTER REVIEW
+200016|status|Existing database
+200016|priority|Existing
+200016|qcFlag|RECORD TYPE: Composite record; DUP-005: Composite overlap; Composite Thomas-and-Richard Potter row is superseded by separate individual records.
+200105|recordType|Person
+200105|idStatus|Original ID
+200105|dupStatus|Separate person covered by composite row
+200105|dupGroup|DUP-005
+200105|action|KEEP
+200105|politics|Liberal
+200105|religion|Unitarian
+200105|building|Manchester Guardian HQ
+200105|status|Existing database
+200105|priority|Existing
+200105|qcFlag|DUP-005: Separate person covered by composite row; Keep the individual Richard Potter record.
+200020|recordType|Person
+200020|idStatus|Original ID
+200020|dupStatus|Unique / no duplicate identified
+200020|status|Existing database
+200020|priority|Existing
+200103|recordType|Person
+200103|idStatus|Original ID
+200103|dupStatus|Keeper for duplicate group
+200103|dupGroup|DUP-003
+200103|action|KEEP
+200103|politics|Liberal
+200103|religion|Unitarian
+200103|building|Manchester Guardian HQ
+200103|status|Existing database
+200103|priority|Existing
+200103|qcFlag|DUP-003: Keeper for duplicate group; Richer Absalom Watkin record.
+200098|recordType|Person
+200098|idStatus|Original ID
+200098|dupStatus|Unique / no duplicate identified
+200098|politics|–
+200098|status|Existing database
+200098|priority|Existing
+200094|recordType|Person
+200094|idStatus|Original ID
+200094|dupStatus|Unique / no duplicate identified
+200094|politics|–
+200094|status|Existing database
+200094|priority|Existing
+200096|recordType|Person
+200096|idStatus|Original ID
+200096|dupStatus|Unique / no duplicate identified
+200096|politics|–
+200096|status|Existing database
+200096|priority|Existing
+200065|recordType|Person
+200065|idStatus|Original ID
+200065|dupStatus|Unique / no duplicate identified
+200065|status|Existing database
+200065|priority|Existing
+200085|recordType|Person
+200085|idStatus|Original ID
+200085|dupStatus|Unique / no duplicate identified
+200085|politics|Labour
+200085|religion|Spiritualist
+200085|status|Existing database
+200085|priority|Existing
+200036|recordType|Person
+200036|idStatus|Original ID
+200036|dupStatus|Unique / no duplicate identified
+200036|politics|Married in 1820; daughter of General Sir John Floyd.
+200036|status|Existing database
+200036|priority|Existing
+200070|recordType|Person
+200070|idStatus|Original ID
+200070|dupStatus|Unique / no duplicate identified
+200070|politics|Married in 1871; they had several children.
+200070|status|Existing database
+200070|priority|Existing
+200077|recordType|Person
+200077|idStatus|Original ID
+200077|dupStatus|Unique / no duplicate identified
+200077|status|Existing database
+200077|priority|Existing
+200107|recordType|Person
+200107|idStatus|Original ID
+200107|dupStatus|Keeper for duplicate group
+200107|dupGroup|DUP-004
+200107|action|KEEP
+200107|politics|Liberal
+200107|religion|Unitarian
+200107|building|Manchester Guardian HQ
+200107|status|Existing database
+200107|priority|Existing
+200107|qcFlag|DUP-004 KEEPER; spouse and place detail merged from 200037; DUP-004: Keeper for duplicate group; Richer Joseph Brotherton record; spouse and Salford details merged from 200037.
+200052|recordType|Person
+200052|idStatus|Original ID
+200052|dupStatus|Unique / no duplicate identified
+200052|status|Existing database
+200052|priority|Existing
+200014|recordType|Person
+200014|idStatus|Original ID
+200014|dupStatus|Likely duplicate
+200014|dupGroup|DUP-002
+200014|keeperId|200102
+200014|action|DELETE AFTER REVIEW
+200014|status|Existing database
+200014|priority|Existing
+200014|qcFlag|DUP-002: Likely duplicate; No substantial unique fields found.
+200015|recordType|Person
+200015|idStatus|Original ID
+200015|dupStatus|Likely duplicate
+200015|dupGroup|DUP-003
+200015|keeperId|200103
+200015|action|DELETE AFTER REVIEW
+200015|status|Existing database
+200015|priority|Existing
+200015|qcFlag|DUP-003: Likely duplicate; No substantial unique fields found.
+200001|recordType|Person
+200001|idStatus|Original ID
+200001|dupStatus|Unique / no duplicate identified
+200001|status|Existing database
+200001|priority|Existing
+200080|recordType|Person
+200080|idStatus|Original ID
+200080|dupStatus|Unique / no duplicate identified
+200080|status|Existing database
+200080|priority|Existing
+200067|recordType|Person
+200067|idStatus|Original ID
+200067|dupStatus|Unique / no duplicate identified
+200067|status|Existing database
+200067|priority|Existing
+200068|recordType|Person
+200068|idStatus|Original ID
+200068|dupStatus|Unique / no duplicate identified
+200068|politics|Liberal
+200068|religion|Nonconformist
+200068|specialism|Botany
+200068|background|Self-taught scientist; suffrage organiser; editor
+200068|knowledgeRole|Collector; competition entrant; writer; campaigner
 200068|collections|Herbarium specimens from the 1864 Botanical Competition
 200068|destination|Manchester Museum Herbarium
 200068|status|Existing - enriched
 200068|priority|Essential
-200068|sourceUrl|@bot
-200068|openQuestion|Make the link botany to exclusion from formal science to women's intellectual organisation to suffrage explicit.
+200068|sourceUrl|https://www.museum.manchester.ac.uk/collections/botany
+200068|openQuestion|Make the link botany → exclusion from formal science → women's intellectual organisation → suffrage explicit.
+200019|recordType|Person
+200019|idStatus|Original ID
+200019|dupStatus|Unique / no duplicate identified
+200019|status|Existing database
+200019|priority|Existing
+200035|recordType|Person
+200035|idStatus|Original ID
+200035|dupStatus|Unique / no duplicate identified
+200035|politics|Had long-term relationships with Mary Burns and later her sister Lydia Burns but did not marry.
+200035|status|Existing database
+200035|priority|Existing
+200035|qcFlag|FIRST NAME MISSING
+200034|recordType|Person
+200034|idStatus|Original ID
+200034|dupStatus|Unique / no duplicate identified
+200034|politics|Childhood sweetheart; married in 1843.
+200034|status|Existing database
+200034|priority|Existing
+200076|recordType|Person
+200076|idStatus|Original ID
+200076|dupStatus|Unique / no duplicate identified
+200076|status|Existing database
+200076|priority|Existing
+200086|recordType|Person
+200086|idStatus|Original ID
+200086|dupStatus|Unique / no duplicate identified
+200086|politics|Socialist
+200086|status|Existing database
+200086|priority|Existing
+200021|recordType|Person
+200021|idStatus|Original ID
+200021|dupStatus|Unique / no duplicate identified
+200021|status|Existing database
+200021|priority|Existing
+200079|recordType|Person
+200079|idStatus|Original ID
+200079|dupStatus|Unique / no duplicate identified
+200079|status|Existing database
+200079|priority|Existing
+200062|recordType|Person
+200062|idStatus|Original ID
+200062|dupStatus|Unique / no duplicate identified
+200062|status|Existing database
+200062|priority|Existing
+200084|recordType|Person
+200084|idStatus|Original ID
+200084|dupStatus|Unique / no duplicate identified
+200084|politics|Labour-leaning
+200084|religion|Secular
+200084|status|Existing database
+200084|priority|Existing
+200099|recordType|Person
+200099|idStatus|Original ID
+200099|dupStatus|Unique / no duplicate identified
+200099|status|Existing database
+200099|priority|Existing
+200007|recordType|Person
+200007|idStatus|Original ID
+200007|dupStatus|Unique / no duplicate identified
+200007|status|Existing database
+200007|priority|Existing
+200009|recordType|Person
+200009|idStatus|Original ID
+200009|dupStatus|Unique / no duplicate identified
+200009|status|Existing database
+200009|priority|Existing
+200010|recordType|Person
+200010|idStatus|Original ID
+200010|dupStatus|Unique / no duplicate identified
+200010|status|Existing database
+200010|priority|Existing
+200011|recordType|Person
+200011|idStatus|Original ID
+200011|dupStatus|Unique / no duplicate identified
+200011|status|Existing database
+200011|priority|Existing
+200092|recordType|Person
+200092|idStatus|Original ID
+200092|dupStatus|Unique / no duplicate identified
+200092|politics|–
+200092|status|Existing database
+200092|priority|Existing
+200008|recordType|Person
+200008|idStatus|Original ID
+200008|dupStatus|Unique / no duplicate identified
+200008|politics|Married in 1840; had five surviving children, including Julia Anne Cobden-Sanderson and Emma Jane Cobden Unwin. Westminster Abbey
+200008|status|Existing database
+200008|priority|Existing
+200074|recordType|Person
+200074|idStatus|Original ID
+200074|dupStatus|Unique / no duplicate identified
+200074|status|Existing database
+200074|priority|Existing
+200078|recordType|Person
+200078|idStatus|Original ID
+200078|dupStatus|Unique / no duplicate identified
+200078|status|Existing database
+200078|priority|Existing
+200038|recordType|Person
+200038|idStatus|Original ID
+200038|dupStatus|Unique / no duplicate identified
+200038|status|Existing database
+200038|priority|Existing
+200037|recordType|Person
+200037|idStatus|Original ID
+200037|dupStatus|Likely duplicate
+200037|dupGroup|DUP-004
+200037|keeperId|200107
+200037|action|MERGE THEN DELETE
+200037|politics|Active in social reform and philanthropy alongside her husband.
+200037|status|Existing database
+200037|priority|Existing
+200037|qcFlag|DUP-004: Likely duplicate; Merge spouse Martha Harvey and Salford connection into 200107, then delete after review.
+200064|recordType|Person
+200064|idStatus|Original ID
+200064|dupStatus|Unique / no duplicate identified
+200064|status|Existing database
+200064|priority|Existing
+200082|recordType|Person
+200082|idStatus|Original ID
+200082|dupStatus|Unique / no duplicate identified
+200082|politics|Liberal
+200082|religion|Unitarian
+200082|status|Existing database
+200082|priority|Existing
+200087|recordType|Person
+200087|idStatus|Original ID
+200087|dupStatus|Unique / no duplicate identified
+200087|status|Existing database
+200087|priority|Existing
+200093|recordType|Person
+200093|idStatus|Original ID
+200093|dupStatus|Unique / no duplicate identified
+200093|status|Existing database
+200093|priority|Existing
+200088|recordType|Person
+200088|idStatus|Original ID
+200088|dupStatus|Unique / no duplicate identified
+200088|status|Existing database
+200088|priority|Existing
+200044|recordType|Person
+200044|idStatus|Original ID
+200044|dupStatus|Unique / no duplicate identified
+200044|status|Existing database
+200044|priority|Existing
+200055|recordType|Title / unresolved person
+200055|idStatus|Original ID
+200055|dupStatus|Unique / no duplicate identified
+200055|status|Existing database
+200055|priority|Existing
+200055|qcFlag|RECORD TYPE: Title / unresolved person
+200032|recordType|Person
+200032|idStatus|Original ID
+200032|dupStatus|Unique / no duplicate identified
+200032|politics|Noted women's rights activist and suffragist.
+200032|status|Existing database
+200032|priority|Existing
+200054|recordType|Person
+200054|idStatus|Original ID
+200054|dupStatus|Unique / no duplicate identified
+200054|status|Existing database
+200054|priority|Existing
+200053|recordType|Person
+200053|idStatus|Original ID
+200053|dupStatus|Unique / no duplicate identified
+200053|status|Existing database
+200053|priority|Existing
+200027|recordType|Person
+200027|idStatus|Original ID
+200027|dupStatus|Unique / no duplicate identified
+200027|status|Existing database
+200027|priority|Existing
+200060|recordType|Person
+200060|idStatus|Original ID
+200060|dupStatus|Unique / no duplicate identified
+200060|status|Existing database
+200060|priority|Existing
+200089|recordType|Person
+200089|idStatus|Original ID
+200089|dupStatus|Unique / no duplicate identified
+200089|specialism|Ornithology; natural history
+200089|background|Writer; polymath; institution founder
+200089|knowledgeRole|Author; collector; founder
 200089|collections|Ornithological work; Armitt Library
 200089|destination|Armitt Library, Ambleside
 200089|status|Existing - enriched
 200089|priority|High
 200089|openQuestion|Broader natural-history connector rather than a core botany/entomology figure; add a source during verification.
+200033|recordType|Person
+200033|idStatus|Original ID
+200033|dupStatus|Unique / no duplicate identified
+200033|status|Existing database
+200033|priority|Existing
+200090|recordType|Person
+200090|idStatus|Original ID
+200090|dupStatus|Unique / no duplicate identified
+200090|status|Existing database
+200090|priority|Existing
+200046|recordType|Family
+200046|idStatus|Original ID
+200046|dupStatus|Unique / no duplicate identified
+200046|status|Existing database
+200046|priority|Existing
+200046|qcFlag|RECORD TYPE: Family
+200057|recordType|Person
+200057|idStatus|Original ID
+200057|dupStatus|Unique / no duplicate identified
+200057|status|Existing database
+200057|priority|Existing
+200058|recordType|Business partnership
+200058|idStatus|Original ID
+200058|dupStatus|Unique / no duplicate identified
+200058|status|Existing database
+200058|priority|Existing
+200058|qcFlag|RECORD TYPE: Business partnership
+200017|recordType|Person
+200017|idStatus|Original ID
+200017|dupStatus|Unique / no duplicate identified
+200017|status|Existing database
+200017|priority|Existing
+200030|recordType|Person
+200030|idStatus|Original ID
+200030|dupStatus|Unique / no duplicate identified
+200030|status|Existing database
+200030|priority|Existing
+200026|recordType|Institution / named legacy
+200026|idStatus|Original ID
+200026|dupStatus|Unique / no duplicate identified
+200026|status|Existing database
+200026|priority|Existing
+200026|qcFlag|RECORD TYPE: Institution / named legacy
+200059|recordType|Person
+200059|idStatus|Original ID
+200059|dupStatus|Unique / no duplicate identified
+200059|status|Existing database
+200059|priority|Existing
+200031|recordType|Person
+200031|idStatus|Original ID
+200031|dupStatus|Unique / no duplicate identified
+200031|status|Existing database
+200031|priority|Existing
+200029|recordType|Person
+200029|idStatus|Original ID
+200029|dupStatus|Unique / no duplicate identified
+200029|status|Existing database
+200029|priority|Existing
+VM-ADD-001|recordType|Person
+VM-ADD-001|idStatus|Assigned - source ID missing
+VM-ADD-001|dupStatus|Unique / no duplicate identified
+VM-ADD-001|status|Existing database
+VM-ADD-001|priority|Existing
+VM-ADD-001|qcFlag|Assigned - source ID missing
+VM-ADD-002|recordType|Person
+VM-ADD-002|idStatus|Assigned - source ID missing
+VM-ADD-002|dupStatus|Unique / no duplicate identified
+VM-ADD-002|status|Existing database
+VM-ADD-002|priority|Existing
+VM-ADD-002|qcFlag|Assigned - source ID missing
+VM-ADD-003|recordType|Person
+VM-ADD-003|idStatus|Assigned - source ID missing
+VM-ADD-003|dupStatus|Unique / no duplicate identified
+VM-ADD-003|status|Existing database
+VM-ADD-003|priority|Existing
+VM-ADD-003|qcFlag|Assigned - source ID missing
+VM-ADD-004|recordType|Person
+VM-ADD-004|idStatus|Assigned - source ID missing
+VM-ADD-004|dupStatus|Unique / no duplicate identified
+VM-ADD-004|status|Existing database
+VM-ADD-004|priority|Existing
+VM-ADD-004|qcFlag|Assigned - source ID missing
+VM-ADD-005|recordType|Person
+VM-ADD-005|idStatus|Assigned - source ID missing
+VM-ADD-005|dupStatus|Unique / no duplicate identified
+VM-ADD-005|status|Existing database
+VM-ADD-005|priority|Existing
+VM-ADD-005|qcFlag|Assigned - source ID missing
+VM-ADD-006|recordType|Person
+VM-ADD-006|idStatus|Assigned - source ID missing
+VM-ADD-006|dupStatus|Unique / no duplicate identified
+VM-ADD-006|status|Existing database
+VM-ADD-006|priority|Existing
+VM-ADD-006|qcFlag|Assigned - source ID missing
+VM-ADD-007|recordType|Person
+VM-ADD-007|idStatus|Assigned - source ID missing
+VM-ADD-007|dupStatus|Unique / no duplicate identified
+VM-ADD-007|status|Existing database
+VM-ADD-007|priority|Existing
+VM-ADD-007|qcFlag|Assigned - source ID missing
+VM-ADD-008|recordType|Person
+VM-ADD-008|idStatus|Assigned - source ID missing
+VM-ADD-008|dupStatus|Unique / no duplicate identified
+VM-ADD-008|status|Existing database
+VM-ADD-008|priority|Existing
+VM-ADD-008|qcFlag|Assigned - source ID missing
+VM-ADD-009|recordType|Person
+VM-ADD-009|idStatus|Assigned - source ID missing
+VM-ADD-009|dupStatus|Unique / no duplicate identified
+VM-ADD-009|status|Existing database
+VM-ADD-009|priority|Existing
+VM-ADD-009|qcFlag|Assigned - source ID missing
+VM-ADD-010|recordType|Person
+VM-ADD-010|sourceId|sw
+VM-ADD-010|idStatus|Replaced reused source ID “sw”
+VM-ADD-010|dupStatus|Unique / no duplicate identified
+VM-ADD-010|building|Art Treasures Exhibition, Old Trafford
+VM-ADD-010|status|Existing database
+VM-ADD-010|priority|Existing
+VM-ADD-010|qcFlag|Replaced reused source ID “sw”
+VM-ADD-011|recordType|Person
+VM-ADD-011|sourceId|sw
+VM-ADD-011|idStatus|Replaced reused source ID “sw”
+VM-ADD-011|dupStatus|Unique / no duplicate identified
+VM-ADD-011|specialism|Botany; natural history
+VM-ADD-011|background|Cashier; self-taught naturalist; adult educator
+VM-ADD-011|knowledgeRole|Founder; lecturer; collector; author; excursion organiser
 VM-ADD-011|collections|Manchester Flora; Country Rambles; teaching herbarium; field excursions
 VM-ADD-011|destination|Manchester Museum Herbarium
 VM-ADD-011|status|Existing - enriched
 VM-ADD-011|priority|Essential
-VM-ADD-011|sourceUrl|@exeter
+VM-ADD-011|sourceUrl|https://lib-archives.ex.ac.uk/Record.aspx?id=EUL+MS+277&src=CalmView.Catalog
 VM-ADD-011|openQuestion|Connect Grindon to Lydia Becker, Joseph Sidebotham, local artisan botanists and the Field-Naturalists' Society.
-NH-001|collections|A Botanical Guide... (1849); moss collections with John Nowell
+VM-ADD-011|qcFlag|Replaced reused source ID “sw”
+VM-ADD-012|recordType|Composite record
+VM-ADD-012|sourceId|sw
+VM-ADD-012|idStatus|Replaced reused source ID “sw”
+VM-ADD-012|dupStatus|Unique / no duplicate identified
+VM-ADD-012|status|Existing database
+VM-ADD-012|priority|Existing
+VM-ADD-012|qcFlag|Replaced reused source ID “sw”; RECORD TYPE: Composite record
+NH-001|recordType|Person
+NH-001|idStatus|Original ID
+NH-001|dupStatus|Unique / no duplicate identified
+NH-001|specialism|Botany; bryology
+NH-001|background|Shoemaker; working-class autodidact
+NH-001|knowledgeRole|Collector; identifier; author
+NH-001|collections|A Botanical Guide… (1849); moss collections with John Nowell
 NH-001|destination|Manchester Museum Herbarium
 NH-001|status|Researched addition
 NH-001|priority|Essential
-NH-001|sourceUrl|@sage
+NH-001|sourceUrl|https://journals.sagepub.com/doi/10.1177/007327539403200302
 NH-001|openQuestion|Ask who introduced Buxton to other botanists and how his knowledge circulated.
+NH-002|recordType|Person
+NH-002|idStatus|Original ID
+NH-002|dupStatus|Unique / no duplicate identified
+NH-002|politics|Radical sympathies
+NH-002|specialism|Botany; horticultural hybridisation
+NH-002|background|Handloom weaver; working-class autodidact
+NH-002|knowledgeRole|Founder; teacher; identifier; organiser
 NH-002|collections|Society meetings; shared books and herbaria; Narcissus 'Horsfieldii'
 NH-002|status|Researched addition
 NH-002|priority|Essential
-NH-002|sourceUrl|@he1406
+NH-002|sourceUrl|https://historicengland.org.uk/listing/the-list/list-entry/1406283
 NH-002|openQuestion|Capture pub meeting sites, book-pooling practices and his links to Peterloo/radical culture.
+NH-003|recordType|Person
+NH-003|idStatus|Original ID
+NH-003|dupStatus|Unique / no duplicate identified
+NH-003|specialism|Bryology; cryptogams
+NH-003|background|Artisan naturalist
+NH-003|knowledgeRole|Collector; identifier; specimen preparer
 NH-003|collections|British mosses and hepatics; Musci Britannici material
 NH-003|destination|Manchester Museum Herbarium
 NH-003|status|Researched addition
 NH-003|priority|Essential
-NH-003|sourceUrl|@herb
+NH-003|sourceUrl|https://herbologymanchester.wordpress.com/wp-content/uploads/2017/10/herb_manch-contents-guide.pdf
 NH-003|openQuestion|Verify occupation, society memberships and direct relationships.
+NH-004|recordType|Person
+NH-004|idStatus|Original ID
+NH-004|dupStatus|Unique / no duplicate identified
+NH-004|specialism|Botany; entomology; microscopy
+NH-004|background|Cotton manufacturer; scientific collector
+NH-004|knowledgeRole|Co-founder; collector; photographer; patron
 NH-004|collections|Lepidoptera and wider natural-history collections; microscopy; photography
 NH-004|destination|Manchester Museum
 NH-004|status|Researched addition
 NH-004|priority|Essential
-NH-004|sourceUrl|@eup
+NH-004|sourceUrl|https://www.euppublishing.com/doi/10.3366/anh.2015.0305
 NH-004|openQuestion|A key bridge between industrial wealth, technology, collecting and civic science.
+NH-005|recordType|Person
+NH-005|idStatus|Original ID
+NH-005|dupStatus|Unique / no duplicate identified
+NH-005|specialism|Natural history; entomology
+NH-005|background|Textile manufacturer; elite collector
+NH-005|knowledgeRole|Collector; patron
 NH-005|collections|Private natural-history and insect collections
 NH-005|destination|Manchester Society for the Promotion of Natural History; Manchester Museum
 NH-005|status|Researched addition
 NH-005|priority|Essential
-NH-005|sourceUrl|@mma
-NH-005|openQuestion|Note a date discrepancy: one current University webpage states 1761-1841; the Museum archive and scholarship give 1761-1814.
+NH-005|sourceUrl|https://archiveshub.jisc.ac.uk/data/gb133-mma
+NH-005|openQuestion|Note a date discrepancy: one current University webpage states 1761–1841; the Museum archive and scholarship give 1761–1814.
+NH-006|recordType|Person
+NH-006|idStatus|Original ID
+NH-006|dupStatus|Unique / no duplicate identified
+NH-006|specialism|Entomology; Lepidoptera
+NH-006|background|Textile worker; amateur collector
+NH-006|knowledgeRole|Collector; discoverer
 NH-006|collections|Manchester moth specimens
 NH-006|destination|Manchester Museum and other museums
 NH-006|status|Researched addition
 NH-006|priority|Essential
-NH-006|sourceUrl|@ent
-NH-006|openQuestion|Verify the chain Cribb to Wood to Curtis and record conflicting versions rather than collapsing them.
+NH-006|sourceUrl|https://www.museum.manchester.ac.uk/collections/entomology
+NH-006|openQuestion|Verify the chain Cribb → Wood → Curtis and record conflicting versions rather than collapsing them.
+NH-007|recordType|Person
+NH-007|idStatus|Original ID
+NH-007|dupStatus|Unique / no duplicate identified
+NH-007|specialism|Entomology; Lepidoptera
+NH-007|background|Amateur collector
+NH-007|knowledgeRole|Collector; intermediary
 NH-007|collections|Manchester moth specimen and correspondence/identification chain
 NH-007|status|Workshop candidate - verify
 NH-007|priority|Essential
-NH-007|sourceUrl|@ent
+NH-007|sourceUrl|https://www.museum.manchester.ac.uk/collections/entomology
 NH-007|openQuestion|Confirm full name, occupation and precise handling of Cribb's specimens.
+NH-008|recordType|Person
+NH-008|idStatus|Original ID
+NH-008|dupStatus|Unique / no duplicate identified
+NH-008|specialism|Bryology; cryptogams; fungi; lichens
+NH-008|background|Physician; professionalising botanist
+NH-008|knowledgeRole|Taxonomist; author; collector
 NH-008|collections|Hepaticae Britannicae exsiccatae and herbarium material
 NH-008|destination|Manchester Museum Herbarium
 NH-008|status|Researched addition
 NH-008|priority|High
-NH-008|sourceUrl|@bal
+NH-008|sourceUrl|https://archiveshub.jisc.ac.uk/data/gb2875-bal
 NH-008|openQuestion|Map his medical, microscopical and herbarium relationships.
+NH-009|recordType|Person
+NH-009|idStatus|Original ID
+NH-009|dupStatus|Unique / no duplicate identified
+NH-009|specialism|Botany
+NH-009|background|Collector; institutional donor
+NH-009|knowledgeRole|Collector; curator-like organiser
 NH-009|collections|Large British and European herbarium
 NH-009|destination|Manchester Museum Herbarium (1917)
 NH-009|status|Researched addition
 NH-009|priority|High
-NH-009|sourceUrl|@herb
+NH-009|sourceUrl|https://herbologymanchester.wordpress.com/wp-content/uploads/2017/10/herb_manch-contents-guide.pdf
 NH-009|openQuestion|Trace how the collection was financed, organised and transferred.
+NH-010|recordType|Person
+NH-010|idStatus|Original ID
+NH-010|dupStatus|Unique / no duplicate identified
+NH-010|specialism|Botany; conchology
+NH-010|background|Collector
+NH-010|knowledgeRole|Collector; author; donor
 NH-010|collections|General herbarium
 NH-010|destination|Manchester Museum Herbarium (1904)
 NH-010|status|Researched addition
 NH-010|priority|High
-NH-010|sourceUrl|@herb
+NH-010|sourceUrl|https://herbologymanchester.wordpress.com/wp-content/uploads/2017/10/herb_manch-contents-guide.pdf
 NH-010|openQuestion|Investigate commercial, imperial and specimen-supply networks.
+NH-011|recordType|Person
+NH-011|idStatus|Original ID
+NH-011|dupStatus|Unique / no duplicate identified
+NH-011|specialism|Ferns; algae; cryptogams
+NH-011|background|Artisan naturalist
+NH-011|knowledgeRole|Collector; specimen preparer
 NH-011|collections|British ferns, algae and allied plants
 NH-011|destination|Manchester Museum Herbarium
 NH-011|status|Workshop candidate - verify
 NH-011|priority|High
-NH-011|sourceUrl|@herb
+NH-011|sourceUrl|https://herbologymanchester.wordpress.com/wp-content/uploads/2017/10/herb_manch-contents-guide.pdf
 NH-011|openQuestion|Confirm dates, occupation and whether inclusion should be person-based or network-based.
+NH-012|recordType|Person
+NH-012|idStatus|Original ID
+NH-012|dupStatus|Unique / no duplicate identified
+NH-012|specialism|Bryology
+NH-012|background|Working-class naturalist
+NH-012|knowledgeRole|Collector; collaborator
 NH-012|collections|Fasciculus of British Mosses with Richard Buxton
 NH-012|destination|Manchester Museum Herbarium
 NH-012|status|Workshop candidate - verify
 NH-012|priority|High
-NH-012|sourceUrl|@herb
+NH-012|sourceUrl|https://herbologymanchester.wordpress.com/wp-content/uploads/2017/10/herb_manch-contents-guide.pdf
 NH-012|openQuestion|Confirm biography and Greater Manchester connection.
+NH-013|recordType|Person
+NH-013|idStatus|Original ID
+NH-013|dupStatus|Unique / no duplicate identified
+NH-013|building|Workshop on Shudehill
+NH-013|specialism|Botany; natural history
+NH-013|background|Manual worker / shop-based artisan
+NH-013|knowledgeRole|Collector; participant
 NH-013|status|Workshop candidate - verify
 NH-013|priority|High
-NH-013|sourceUrl|@gut
+NH-013|sourceUrl|https://www.gutenberg.org/cache/epub/47578/pg47578-images.html
 NH-013|openQuestion|Identify occupation, full dates and specimens/publications.
+NH-014|recordType|Person
+NH-014|idStatus|Original ID
+NH-014|dupStatus|Unique / no duplicate identified
+NH-014|specialism|Botany
+NH-014|background|Working naturalist
+NH-014|knowledgeRole|Collector; society participant
 NH-014|status|Workshop candidate - verify
 NH-014|priority|High
-NH-014|sourceUrl|@gut
-NH-014|openQuestion|Clarify Banksian, occupation and meeting circuit.
+NH-014|sourceUrl|https://www.gutenberg.org/cache/epub/47578/pg47578-images.html
+NH-014|openQuestion|Clarify 'Banksian', occupation and meeting circuit.
+NH-015|recordType|Person
+NH-015|idStatus|Original ID
+NH-015|dupStatus|Unique / no duplicate identified
+NH-015|specialism|Natural history
+NH-015|background|Professional/industrial family network
+NH-015|knowledgeRole|Collector / participant
 NH-015|status|Workshop candidate - verify
 NH-015|priority|Investigate
-NH-015|sourceUrl|@eup
+NH-015|sourceUrl|https://www.euppublishing.com/doi/10.3366/anh.2015.0305
 NH-015|openQuestion|Confirm identity, dates, specialism and relationship to Joseph Sidebotham.
-NH-020|openQuestion|Confirm which Newton and find full identity.
+NH-016|recordType|Person
+NH-016|idStatus|Original ID
+NH-016|dupStatus|Unique / no duplicate identified
+NH-016|specialism|Botany
+NH-016|background|Unknown
+NH-016|knowledgeRole|Society participant
+NH-016|status|Workshop candidate - verify
+NH-016|priority|Investigate
+NH-016|sourceUrl|https://www.gutenberg.org/cache/epub/47578/pg47578-images.html
+NH-016|openQuestion|Find full identity and relationship evidence.
+NH-017|recordType|Person
+NH-017|idStatus|Original ID
+NH-017|dupStatus|Unique / no duplicate identified
+NH-017|specialism|Botany
+NH-017|background|Unknown
+NH-017|knowledgeRole|Society participant
+NH-017|status|Workshop candidate - verify
+NH-017|priority|Investigate
+NH-017|sourceUrl|https://www.gutenberg.org/cache/epub/47578/pg47578-images.html
+NH-017|openQuestion|Find full identity and relationship evidence.
+NH-018|recordType|Person
+NH-018|idStatus|Original ID
+NH-018|dupStatus|Unique / no duplicate identified
+NH-018|specialism|Botany
+NH-018|background|Unknown
+NH-018|knowledgeRole|Society participant
+NH-018|status|Workshop candidate - verify
+NH-018|priority|Investigate
+NH-018|sourceUrl|https://www.gutenberg.org/cache/epub/47578/pg47578-images.html
+NH-018|openQuestion|Find full identity and relationship evidence.
+NH-019|recordType|Person
+NH-019|idStatus|Original ID
+NH-019|dupStatus|Unique / no duplicate identified
+NH-019|specialism|Botany
+NH-019|background|Unknown
+NH-019|knowledgeRole|Society participant
+NH-019|status|Workshop candidate - verify
+NH-019|priority|Investigate
+NH-019|sourceUrl|https://www.gutenberg.org/cache/epub/47578/pg47578-images.html
+NH-019|openQuestion|Find full identity and relationship evidence.
+NH-020|recordType|Person
+NH-020|idStatus|Original ID
+NH-020|dupStatus|Unique / no duplicate identified
+NH-020|specialism|Botany
+NH-020|background|Unknown
+NH-020|knowledgeRole|Society participant
+NH-020|status|Workshop candidate - verify
+NH-020|priority|Investigate
+NH-020|sourceUrl|https://www.gutenberg.org/cache/epub/47578/pg47578-images.html
+NH-020|openQuestion|Find full identity and relationship evidence.
+NH-021|recordType|Person
+NH-021|idStatus|Original ID
+NH-021|dupStatus|Unique / no duplicate identified
+NH-021|specialism|Botany
+NH-021|background|Unknown
+NH-021|knowledgeRole|Society participant
+NH-021|status|Workshop candidate - verify
+NH-021|priority|Investigate
+NH-021|sourceUrl|https://www.gutenberg.org/cache/epub/47578/pg47578-images.html
+NH-021|openQuestion|Find full identity and relationship evidence.
+NH-022|recordType|Person
+NH-022|idStatus|Original ID
+NH-022|dupStatus|Unique / no duplicate identified
+NH-022|specialism|Botany
+NH-022|background|Unknown
+NH-022|knowledgeRole|Society participant
+NH-022|status|Workshop candidate - verify
+NH-022|priority|Investigate
+NH-022|sourceUrl|https://www.gutenberg.org/cache/epub/47578/pg47578-images.html
+NH-022|openQuestion|Find full identity and relationship evidence.
+NH-023|recordType|Person
+NH-023|idStatus|Original ID
+NH-023|dupStatus|Unique / no duplicate identified
+NH-023|specialism|Botany
+NH-023|background|Unknown
+NH-023|knowledgeRole|Society participant
+NH-023|status|Workshop candidate - verify
+NH-023|priority|Investigate
+NH-023|sourceUrl|https://www.gutenberg.org/cache/epub/47578/pg47578-images.html
+NH-023|openQuestion|Confirm which Newton and find full identity.
+NH-024|recordType|Person
+NH-024|idStatus|Original ID
+NH-024|dupStatus|Unique / no duplicate identified
+NH-024|specialism|Botany
+NH-024|background|Unknown
+NH-024|knowledgeRole|Society participant
+NH-024|status|Workshop candidate - verify
+NH-024|priority|Investigate
+NH-024|sourceUrl|https://www.gutenberg.org/cache/epub/47578/pg47578-images.html
+NH-024|openQuestion|Find full identity and relationship evidence.
+NH-025|recordType|Person
+NH-025|idStatus|Original ID
+NH-025|dupStatus|Unique / no duplicate identified
+NH-025|specialism|Botany
+NH-025|background|Unknown
+NH-025|knowledgeRole|Society participant
+NH-025|status|Workshop candidate - verify
+NH-025|priority|Investigate
+NH-025|sourceUrl|https://www.gutenberg.org/cache/epub/47578/pg47578-images.html
 NH-025|openQuestion|Verify spelling and full identity.
+NH-026|recordType|Person
+NH-026|idStatus|Original ID
+NH-026|dupStatus|Unique / no duplicate identified
+NH-026|specialism|Botany
+NH-026|background|Unknown
+NH-026|knowledgeRole|Society participant
+NH-026|status|Workshop candidate - verify
+NH-026|priority|Investigate
+NH-026|sourceUrl|https://www.gutenberg.org/cache/epub/47578/pg47578-images.html
 NH-026|openQuestion|Disambiguate from other John Turners.
-NH-027|collections|Herbarium sheets dated 1879-1881
+NH-027|recordType|Person
+NH-027|idStatus|Original ID
+NH-027|dupStatus|Unique / no duplicate identified
+NH-027|specialism|Bryology / botany - verify
+NH-027|background|Unknown
+NH-027|knowledgeRole|Collector
+NH-027|collections|Herbarium sheets dated 1879–1881
 NH-027|destination|Manchester Museum Herbarium
 NH-027|status|Workshop candidate - verify
 NH-027|priority|Investigate
-NH-027|sourceUrl|@herb
+NH-027|sourceUrl|https://herbologymanchester.wordpress.com/wp-content/uploads/2017/10/herb_manch-contents-guide.pdf
 NH-027|openQuestion|Recover full name, biography and collecting locations.
+NH-027|qcFlag|FIRST NAME MISSING
+NH-028|recordType|Person
+NH-028|idStatus|Original ID
+NH-028|dupStatus|Unique / no duplicate identified
+NH-028|specialism|Pteridology / ferns
+NH-028|background|Unknown
+NH-028|knowledgeRole|Collector
 NH-028|collections|Darjeeling ferns
 NH-028|destination|Manchester Museum Herbarium
 NH-028|status|Workshop candidate - verify
 NH-028|priority|Investigate
-NH-028|sourceUrl|@herb
+NH-028|sourceUrl|https://herbologymanchester.wordpress.com/wp-content/uploads/2017/10/herb_manch-contents-guide.pdf
 NH-028|openQuestion|Identify the collector and the intermediaries through whom specimens reached Manchester.
+VM-ADD-013|recordType|Person
+VM-ADD-013|idStatus|Assigned - source ID missing
+VM-ADD-013|dupStatus|Unique / no duplicate identified
+VM-ADD-013|qcFlag|Assigned - source ID missing; LATEST PDF ADDITION; biographical fields incomplete

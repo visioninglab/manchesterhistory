@@ -58,7 +58,6 @@ VM-ADD-008|textile wealth|COL-003|documented|The record lists him as a cotton me
 PL-BASE-013|named after|200036|verify|Peel Park in Salford was named for Sir Robert Peel, whose record is filed under Salford.|
 PL-BASE-014|named after|200033|verify|Philips Park was named for Mark Philips, who campaigned and subscribed for it. The record spells the surname Phillips.|
 PL-BASE-020|stands in|PL-BASE-013|verify|Salford Museum and Art Gallery stands in Peel Park. The collection keeps them as two separate records.|
-PL-NH-014|the same institution as|PL-BASE-020|verify|"Peel Park Museum" and "Salford Museum and Art Gallery" name one institution. Left as two records rather than merged, because the natural-history record makes a claim the other does not.|
 TL-BASE-001|returned him to Parliament|200033|verify|Mark Philips became one of Manchester's first two MPs at the election that followed the 1832 Reform Act.|
 ORG-BASE-008|founded by|200020|verify|Benjamin Heywood was among the founders of the Manchester Statistical Society in 1833. The record has him only as an MP and philanthropist.|
 PL-BASE-036|built by|ORG-BASE-001|verify|The Thirlmere aqueduct was built by Manchester Corporation to bring Lake District water to the city.|
@@ -84,3 +83,40 @@ PL-BASE-054|women's provision, like|PL-BASE-051|interpretive|One record claims t
 200075|a first in his sport, like|200080|interpretive|Both records mark a first for a black sportsman in England, in Tameside and Salford; the collection keeps them apart.|
 200067|Salford religious welfare, like|ORG-BASE-015|interpretive|A Salvationist in Eccles and a Salford children's refuge, both 1870s religious welfare. Neither record names the other.|
 200090|Salford's later voice|PL-BASE-020|interpretive|Delaney (1938-2011) falls outside the Victorian span the rest of the collection covers. Joined to Salford's public cultural institution so the record is reachable, and flagged here as out of period.|
+#
+# --- restored after re-transcription --------------------------------------------
+# The first transcription put these names in the Places sheet's Connected people column.
+# The workbook does not: it states them in the record's own relevance text. They belong
+# here, where the basis is visible.
+PL-BASE-049|home of|200021|documented|The Pankhurst Centre record calls the building the birthplace of the suffragette movement and the home of Emmeline Pankhurst.|
+PL-BASE-037|founded by|200040|documented|The John Rylands Library record says it was funded by Enriqueta Rylands in memory of her husband.|
+PL-BASE-037|memorial to|200024|documented|The library record names it a memorial to her husband, John Rylands.|
+200073|catalogued the collection of|200040|documented|Alice Cooke's record says she catalogued the Enriqueta collection.|
+PL-BASE-032|founded from the bequest of|200023|verify|The Whitworth record says it was founded from a bequest; Joseph Whitworth's is the bequest in question. The workbook does not name him on the record.|
+200003|gave collections to|PL-BASE-032|documented|The Lees family record says their material went to Manchester Art Gallery and the Whitworth.|
+200003|gave collections to|PL-BASE-008|documented|The Lees family record says their material went to Manchester Art Gallery and the Whitworth.|
+200066|spoke at|PL-BASE-048|documented|Sarah Parker Remond's record says she delivered speeches in the Manchester Athenaeum.|
+ORG-BASE-009|met in|PL-BASE-048|documented|The Athenaeum on Princess Street is the building the Manchester Athenaeum occupied.|
+200041|founded|PL-BASE-039|documented|James Groves's record files him as a founder under "Salford Lads Club, Groves and Whitnall Breweries".|
+200042|founded|PL-BASE-039|documented|William Groves's record files him as a founder under "Salford Lads Club, Groves and Whitnall Breweries".|
+200051|made a lithograph of|PL-BASE-002|documented|J. Arnout's record is a lithograph of the Royal Infirmary, 1857.|
+200088|daughter of|200107|documented|Helen Brotherton's record calls her the daughter of Martha and Joseph Brotherton.|
+200088|vice-president of|ORG-BASE-014|documented|Her record makes her vice-president of the Vegetarian Society.|
+200038|vegetarianism|ORG-BASE-014|documented|Mary Brotherton's record files her under Vegetarianism; the Vegetarian Society is the collection's body for it.|
+ORG-BASE-013|founded the society|ORG-BASE-014|documented|The Bible Christian Church record says it promoted vegetarianism, temperance and social reform; the Vegetarian Society grew out of it in Salford.|
+PL-BASE-024|burial place of|200107|documented|The Weaste Cemetery record names Joseph and Martha Brotherton among those buried there.|
+PL-BASE-024|burial place of|200087|documented|The Weaste Cemetery record names Joseph and Martha Brotherton among those buried there.|
+200044|bishop of|ORG-BASE-003|documented|Bishop James Fraser held the see the Manchester Diocese record describes.|
+200044|commemorated in Albert Square|PL-BASE-029|documented|His record says his statue stands in Albert Square, outside the town hall.|
+200060|built it as town clerk|PL-BASE-029|documented|Joseph Heron's record says the town clerk led on building the town hall to Waterhouse's design.|
+200060|commissioned|200045|documented|His record names Waterhouse's design as the one he led the building of.|
+200058|built|PL-BASE-023|documented|The S&J Watts record names the warehouse that is now the Britannia hotel.|
+ORG-BASE-010|founded by|GH-WOLSTENHOLME|documented|Elizabeth Wolstenholme is recorded as the founder of the Manchester Schoolmistresses Association.|
+ORG-BASE-012|governed relief in|PL-NH-018|documented|The Board of Guardians record and the Chorlton-on-Medlock record cover the same district.|
+PL-BASE-030|provision for disabled people|COL-019|documented|The Deaf and Dumb Institute record describes education for deaf children, which is what this heading collects.|
+PL-BASE-041|the same foundation as|PL-BASE-044|documented|Chetham's College and Chetham's Library are two records of one foundation.|
+PL-BASE-009|terminus in Castlefield|PL-BASE-004|verify|The Liverpool and Manchester Railway's Manchester terminus was on Liverpool Road, at the Castlefield basin.|
+GH-NESWS|named in her relationships|200084|documented|The record exists because Esther Roper's relationships column names the North of England Society for Women's Suffrage.|
+VM-ADD-013|professor at|ORG-NH-007|verify|William Crawford Williamson was the first professor of natural history at Owens College. His record's biographical fields are incomplete.|
+200078|trade unionist|ORG-BASE-004|verify|Mary Qualie's record gives only "Trade Unionist"; the Women's Trades Council is the collection's nearest body.|
+200065|Salford writer|PL-BASE-020|interpretive|Robert Rose, born in the West Indies and living in Salford, chaired the "Poets Corner". The building is not in the collection; joined to Salford's cultural institution so the record is reachable.|
