@@ -212,6 +212,7 @@
   const root = svg.append("g");
   const gLink = root.append("g").attr("fill", "none");
   const gNode = root.append("g");
+  const gHit = root.append("g");     /* a target you can actually hit */
   const gText = root.append("g");
 
   const keys = Object.keys(DOMAINS), anchors = {};
@@ -242,7 +243,10 @@
   }
   const DASH = { ghost: "2 2", collective: "4 2", grouping: "4 2", derived: "1 2" };
 
-  let linkSel, nodeSel, textSel, lastShape = [-1, -1];
+  let linkSel, nodeSel, hitSel, textSel, lastShape = [-1, -1];
+  /* The drawn dot is as small as 7px across. Give every node a target big enough
+     for a mouse, and make its name clickable too, since the name is what people aim at. */
+  const hitR = d => Math.max(rad(d) + 9, 14);
 
   function bindGraph(firstRun) {
     nodes.forEach(n => {
@@ -270,22 +274,37 @@
       .on("mouseenter", (ev, d) => { state.hovered = nid(d.source); paint(); })
       .on("mouseleave", () => { state.hovered = null; paint(); });
 
-    nodeSel = gNode.selectAll("path").data(nodes, d => d.id).join(
-      enter => enter.append("path").attr("class", "node")
-        .on("click", (ev, d) => { ev.stopPropagation(); select(d.id); })
-        .on("mouseenter", (ev, d) => { state.hovered = d.id; paint(); })
-        .on("mouseleave", () => { state.hovered = null; paint(); })
-        .call(d3.drag()
-          .on("start", (ev, d) => { if (!ev.active) sim.alphaTarget(0.2).restart(); d.fx = d.x; d.fy = d.y; })
-          .on("drag", (ev, d) => { d.fx = ev.x; d.fy = ev.y; })
-          .on("end", (ev, d) => { if (!ev.active) sim.alphaTarget(0); d.fx = null; d.fy = null; })),
-      update => update, exit => exit.remove())
+    nodeSel = gNode.selectAll("path").data(nodes, d => d.id).join("path")
+      .attr("class", "node")
+      .style("pointer-events", "none")
       .attr("d", shapeFor)
       .attr("stroke-width", 1.4)
       .attr("vector-effect", "non-scaling-stroke");
 
-    textSel = gText.selectAll("text").data(nodes, d => d.id).join("text")
-      .attr("class", "node-label").attr("text-anchor", "middle")
+    const grab = d3.drag()
+      .on("start", (ev, d) => { if (!ev.active) sim.alphaTarget(0.2).restart(); d.fx = d.x; d.fy = d.y; })
+      .on("drag", (ev, d) => { d.fx = ev.x; d.fy = ev.y; })
+      .on("end", (ev, d) => { if (!ev.active) sim.alphaTarget(0); d.fx = null; d.fy = null; });
+
+    hitSel = gHit.selectAll("circle").data(nodes, d => d.id).join(
+      enter => enter.append("circle").attr("fill", "transparent")
+        .style("cursor", "pointer")
+        .on("click", (ev, d) => { ev.stopPropagation(); select(d.id); })
+        .on("mouseenter", (ev, d) => { state.hovered = d.id; paint(); })
+        .on("mouseleave", () => { state.hovered = null; paint(); })
+        .call(grab),
+      update => update, exit => exit.remove())
+      .attr("r", hitR);
+
+    textSel = gText.selectAll("text").data(nodes, d => d.id).join(
+      enter => enter.append("text")
+        .attr("text-anchor", "middle")
+        .on("click", (ev, d) => { ev.stopPropagation(); select(d.id); })
+        .on("mouseenter", (ev, d) => { state.hovered = d.id; paint(); })
+        .on("mouseleave", () => { state.hovered = null; paint(); })
+        .call(grab),
+      update => update, exit => exit.remove())
+      .attr("class", "node-label")
       .text(d => d.label.length > 40 ? d.label.slice(0, 38) + "…" : d.label);
 
     position();
@@ -297,12 +316,15 @@
     if (!linkSel) return;
     linkSel.attr("d", d => "M" + d.source.x + "," + d.source.y + "L" + d.target.x + "," + d.target.y);
     nodeSel.attr("transform", d => "translate(" + d.x + "," + d.y + ")");
+    hitSel.attr("cx", d => d.x).attr("cy", d => d.y);
     textSel.attr("x", d => d.x).attr("y", d => d.y - rad(d) - 4.5);
   }
 
   let k = 1;
   const zoom = d3.zoom().scaleExtent([0.2, 4]).on("zoom", ev => {
-    k = ev.transform.k; root.attr("transform", ev.transform); paintLabels();
+    k = ev.transform.k; root.attr("transform", ev.transform);
+    if (hitSel) hitSel.attr("r", d => Math.min(hitR(d) / k, rad(d) + 26));
+    paintLabels();
   });
   svg.call(zoom).on("click", () => select(null))
     .on("mousedown.cur", function () { this.classList.add("grabbing"); })
@@ -353,6 +375,10 @@
       .attr("stroke", d => col(d))
       .attr("stroke-dasharray", d => DASH[d.kindOf] || null)
       .attr("opacity", d => !near ? 1 : (near.has(d.id) ? 1 : 0.11));
+
+    hitSel
+      .attr("display", d => visibleNode(d) ? null : "none")
+      .attr("r", d => Math.min(hitR(d) / k, rad(d) + 26));
 
     const lit = d => near && near.has(nid(d.source)) && near.has(nid(d.target));
     linkSel
@@ -549,13 +575,14 @@
         '<span class="ev">' + esc(EVIDENCE[l.ev].label.toLowerCase()) + '</span></button></li>';
     }).join("");
 
+    const when = has(n, "dates") ? n.dates : has(n, "year") ? n.year
+      : has(n, "founded") ? n.founded : spanText(n);
+    /* anything already said in the heading or the description is not a fact row */
+    const said = [n.note, n.category, when];
+
     const facts = FACTS.filter(r => has(n, r[0]) && said.indexOf(n[r[0]]) < 0 &&
         !(r[0] === "role" && n[r[0]] === n.theme))
       .map(r => '<dt>' + esc(r[1]) + '</dt><dd>' + esc(n[r[0]]) + '</dd>').join("");
-
-    const when = has(n, "dates") ? n.dates : has(n, "year") ? n.year
-      : has(n, "founded") ? n.founded : spanText(n);
-    const said = [n.note, n.category, when];
 
     detail.innerHTML = '<div class="panel">' +
       '<button class="backbtn" data-go="">&larr; Whole network</button><div>' +
