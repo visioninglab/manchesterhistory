@@ -19,17 +19,27 @@ source, the page says so and draws it differently.
 | Societies, firms and groupings | 52 |
 | Places | 82 |
 | Dated events | 44 |
-| Links | 425, of which **18 come from the Relationships sheet** |
-| Evidence | 353 stated in the source · 60 to be confirmed · 12 readings offered for testing |
+| Links | 428, of which **18 come from the Relationships sheet** |
+| Evidence | 354 stated in the source · 62 to be confirmed · 12 readings offered for testing |
 | Records with nothing linked to them | 0 |
 | Records with no date | 0 |
+| Places with a coordinate | 82 of 82 |
 
 The 18 Relationships rows are the only links where the source names the relationship
 itself ("Introduced to network by", "Herbarium transferred to", "Financed / enabled"),
 dates it, rates its evidence and sets a follow-up. They are labelled `REL-001`…`REL-018`
-throughout the page. The rest are read out of the connection columns — Connected people,
+throughout the page. Every link also carries one of 33 connection types in seven families, so nothing is
+merely "connected to" something else. The rest are read out of the connection columns — Connected people,
 Key figures, Key places, Connected organisations, Category, Building — or were added in
 cleaning, each with a note saying what it rests on.
+
+There are three views: the **network**, a **map**, and a **table**. The map has no
+tiles — a published artifact cannot load images from a tile server — so the geography is
+drawn from coordinates: the Irwell, the Irk, the Medlock, the Mersey, the four canals,
+and eighteen district labels. Coordinates for all 82 places were put here by hand and
+each says how precise it is. Lines on the map join two places when the same person,
+society or event reaches both, which is the only kind of movement this collection can
+actually show; click one to see who.
 
 **Start here** offers five ways in for a reader who does not yet know the material: cotton
 money and the Guardian, how the herbarium moved, artisan botanists and their ground, votes
@@ -48,6 +58,11 @@ network it names.
 | `src/extra-nodes.psv` | people and groups the workbook names but gives no row |
 | `src/relationships.psv` | the Relationships sheet, endpoints resolved to record IDs |
 | `src/aliases.psv` | how free-text names resolve to record IDs |
+| `src/places-geo.psv` | a coordinate and a precision for every place |
+| `src/basemap.psv` | the rivers, canals and district labels the map is drawn from |
+| `src/connection-types.psv` | the 33 kinds of connection, in seven families |
+| `src/contributions.psv` | what people have sent in on the contribution sheet |
+| `contribute-template.csv` | the sheet to send them |
 | `build.py` | reads `src/`, resolves names, writes `data.js` and the CSVs |
 | `bundle.py` | inlines `data.js` + `app.js` into the two published pages |
 | `data.js` | generated — the model the page loads |
@@ -180,6 +195,24 @@ in `src/corrections.psv`):
 - **John Leigh Philips's dates** conflict between sources: 1761–1841 and 1761–1814.
 - **The fields of activity are ours, not the source's.** Colour is the first thing anyone
   reads, and nobody has checked the assignment.
+
+## Contributing without touching the browser
+
+`contribute-template.csv` is a spreadsheet anyone can fill in. One row per thing: a
+person, a society, a place, an event, or a connection between two of them. It carries
+its own instructions in the first rows, and the columns are plain words rather than
+field names — *what*, *name*, *from*, *to*, *how*, *field*, *dates*, *what_they_did*,
+*where*, *sure*, *source*, *by*, *notes*.
+
+Three of those columns do the real work. **how** takes any of the connection types, or
+plain words the build will match to one. **sure** takes `yes` if you have a source, `no`
+if you are fairly confident, `reading` if it is an argument rather than a fact — and that
+becomes the line style on the graph. **by** is your name, which stays on the record.
+
+Send the sheet back and its rows go into `src/contributions.psv`. Everything added that
+way is kept apart from the transcription and marked on the page as contributed and not
+yet confirmed, with the contributor named in the provenance, until somebody checks it. A
+`where` of `53.5352,-2.2861` puts a new place straight onto the map.
 
 ## Editing
 

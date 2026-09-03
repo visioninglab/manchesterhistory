@@ -1,0 +1,12 @@
+﻿# Who Knew Whom - contribution sheet.
+# One row per thing you want to add. Delete the example rows before you send it back.
+"# what: person, society, place, event or connection. For a connection, fill 'from', 'to' and 'how' and leave 'name' blank."
+"# sure: yes if you have a source, no if you are fairly confident, reading if it is an argument rather than a fact."
+"# field: nat (natural history), press, trade, suff (women's rights), reform, civic, arts."
+"# how: married to, parent and child, business partner of, employed by, put money into, built or designed, collected at, collection held at, specimens passed to, member of, founded, led, based at, met at, worked at, buried at, commemorated at, took part in - or plain words and we will match them."
+
+what,name,from,to,how,field,dates,what_they_did,where,sure,source,by,notes
+person,Jane Example,,,,nat,1820-1889,A Salford dressmaker who collected mosses on Kersal Moor and swapped specimens with the Prestwich botanists.,Salford,yes,"Manchester Archives, GB127.M123",A. Contributor,Named in the 1856 minute book
+connection,,Jane Example,Kersal Moor,collected at,,1840s-1860s,,,yes,"Manchester Archives, GB127.M123",A. Contributor,
+connection,,Jane Example,John Horsefield,specimens passed to,,1850s,,,no,,A. Contributor,The minute book records an exchange but does not say which way round
+place,"Golden Lion, Prestwich",,,,nat,1820s-1870s,The pub back room where the Prestwich Botanical Society met on Sunday mornings.,"53.5352,-2.2861",no,,A. Contributor,The collection has a Golden Lion but is not sure where it was

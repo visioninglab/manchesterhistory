@@ -1,0 +1,99 @@
+# Where each place is. The source gives no coordinates at all, so every one of these
+# was put here by hand and none should be treated as a survey point.
+#   site     a building or an address we can locate to a street
+#   area     a district, township, moss or clough: this is roughly the middle of it
+#   line     a river or a canal: this is a point on it, not its course
+#   guess    the source itself says the location is unverified
+# id|lat|lon|precision
+#
+# --- the centre --------------------------------------------------------------
+PL-BASE-029|53.4794|-2.2453|site
+PL-BASE-042|53.4855|-2.2444|site
+PL-BASE-041|53.4862|-2.2441|site
+PL-BASE-044|53.4861|-2.2438|site
+PL-BASE-043|53.4865|-2.2415|site
+PL-BASE-047|53.4830|-2.2444|site
+PL-BASE-001|53.4818|-2.2452|site
+PL-BASE-016|53.4806|-2.2452|site
+PL-BASE-040|53.4804|-2.2456|site
+PL-BASE-053|53.4813|-2.2436|site
+PL-BASE-059|53.4812|-2.2434|site
+PL-GUARDIAN|53.4808|-2.2437|site
+PL-BASE-007|53.4820|-2.2390|site
+PL-BASE-031|53.4813|-2.2372|site
+PL-BASE-006|53.4795|-2.2400|site
+PL-BASE-008|53.4790|-2.2410|site
+PL-BASE-048|53.4787|-2.2415|site
+PL-BASE-023|53.4770|-2.2395|site
+PL-BASE-052|53.4749|-2.2412|site
+PL-BASE-037|53.4794|-2.2508|site
+PL-BASE-050|53.4765|-2.2515|site
+PL-BASE-022|53.4783|-2.2482|site
+PL-PETERSFIELD|53.4785|-2.2447|site
+PL-NH-013|53.4784|-2.2478|site
+PL-GAIETY|53.4780|-2.2495|site
+PL-BASE-038|53.4776|-2.2454|site
+PL-NH-020|53.4783|-2.2408|site
+PL-NH-021|53.4790|-2.2380|site
+PL-BASE-002|53.4800|-2.2360|site
+PL-BASE-027|53.4855|-2.2385|site
+PL-NH-019|53.4855|-2.2400|site
+PL-BASE-012|53.4874|-2.2425|site
+PL-BASE-011|53.4774|-2.2309|site
+PL-BASE-009|53.4763|-2.2545|site
+PL-BASE-004|53.4750|-2.2530|site
+PL-BASE-033|53.4747|-2.2545|site
+PL-BASE-056|53.4757|-2.2510|area
+PL-BASE-057|53.4820|-2.2290|site
+#
+# --- Manchester beyond the centre --------------------------------------------
+PL-BASE-026|53.4930|-2.2450|site
+PL-BASE-025|53.4925|-2.2456|site
+PL-BASE-015|53.5020|-2.2170|site
+PL-BASE-014|53.4870|-2.1990|site
+PL-BASE-060|53.4820|-2.2200|site
+PL-BASE-045|53.4835|-2.2230|area
+PL-NH-018|53.4685|-2.2360|area
+PL-BASE-030|53.4715|-2.2350|site
+PL-BASE-021|53.4668|-2.2339|site
+PL-NH-015|53.4665|-2.2345|site
+PL-NH-016|53.4667|-2.2341|site
+PL-BASE-032|53.4600|-2.2306|site
+PL-BASE-049|53.4635|-2.2255|site
+PL-BASE-054|53.4620|-2.2200|site
+PL-BASE-019|53.4638|-2.2192|site
+PL-BASE-051|53.4700|-2.2530|area
+PL-NH-017|53.4670|-2.2720|site
+PL-ARTTREASURES|53.4620|-2.2860|site
+#
+# --- Salford -----------------------------------------------------------------
+PL-BASE-018|53.4855|-2.2620|site
+PL-BASE-013|53.4880|-2.2740|site
+PL-BASE-020|53.4877|-2.2735|site
+PL-BASE-010|53.4830|-2.3080|site
+PL-BASE-024|53.4830|-2.3050|site
+PL-BASE-039|53.4700|-2.2680|site
+PL-BASE-035|53.4720|-2.2900|area
+#
+# --- rivers and canals, as a point on the line -------------------------------
+PL-NH-022|53.4830|-2.2600|line
+PL-BASE-058|53.4720|-2.2300|line
+PL-BASE-003|53.4680|-2.2800|line
+PL-BASE-005|53.4790|-2.2330|line
+PL-BASE-046|53.4830|-2.2100|line
+PL-BASE-034|53.4700|-2.3300|line
+PL-BASE-036|53.5320|-2.2570|guess
+#
+# --- the collecting ground ---------------------------------------------------
+PL-NH-001|53.5195|-2.2830|area
+PL-NH-002|53.5330|-2.2790|area
+PL-NH-003|53.5150|-2.2960|area
+PL-NH-004|53.5460|-2.2860|area
+PL-NH-006|53.5350|-2.2830|area
+PL-NH-007|53.4600|-2.4200|area
+PL-NH-008|53.4000|-2.3900|area
+PL-NH-009|53.4930|-2.1130|area
+PL-NH-010|53.5350|-2.1750|guess
+PL-NH-011|53.4780|-2.3800|area
+PL-NH-012|53.3560|-2.2900|area
+PL-NH-005|53.5400|-2.2900|guess

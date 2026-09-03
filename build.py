@@ -351,6 +351,22 @@ for gid, (gname, gdom) in used_groups.items():
          "recordType": "A heading this collection groups people under",
          "sourceId": "", "link": "", "decades": ""})
 
+# ---------------------------------------------------------------- geography
+PRECISION = {"site":  "located to a street",
+             "area":  "roughly the middle of a district or a landscape",
+             "line":  "a point on a river or a canal, not its course",
+             "guess": "the source says the location is unverified"}
+for pid, lat, lon, prec in rows("places-geo.psv", 4):
+    if pid not in nodes: raise SystemExit("places-geo: unknown record " + pid)
+    if prec not in PRECISION: raise SystemExit("places-geo: bad precision " + prec)
+    n = nodes[pid]
+    n["lat"], n["lon"], n["geo"] = float(lat), float(lon), prec
+
+BASEMAP = []
+for kind, name, pts in rows("basemap.psv", 3):
+    coords = [[float(v) for v in pair.split(",")] for pair in pts.split()]
+    BASEMAP.append({"kind": kind, "name": name, "pts": coords})
+
 # ---------------------------------------------------------------- name index
 alias = {}
 for a, target in rows("aliases.psv", 2):
@@ -608,6 +624,55 @@ for n in list(nodes.values()):
                 kinded(n["id"], tgt, "happenedat", ev_for(n), n.get("sourceUrl", ""),
                        "Place column for " + n["year"] + ": " + frag.strip())
 
+# ---------------------------------------------------------------- contributions
+# Anything sent in on the contribution sheet. Kept apart from the transcription, and
+# marked on the page as contributed and unconfirmed until somebody checks it.
+CONTRIB_TYPE = {"person": "person", "society": "org", "org": "org",
+                "place": "place", "event": "event"}
+CONTRIB_EV = {"yes": "documented", "no": "verify", "reading": "interpretive"}
+CONTRIB_KIND = {}
+for _k, _c in CONNECTION.items():
+    CONTRIB_KIND[_c["label"].lower()] = _k
+    CONTRIB_KIND[_k.lower()] = _k
+    if _c.get("rev"): CONTRIB_KIND.setdefault(_c["rev"].lower(), _k)
+
+contrib_rows = rows("contributions.psv", 13)
+contributed = 0
+for what, name, frm, to, how, field, dates, did, where, sure, csrc, by, cnote in contrib_rows:
+    what = what.lower().strip()
+    if what in CONTRIB_TYPE:
+        cid = "CON-" + re.sub(r"[^A-Za-z0-9]+", "-", name).strip("-").upper()[:28]
+        if cid in nodes: raise SystemExit("contributions: %s is already here" % name)
+        lat = lon = None
+        if re.match(r"^\s*-?\d+\.\d+\s*,\s*-?\d+\.\d+\s*$", where or ""):
+            lat, lon = [float(v) for v in where.split(",")]
+        n = {"id": cid, "name": name, "type": CONTRIB_TYPE[what],
+             "domain": field if field in DOMAINS else "civic", "kindOf": "record",
+             "note": did, "role": "", "dates": dates, "decades": dates,
+             "areas": "" if lat is not None else where,
+             "status": "verify", "priority": "high",
+             "recordType": "Contributed, not yet confirmed",
+             "contributedBy": by, "sourceId": "", "link": url(csrc),
+             "sourceUrl": url(csrc), "openQuestion": cnote,
+             "datesResearched": "1" if dates else ""}
+        if lat is not None:
+            n["lat"], n["lon"], n["geo"] = lat, lon, "site"
+        add(n)
+        alias[name.lower()] = cid
+        contributed += 1
+
+for what, name, frm, to, how, field, dates, did, where, sure, csrc, by, cnote in contrib_rows:
+    if what.lower().strip() != "connection": continue
+    a = resolve(frm) or (frm if frm in nodes else None)
+    b = resolve(to) or (to if to in nodes else None)
+    if not a or not b:
+        raise SystemExit("contributions: cannot place %r - %r" % (frm, to))
+    kind = CONTRIB_KIND.get((how or "").strip().lower(), "associate")
+    link(a, b, how or CONNECTION[kind]["label"], CONTRIB_EV.get(sure.lower(), "verify"),
+         did, url(csrc), dates, cnote, kind=kind,
+         basis="Contributed by " + (by or "a reader") + ", not yet confirmed.")
+    contributed += 1
+
 # the Relationships sheet, last so it wins
 rel_rows = rows("relationships.psv", 10)
 for rid, a, typ, b, period, summary, src, ev, follow, kind in rel_rows:
@@ -689,11 +754,11 @@ for n in nodes.values(): n.setdefault("label", n["name"])
 # ---------------------------------------------------------------- emit
 def js(o): return json.dumps(o, ensure_ascii=False, separators=(",", ":"))
 
-FIELDS = ["id","label","name","type","domain","kindOf","gender","birth","death","dates",
+FIELDS = ["id","label","name","type","domain","kindOf","lat","lon","geo","gender","birth","death","dates",
           "dateQc","role","category","relationships","spouse","decades","areas","note",
           "link","specialism","background","knowledgeRole","collections","destination",
           "politics","religion","building","status","priority","sourceUrl","openQuestion",
-          "qcFlag","corrected","sourceNote","recordType","sourceId","idStatus","mergedFrom","mergeNote","founded","orgType","placeType","connectedPeople",
+          "qcFlag","corrected","sourceNote","contributedBy","recordType","sourceId","idStatus","mergedFrom","mergeNote","founded","orgType","placeType","connectedPeople",
           "connectedOrgs","connectedPlaces","keyPlaces","keyFigures","year","sortYear",
           "theme","scope","span","spanSource","deg"]
 
@@ -724,6 +789,7 @@ meta = {"built": datetime.date.today().isoformat(),
         "counts": dict(counts), "links": len(links),
         "relationshipRows": len(rel_rows),
         "unresolved": [{"text": t, "n": c} for t, c in unresolved.most_common()]}
+out.write("const BASEMAP = %s;\n\n" % js(BASEMAP))
 out.write("const META = %s;\n" % js(meta))
 out.close()
 
@@ -766,11 +832,12 @@ write_csv("links.csv",
 
 write_csv("places.csv",
   ["id","name","field","place_type","date","gm_area","natural_history_relevance",
-   "connected_people","connected_organisations","research_status","priority",
+   "connected_people","connected_organisations","latitude","longitude","location_precision","research_status","priority",
    "open_question","links","source_url"],
   [[n["id"],n["name"],n["domain"],n.get("placeType",""),n.get("founded",""),
     n.get("areas",""),n.get("role",""),n.get("connectedPeople",""),
-    n.get("connectedOrgs",""),STATUS[n["status"]]["label"],PRIORITY[n["priority"]]["label"],
+    n.get("connectedOrgs",""),n.get("lat",""),n.get("lon",""),n.get("geo",""),
+    STATUS[n["status"]]["label"],PRIORITY[n["priority"]]["label"],
     n.get("openQuestion",""),n["deg"],n.get("sourceUrl","")]
    for n in nodes.values() if n["type"] == "place"])
 
@@ -805,6 +872,13 @@ iso = [n for n in nodes.values() if n["deg"] == 0]
 if dropped:
     print("dropped after %d: %s" % (CUTOFF, ", ".join(
         "%s (%s, active from %s)" % (n["name"], n["id"], n["span"][0]) for n in dropped)))
+unplaced = [n for n in nodes.values() if n["type"] == "place" and "lat" not in n]
+print("mapped   %d of %d places%s" % (
+    sum(1 for n in nodes.values() if n["type"] == "place" and "lat" in n),
+    sum(1 for n in nodes.values() if n["type"] == "place"),
+    "" if not unplaced else "   MISSING: " + ", ".join(n["id"] for n in unplaced)))
+if contributed:
+    print("contributed %d rows from src/contributions.psv" % contributed)
 print("isolates %d (%s)" % (len(iso), dict(collections.Counter(n["type"] for n in iso))))
 if unresolved:
     print("\nunresolved connection strings (%d distinct):" % len(unresolved))

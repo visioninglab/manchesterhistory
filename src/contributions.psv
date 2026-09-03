@@ -1,0 +1,28 @@
+# Contributions. One row per thing somebody wants to add: a person, a society, a place,
+# an event, or a connection between two of them. Fill in the template CSV
+# (contribute-template.csv in the repository root), save it as pipe-delimited, and paste
+# the rows in below the line; or send the CSV to whoever runs the build and they will.
+#
+# Everything here is kept separate from the transcription of the source, and everything
+# added this way is marked on the page as contributed and needing checking, with the
+# contributor's name against it, until somebody confirms it.
+#
+# WHAT GOES IN EACH COLUMN
+#   what        person | society | place | event | connection
+#   name        the person, society, place or event. For a connection, leave blank.
+#   from / to   for a connection only: the two things it joins, by name or by reference.
+#               Both must already exist here, or be added on their own rows first.
+#   how         for a connection only: one of the connection types (see
+#               src/connection-types.psv), or plain words and we will match it.
+#   field       nat | press | trade | suff | reform | civic | arts  (see the rail)
+#   dates       1826-1894, or 1850s, or 1857. Anything we can read a decade out of.
+#   what_they_did  a sentence or two a stranger could read. This is what the page shows.
+#   where       a district, a street, or lat,lon if you have it
+#   sure        yes = you have a source | no = you are fairly confident | reading = an argument
+#   source      a URL, a shelfmark, a book and page. Something somebody else could check.
+#   by          your name, so the entry can be attributed and queried
+#   notes       anything the columns above have no room for
+#
+# what|name|from|to|how|field|dates|what_they_did|where|sure|source|by|notes
+# ---------------------------------------------------------------------------------
+# (no contributions yet)

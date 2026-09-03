@@ -356,9 +356,14 @@
     svg.transition().duration(400).call(zoom.transform, d3.zoomIdentity
       .translate(W / 2, H / 2).scale(s).translate(-(x0 + x1) / 2, -(y0 + y1) / 2));
   }
-  document.getElementById("zin").onclick = () => svg.transition().duration(200).call(zoom.scaleBy, 1.4);
-  document.getElementById("zout").onclick = () => svg.transition().duration(200).call(zoom.scaleBy, 0.7);
-  document.getElementById("zfit").onclick = fit;
+  const onMap = () => state.tab === "map";
+  document.getElementById("zin").onclick = () => onMap()
+    ? msvg.transition().duration(200).call(mzoom.scaleBy, 1.5)
+    : svg.transition().duration(200).call(zoom.scaleBy, 1.4);
+  document.getElementById("zout").onclick = () => onMap()
+    ? msvg.transition().duration(200).call(mzoom.scaleBy, 0.66)
+    : svg.transition().duration(200).call(zoom.scaleBy, 0.7);
+  document.getElementById("zfit").onclick = () => onMap() ? fitMap() : fit();
 
   function focus(id) {
     const n = byId.get(id); if (!n) return;
@@ -403,6 +408,7 @@
       .attr("opacity", d => !near ? (d.ev === "documented" ? 0.78 : 0.66) : (lit(d) ? 1 : 0.06));
 
     paintLabels();
+    if (state.tab === "map") { buildMap(); paintMap(); return; }
     tally();
   }
 
@@ -451,6 +457,20 @@
   }
 
   function tally() {
+    if (state.tab === "map") {
+      const vp = mapped().filter(visibleNode);
+      const joined = new Set();
+      routeList.forEach(r => { joined.add(r.a.id); joined.add(r.b.id); });
+      document.getElementById("t-nodes").textContent = vp.length;
+      document.getElementById("t-edges").textContent = routeList.length;
+      document.getElementById("t-cross").textContent =
+        routeList.filter(r => r.a.domain !== r.b.domain).length;
+      document.getElementById("t-iso").textContent =
+        vp.filter(n => !joined.has(n.id)).length;
+      document.getElementById("t-todo").textContent =
+        vp.filter(n => n.geo === "guess").length;
+      return;
+    }
     const vn = nodes.filter(visibleNode), vl = links.filter(visibleLink);
     document.getElementById("t-nodes").textContent = vn.length;
     document.getElementById("t-edges").textContent = vl.length;
@@ -469,9 +489,12 @@
 
   function select(id) {
     state.selected = id;
-    if (id && byId.has(id)) { renderNode(byId.get(id)); focus(id); }
-    else { state.selected = null; renderSummary(); }
+    if (id && byId.has(id)) {
+      renderNode(byId.get(id));
+      if (state.tab === "map") focusPlace(id); else focus(id);
+    } else { state.selected = null; renderSummary(); }
     paint();
+    if (state.tab === "map") paintMap();
   }
 
   function spanText(n) {
@@ -596,6 +619,8 @@
       rows.push('<dt>Flagged</dt><dd>' + esc(n.qcFlag) + '</dd>');
     if (has(n, "sourceNote"))
       rows.push('<dt>On the source</dt><dd>' + esc(n.sourceNote) + '</dd>');
+    if (has(n, "contributedBy"))
+      rows.push('<dt>Contributed by</dt><dd>' + esc(n.contributedBy) + '</dd>');
     const src = n.sourceUrl || n.link;
     if (src) rows.push('<dt>Source</dt><dd><a href="' + esc(src) + '" target="_blank" ' +
       'rel="noopener">' + esc(host(src)) + '</a></dd>');
@@ -894,17 +919,294 @@
     results.classList.remove("on"); q.value = ""; select(b.getAttribute("data-go"));
   });
 
+
+  /* ---------------- the map ----------------
+     No tiles: a published artifact cannot load images from a tile server, so the
+     geography is drawn from coordinates. Everything is a sketch and says so. */
+  const msvg = d3.select("#map");
+  const mroot = msvg.append("g");
+  const gGeo = mroot.append("g");
+  const gRoute = mroot.append("g").attr("fill", "none");
+  const gPlace = mroot.append("g");
+  const gGeoName = mroot.append("g");
+  const gPlaceName = mroot.append("g");
+
+  const LAT0 = 53.47, LON0 = -2.24, UPK = 100;          /* units per kilometre */
+  const KX = Math.cos(LAT0 * Math.PI / 180) * 111.32 * UPK;
+  const KY = 110.57 * UPK;
+  const mx = lon => (lon - LON0) * KX;
+  const my = lat => -(lat - LAT0) * KY;
+  const mapped = () => nodes.filter(n => n.type === "place" && n.lat != null);
+  const mrad = d => 3.0 + Math.sqrt(d.deg) * 1.6;       /* screen pixels */
+
+  const PRECISION = {
+    site: "located to a street", area: "middle of the district",
+    line: "a point on the water", guess: "location unverified"
+  };
+  let mk = 1, routeSel, placeSel, placeTextSel, mapBuilt = false;
+
+  const mzoom = d3.zoom().scaleExtent([0.25, 14]).on("zoom", ev => {
+    mk = ev.transform.k;
+    mroot.attr("transform", ev.transform);
+    sizeMap();
+    paintPlaceNames();
+  });
+  msvg.call(mzoom).on("click", () => select(null))
+    .on("mousedown.cur", function () { this.classList.add("grabbing"); })
+    .on("mouseup.cur", function () { this.classList.remove("grabbing"); });
+
+  /* Two places are joined when the same person, society or event reaches both of
+     them. That is the only kind of movement this collection can actually show. */
+  function routes() {
+    const m = new Map();
+    nodes.forEach(n => {
+      if (n.type === "place" || !visibleNode(n)) return;
+      const ps = [];
+      (adj.get(n.id) || []).forEach(l => {
+        if (!visibleLink(l)) return;
+        const o = byId.get(nid(l.source) === n.id ? nid(l.target) : nid(l.source));
+        if (o.type === "place" && o.lat != null && visibleNode(o)) ps.push(o);
+      });
+      for (let i = 0; i < ps.length; i++) {
+        for (let j = i + 1; j < ps.length; j++) {
+          const key = [ps[i].id, ps[j].id].sort().join("~");
+          let e = m.get(key);
+          if (!e) { e = { id: key, a: ps[i], b: ps[j], via: [], direct: false }; m.set(key, e); }
+          if (e.via.indexOf(n) < 0) e.via.push(n);
+        }
+      }
+    });
+    links.forEach(l => {
+      const pa = byId.get(nid(l.source)), pb = byId.get(nid(l.target));
+      if (pa.type !== "place" || pb.type !== "place") return;
+      if (pa.lat == null || pb.lat == null) return;
+      if (!visibleLink(l)) return;
+      const key = [pa.id, pb.id].sort().join("~");
+      let e = m.get(key);
+      if (!e) { e = { id: key, a: pa, b: pb, via: [], direct: false }; m.set(key, e); }
+      e.direct = true;
+      e.rel = relLabel(l, pa.id);
+    });
+    return [...m.values()];
+  }
+
+  let routeList = [];
+
+  function buildMap() {
+    /* the sketch geography, once */
+    if (!mapBuilt) {
+      const line = d3.line().x(d => mx(d[1])).y(d => my(d[0])).curve(d3.curveCatmullRom);
+      const shapes = BASEMAP.filter(g => g.kind !== "district");
+      gGeo.selectAll("path").data(shapes).join("path")
+        .attr("class", g => g.kind === "river" ? "geo-river" : "geo-canal")
+        .attr("vector-effect", "non-scaling-stroke")
+        .attr("d", g => line(g.pts));
+      gGeoName.selectAll("text").data(BASEMAP).join("text")
+        .attr("class", g => g.kind === "district" ? "geo-name" : "geo-water")
+        .attr("text-anchor", "middle")
+        .text(g => g.name.replace(/, .*/, ""));
+      mapBuilt = true;
+    }
+
+    routeList = routes();
+    routeSel = gRoute.selectAll("path").data(routeList, d => d.id).join("path")
+      .attr("class", d => "route" + (d.via.length ? "" : " direct"))
+      .attr("vector-effect", "non-scaling-stroke")
+      .attr("stroke-linecap", "round")
+      .on("click", (ev, d) => { ev.stopPropagation(); showRoute(d); })
+      .on("mouseenter", (ev, d) => { state.hovered = d.a.id; paintMap(); })
+      .on("mouseleave", () => { state.hovered = null; paintMap(); });
+
+    placeSel = gPlace.selectAll("circle").data(mapped(), d => d.id).join(
+      enter => enter.append("circle").style("cursor", "pointer")
+        .on("click", (ev, d) => { ev.stopPropagation(); select(d.id); })
+        .on("mouseenter", (ev, d) => { state.hovered = d.id; paintMap(); })
+        .on("mouseleave", () => { state.hovered = null; paintMap(); }),
+      update => update, exit => exit.remove());
+
+    placeTextSel = gPlaceName.selectAll("text").data(mapped(), d => d.id).join(
+      enter => enter.append("text").attr("text-anchor", "middle")
+        .style("cursor", "pointer")
+        .on("click", (ev, d) => { ev.stopPropagation(); select(d.id); }),
+      update => update, exit => exit.remove())
+      .attr("class", "node-label")
+      .text(shortLabel);
+
+    placeAt();
+    sizeMap();
+  }
+
+  function placeAt() {
+    if (!placeSel) return;
+    routeSel.attr("d", d => "M" + mx(d.a.lon) + "," + my(d.a.lat) +
+      "L" + mx(d.b.lon) + "," + my(d.b.lat));
+    placeSel.attr("cx", d => mx(d.lon)).attr("cy", d => my(d.lat));
+  }
+
+  function geoAnchor(g) {
+    const pt = g.kind === "district" ? g.pts[0] : g.pts[Math.floor(g.pts.length / 2)];
+    return [mx(pt[1]), my(pt[0])];
+  }
+
+  /* Markers and type hold their size on screen, so the dense middle of town opens
+     up as you zoom instead of staying a blob. */
+  function sizeMap() {
+    if (!placeSel) return;
+    const inv = 1 / mk;
+    placeSel.attr("r", d => mrad(d) * inv)
+      .attr("stroke-width", 1.4 * inv)
+      .attr("stroke-dasharray", d => d.geo === "guess" ? (2 * inv) + " " + (2 * inv) : null);
+    placeTextSel.attr("transform", d =>
+      "translate(" + mx(d.lon) + "," + (my(d.lat) - mrad(d) * inv - 4 * inv) +
+      ") scale(" + inv + ")");
+    gGeoName.selectAll("text").attr("transform", g => {
+      const at = geoAnchor(g);
+      return "translate(" + at[0] + "," + at[1] + ") scale(" + inv + ")";
+    });
+  }
+
+  function nearPlaces() {
+    const f = state.hovered || state.selected;
+    if (!f) return null;
+    const near = new Set([f]);
+    routeList.forEach(r => {
+      if (r.a.id === f || r.b.id === f) { near.add(r.a.id); near.add(r.b.id); }
+    });
+    (adj.get(f) || []).forEach(l => {
+      if (!visibleLink(l)) return;
+      near.add(nid(l.source)); near.add(nid(l.target));
+    });
+    return { f: f, near: near };
+  }
+
+  function paintMap() {
+    if (!placeSel) return;
+    const nb = nearPlaces();
+    const near = nb ? nb.near : null;
+    const lit = r => near && near.has(r.a.id) && near.has(r.b.id);
+
+    placeSel
+      .attr("display", d => visibleNode(d) ? null : "none")
+      .attr("fill", d => d.kindOf === "record" ? col(d) : PAL.canvas)
+      .attr("fill-opacity", 0.85)
+      .attr("stroke", d => col(d))
+      .attr("opacity", d => !near ? 1 : (near.has(d.id) ? 1 : 0.13));
+
+    routeSel
+      .attr("stroke", r => lit(r) ? col(r.a) : PAL.link)
+      .attr("stroke-width", r => (lit(r) ? 1.6 : 0.7) +
+        Math.min(Math.sqrt(r.via.length) * 1.1, 4))
+      .attr("opacity", r => !near ? (r.via.length ? 0.5 : 0.3) : (lit(r) ? 0.95 : 0.05));
+
+    paintPlaceNames();
+    tally();
+  }
+
+  function paintPlaceNames() {
+    if (!placeTextSel) return;
+    const nb = nearPlaces();
+    const near = nb ? nb.near : null;
+    const cand = mapped().filter(n => visibleNode(n) && (!near || near.has(n.id)));
+    cand.sort((a, b) => (b.id === (nb && nb.f)) - (a.id === (nb && nb.f)) || b.deg - a.deg);
+    const placed = [], show = new Set();
+    for (let i = 0; i < cand.length; i++) {
+      const nd = cand[i];
+      const w = shortLabel(nd).length * 4.9 + 8;
+      const cx = mx(nd.lon) * mk, cy = my(nd.lat) * mk - mrad(nd) - 4;
+      const box = [cx - w / 2, cy - 11, cx + w / 2, cy + 3];
+      let clash = false;
+      for (let j = 0; j < placed.length; j++) {
+        const q = placed[j];
+        if (box[0] < q[2] && q[0] < box[2] && box[1] < q[3] && q[1] < box[3]) {
+          clash = true; break;
+        }
+      }
+      if (clash) continue;
+      placed.push(box); show.add(nd.id);
+    }
+    placeTextSel
+      .attr("display", d => show.has(d.id) ? null : "none")
+      .attr("fill", d => (nb && d.id === nb.f) ? col(d) : null);
+  }
+
+  function fitMap() {
+    const W = plot.clientWidth, H = plot.clientHeight;
+    if (!W || !H) return;
+    const set = mapped();
+    if (!set.length) return;
+    const xs = set.map(n => mx(n.lon)), ys = set.map(n => my(n.lat));
+    const x0 = Math.min.apply(null, xs), x1 = Math.max.apply(null, xs);
+    const y0 = Math.min.apply(null, ys), y1 = Math.max.apply(null, ys);
+    const sc = Math.min(W / (x1 - x0 + 260), H / (y1 - y0 + 260)) || 1;
+    msvg.transition().duration(400).call(mzoom.transform, d3.zoomIdentity
+      .translate(W / 2, H / 2).scale(sc).translate(-(x0 + x1) / 2, -(y0 + y1) / 2));
+  }
+
+  function focusPlace(id) {
+    const n = byId.get(id);
+    if (!n || n.lat == null) return;
+    const W = plot.clientWidth, H = plot.clientHeight;
+    msvg.transition().duration(450).call(mzoom.transform, d3.zoomIdentity
+      .translate(W / 2, H / 2).scale(Math.max(mk, 2.4))
+      .translate(-mx(n.lon), -my(n.lat)));
+  }
+
+  function showRoute(r) {
+    const who = r.via.slice().sort((a, b) => b.deg - a.deg);
+    detail.innerHTML = '<div class="panel">' +
+      '<button class="backbtn" data-go="">&larr; Whole network</button><div>' +
+      '<div class="eyebrow">Two places, and what joins them</div>' +
+      '<h2 class="pname">' + esc(r.a.label) +
+        '<br><span class="joiner">and</span><br>' + esc(r.b.label) + '</h2></div>' +
+      (r.direct ? '<p class="pnote">The collection joins these two directly: ' +
+        esc(r.rel || "linked") + '.</p>' : "") +
+      (who.length
+        ? '<div class="sect"><h2>' + who.length +
+          (who.length === 1 ? ' record reaches both' : ' records reach both') +
+          '</h2><ul class="brokers">' +
+          who.map(n => '<li><button data-go="' + esc(n.id) + '">' +
+            '<span class="dot" style="background:' + cssvar(n.domain) + '"></span>' +
+            '<span>' + esc(n.label) + '</span><span class="n">' + n.deg +
+            '</span></button></li>').join("") + '</ul></div>'
+        : '<p class="hint">Nobody in the collection reaches both; the line is the ' +
+          'connection between the places themselves.</p>') +
+      '<div class="sect"><h2>Both places</h2><ul class="edges">' +
+        [r.a, r.b].map(o => '<li><button data-go="' + esc(o.id) + '">' +
+          '<span class="mark" style="background:' + cssvar(o.domain) + '"></span>' +
+          '<span class="rel">' + esc(o.areas || DOMAINS[o.domain].label) + '</span>' +
+          '<span class="who">' + esc(o.label) + '</span>' +
+          '<span class="ev">' + esc(PRECISION[o.geo] || "") + '</span></button></li>').join("") +
+      '</ul></div></div>';
+    state.selected = r.a.id;
+    paintMap();
+  }
+
+
   /* ---------------- tabs ---------------- */
   const bodyEl = document.getElementById("body");
-  const tabNet = document.getElementById("tabNet"), tabSheet = document.getElementById("tabSheet");
+  const tabNet = document.getElementById("tabNet"),
+        tabMap = document.getElementById("tabMap"),
+        tabSheet = document.getElementById("tabSheet");
+  const TALLY = {
+    net: ["Shown", "Links", "Cross-field", "Unlinked", "To verify"],
+    map: ["Places", "Lines", "Cross-field", "Joined to none", "Guessed"]
+  };
   function setTab(t) {
     state.tab = t;
     tabNet.setAttribute("aria-selected", String(t === "net"));
+    tabMap.setAttribute("aria-selected", String(t === "map"));
     tabSheet.setAttribute("aria-selected", String(t === "sheet"));
     bodyEl.classList.toggle("mode-sheet", t === "sheet");
-    if (t === "sheet") renderSheet(); else { paint(); fit(); }
+    bodyEl.classList.toggle("mode-map", t === "map");
+    (TALLY[t] || TALLY.net).forEach((lab, i) => {
+      document.getElementById("t-l" + (i + 1)).textContent = lab;
+    });
+    if (t === "sheet") renderSheet();
+    else if (t === "map") { buildMap(); paintMap(); fitMap(); }
+    else { paint(); fit(); }
   }
   tabNet.onclick = () => setTab("net");
+  tabMap.onclick = () => setTab("map");
   tabSheet.onclick = () => setTab("sheet");
 
   /* ---------------- the sheet ---------------- */
