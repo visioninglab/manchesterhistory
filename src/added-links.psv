@@ -43,14 +43,14 @@ VM-ADD-006|partner in Philips, Wood & Co with|VM-ADD-003|documented|Wood's recor
 VM-ADD-007|named in the Manchester Guardian loan agreement|COL-009|documented|The record says the original Manchester Guardian loan agreement names him as a merchant.|
 VM-ADD-008|named in the Manchester Guardian loan agreement|COL-009|documented|The record says the original Manchester Guardian loan agreement names him as a merchant.|
 VM-ADD-009|wrote for|PL-GUARDIAN|documented|Her record describes a journalist for the Guardian.|
-VM-ADD-001|textile wealth|COL-003|documented|The record describes a cotton merchant, manufacturer and calico printer linked to the transatlantic slave economy.|
-VM-ADD-002|textile wealth|COL-003|documented|The record describes an attorney who would have benefited from the cotton trade through family property.|
-VM-ADD-003|textile wealth|COL-003|documented|The record describes partnerships in Philips, Wood & Co and familial relations with enslaving families.|
-VM-ADD-004|textile wealth|COL-003|documented|The record describes a calico printer associated with transatlantic slavery.|
-VM-ADD-005|textile wealth|COL-003|documented|The record describes a merchant and manufacturer of cotton goods linked to transatlantic slavery.|
-VM-ADD-006|textile wealth|COL-003|documented|The record describes a leading Manchester merchant, twice president of the Chamber of Commerce, linked to transatlantic slavery.|
-VM-ADD-007|textile wealth|COL-003|documented|The record names him a merchant in the Manchester Guardian loan agreement.|
-VM-ADD-008|textile wealth|COL-003|documented|The record lists him as a cotton merchant, which the source says suggests a link to slavery.|
+VM-ADD-001|part of|COL-003|documented|The record describes a cotton merchant, manufacturer and calico printer linked to the transatlantic slave economy.|
+VM-ADD-002|part of|COL-003|documented|The record describes an attorney who would have benefited from the cotton trade through family property.|
+VM-ADD-003|part of|COL-003|documented|The record describes partnerships in Philips, Wood & Co and familial relations with enslaving families.|
+VM-ADD-004|part of|COL-003|documented|The record describes a calico printer associated with transatlantic slavery.|
+VM-ADD-005|part of|COL-003|documented|The record describes a merchant and manufacturer of cotton goods linked to transatlantic slavery.|
+VM-ADD-006|part of|COL-003|documented|The record describes a leading Manchester merchant, twice president of the Chamber of Commerce, linked to transatlantic slavery.|
+VM-ADD-007|part of|COL-003|documented|The record names him a merchant in the Manchester Guardian loan agreement.|
+VM-ADD-008|part of|COL-003|documented|The record lists him as a cotton merchant, which the source says suggests a link to slavery.|
 #
 # --- asserted here; check before relying on it -------------------------------
 200049|business partner of|200050|verify|McConnel and Kennedy ran the Ancoats firm together. The collection files both as factory owners in Ancoats without naming the partnership.|

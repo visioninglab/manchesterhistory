@@ -163,9 +163,9 @@
              "that made them.",
       domains: ["press", "trade"], focus: "COL-009" },
     { id: "herbarium", title: "How the herbarium moved",
-      blurb: "Four private collections became one museum. The Relationships sheet " +
-             "traces each transfer into the Manchester Museum Herbarium, and back out " +
-             "again to the collectors who built them.",
+      blurb: "Four herbaria built at home, in back rooms and on kitchen tables, ended " +
+             "up in one museum. This traces each transfer into the Manchester Museum " +
+             "Herbarium, and back out again to the people who made them.",
       domains: ["nat"], focus: "PL-NH-016" },
     { id: "artisans", title: "Artisan botanists and their ground",
       blurb: "Weavers, shoemakers and gardeners who botanised on Sunday. The mosses, " +
@@ -173,13 +173,13 @@
       domains: ["nat"], focus: "COL-001" },
     { id: "suffrage", title: "Votes for women",
       blurb: "From Lydia Becker's herbarium to the Manchester National Society for " +
-             "Women's Suffrage. The workbook offers the link between her botany and her " +
-             "politics as a hypothesis; it is drawn dotted, for testing.",
+             "Women's Suffrage. Whether her botany led to her politics is a reading " +
+             "rather than a fact, so that line is drawn dotted.",
       domains: ["suff", "reform"], focus: "ORG-BASE-005" },
     { id: "slavery", title: "Slavery, for and against",
-      blurb: "The Category column sorts this collection's people into anti-slavery " +
-             "campaigners and pro-slavery interests. Both groups are here, and several " +
-             "Manchester families appear near both.",
+      blurb: "This collection sorts its people into anti-slavery campaigners and " +
+             "pro-slavery interests, and Manchester supplied plenty of both. Several " +
+             "families appear near both at once.",
       domains: ["reform", "trade"], focus: "COL-011" }
   ];
 
@@ -409,11 +409,7 @@
   function spanText(n) {
     if (!n.span) return "not recorded";
     const a = Math.floor(n.span[0] / 10) * 10, b = Math.floor(n.span[1] / 10) * 10;
-    const s = a === b ? a + "s" : a + "s – " + b + "s";
-    const src = n.spanSource === "edited" ? "edited here"
-      : n.spanSource === "workbook" ? "from the workbook's own dates"
-      : "inferred from a lifespan";
-    return s + " (" + src + ")";
+    return a === b ? a + "s" : a + "s \u2013 " + b + "s";
   }
 
   function renderSummary() {
@@ -423,64 +419,123 @@
     const evRows = Object.keys(EVIDENCE).map(kk =>
       '<div class="statline"><b>' + links.filter(l => l.ev === kk).length +
       '</b><span>' + esc(EVIDENCE[kk].label) + '</span></div>').join("");
-    const stRows = Object.keys(STATUS).map(kk => {
-      const c = nodes.filter(n => n.status === kk).length;
-      return c ? '<div class="statline"><b>' + c + '</b><span>' +
-        esc(STATUS[kk].label) + '</span></div>' : "";
-    }).join("");
-    const relCount = links.filter(l => l.relId).length;
+    const span = nodes.filter(n => n.span);
+    const first = Math.min.apply(null, span.map(n => n.span[0]));
+    const last = Math.max.apply(null, span.map(n => n.span[1]));
 
     detail.innerHTML = '<div class="panel">' +
       '<div class="sect"><h2>What you are looking at</h2>' +
-        '<p class="pnote">The cleaned workbook drawn as a network: ' +
-        nodes.filter(n => n.type === "person").length + ' people, ' +
-        nodes.filter(n => n.type === "org").length + ' societies and firms, ' +
+        '<p class="pnote">Manchester and Salford between ' + first + ' and ' + last +
+        ': ' + nodes.filter(n => n.type === "person").length + ' people, ' +
+        nodes.filter(n => n.type === "org").length + ' societies, firms and groups, ' +
         nodes.filter(n => n.type === "place").length + ' places and ' +
-        nodes.filter(n => n.type === "event").length + ' dated events. ' +
-        relCount + ' of the ' + links.length + ' links come from the workbook’s own ' +
-        'Relationships sheet, which names the relationship and rates its evidence; the rest ' +
-        'are read out of its Connected people, Key figures, Category and Building columns, '
-        + 'or were added in cleaning where a record named something the collection holds.</p>' +
+        nodes.filter(n => n.type === "event").length + ' events, joined by ' +
+        links.length + ' connections.</p>' +
+        '<p class="pnote">The question underneath it: how did people, specimens and ' +
+        'knowledge move between the workplaces, pubs, fields, societies, private ' +
+        'collections and museums of a city that was inventing industrial science and ' +
+        'industrial poverty at the same time?</p>' +
+        '<p class="hint">Pick one of the ways in on the left, or click any shape. ' +
+        'Colour is the field someone worked in; shape is what kind of thing it is.</p>' +
       '</div>' +
-      '<div class="sect"><h2>Evidence</h2>' + evRows + '</div>' +
-      '<div class="sect"><h2>Research status</h2>' + stRows +
-        '<p class="hint">Rows marked <em>Needs checking</em> are the ones still to be confirmed. '
-        + 'Filter to them on the left.</p></div>' +
       '<div class="sect"><h2>Who bridges the most fields</h2>' +
-        '<p class="hint">People whose links reach across the most fields of activity — ' +
-        'the candidates for how knowledge actually travelled.</p><ul class="brokers">' +
+        '<p class="hint">People whose connections reach across the most fields at once — ' +
+        'the likeliest carriers of anything that travelled.</p><ul class="brokers">' +
         brokers.map(b => '<li><button data-go="' + esc(b.n.id) + '"><span class="bars">' +
           [...b.n.fields].map(f => '<i style="background:' + cssvar(f) + '"></i>').join("") +
           '</span><span>' + esc(b.n.label) + '</span><span class="n">' + b.f +
           '</span></button></li>').join("") + '</ul></div>' +
-      '<div class="sect"><h2>Loose ends</h2><p class="pnote">' +
-        (isolates.length
-          ? isolates.length + ' records still have nothing linked to them. '
-          : 'Every record is joined to at least one other. ') +
-        ghostList.length + ' people are named by the collection but have no record of their own, ' +
-        mergedList.length + ' records absorbed a duplicate, and ' +
-        qcList.length + ' carry a data flag. Each is a button on the left.</p></div>' +
-      (typeof META !== "undefined" && META.unresolved && META.unresolved.length
-        ? '<div class="sect"><h2>Did not resolve</h2><p class="hint">Text the workbook puts ' +
-          'in a connection column that matches no record, so no line is drawn: ' +
-          META.unresolved.map(u => esc(u.text)).join("; ") + '.</p></div>' : "") +
+      '<div class="sect"><h2>How sure any of it is</h2>' + evRows +
+        '<p class="hint">A solid line is stated in the collection. A dashed one still ' +
+        'needs confirming. A dotted one is a reading offered for testing, not a fact.</p>' +
+      '</div>' +
+      '<details class="prov"><summary>About this collection</summary>' +
+        '<p class="hint">Built from a Victorian Manchester natural-history database. ' +
+        'Every entry says on its own record where it came from, what was corrected, and ' +
+        'what is still to be found out. ' +
+        (mergedList.length ? mergedList.length + ' entries absorbed a duplicate. ' : "") +
+        (ghostList.length ? ghostList.length + ' people are named in it and cannot be ' +
+          'identified; they are drawn hollow. ' : "") +
+        (isolates.length ? isolates.length + ' entries have nothing joined to them yet. '
+          : 'Everything is joined to something. ') +
+        (typeof META !== "undefined" && META.unresolved && META.unresolved.length
+          ? 'Three phrases name a milieu rather than a record and could not be joined ' +
+            'to anything: ' + META.unresolved.map(u => esc(u.text)).join("; ") + '.'
+          : "") +
+        '</p></details>' +
       '</div>';
   }
-
-  const ROWS = [
-    ["role", "Role"], ["theme", "Theme"], ["category", "Category"],
-    ["orgType", "Type of body"], ["placeType", "Type of place"], ["founded", "Date"],
-    ["gender", "Gender"], ["specialism", "Scientific specialism"],
-    ["background", "Background"], ["knowledgeRole", "Knowledge role"],
-    ["politics", "Politics"], ["religion", "Religion"], ["building", "Building"],
-    ["areas", "Greater Manchester areas"], ["decades", "Decades active"],
-    ["collections", "Collections"], ["destination", "Now held at"],
-    ["keyFigures", "Key figures"], ["connectedPeople", "Connected people"],
-    ["connectedOrgs", "Connected organisations"], ["connectedPlaces", "Places"],
-    ["keyPlaces", "Key places"], ["relationships", "Relationships column"],
-    ["spouse", "Relationship column"], ["scope", "Scope"],
-    ["recordType", "Record type"], ["idStatus", "ID status"], ["sourceId", "Source ID"], ["mergedFrom", "Absorbed"]
+  const FACTS = [
+    ["role", "Role"], ["theme", "Theme"], ["orgType", "Kind of body"],
+    ["placeType", "Kind of place"], ["founded", "Founded"],
+    ["specialism", "Specialism"], ["background", "Background"],
+    ["knowledgeRole", "Part they played"], ["politics", "Politics"],
+    ["religion", "Religion"], ["building", "Based at"],
+    ["areas", "Where"], ["collections", "Collections"],
+    ["destination", "Collections now at"], ["scope", "Scope"]
   ];
+  const KIND_OF = {
+    person: "Person", org: "Society or firm", place: "Place", event: "Event"
+  };
+  function kindLabel(n) {
+    if (n.kindOf === "grouping") return "Theme";
+    if (n.kindOf === "collective") return "Group";
+    return KIND_OF[n.type] || "Record";
+  }
+  const SPAN_FROM = {
+    workbook: "from the dates in the collection",
+    researched: "from dates researched for this page",
+    inferred: "worked out from a lifespan",
+    estimated: "estimated from what it connects to",
+    edited: "edited here"
+  };
+
+  function lead(n) {
+    /* The one or two sentences that say what this is. */
+    const bits = [], seen = [];
+    [n.category, n.note, n.role].forEach(t => {
+      const key = String(t == null ? "" : t).trim();
+      if (!key || seen.indexOf(key) >= 0) return;
+      seen.push(key);
+      /* a bare label like "Botanist & shoemaker" is a fact, not a description */
+      if (key === n.role && key.length < 46) return;
+      bits.push(key);
+    });
+    return bits.map(t => '<p class="pnote">' + esc(t) + '</p>').join("");
+  }
+
+  function provenance(n) {
+    const rows = [];
+    rows.push('<dt>Reference</dt><dd class="mono">' + esc(n.id) + '</dd>');
+    if (has(n, "recordType"))
+      rows.push('<dt>Kind of entry</dt><dd>' + esc(n.recordType) + '</dd>');
+    rows.push('<dt>Dates</dt><dd>' + esc(SPAN_FROM[n.spanSource] || "not recorded") + '</dd>');
+    rows.push('<dt>Checked</dt><dd>' + esc(STATUS[n.status].label) + '</dd>');
+    if (has(n, "mergedFrom"))
+      rows.push('<dt>Absorbed</dt><dd>' + esc(n.mergedFrom) +
+        (has(n, "mergeNote") ? '. ' + esc(n.mergeNote) : "") + '</dd>');
+    if (has(n, "corrected"))
+      rows.push('<dt>Corrected</dt><dd>' + esc(n.corrected) + '</dd>');
+    if (has(n, "qcFlag"))
+      rows.push('<dt>Flagged</dt><dd>' + esc(n.qcFlag) + '</dd>');
+    if (has(n, "sourceNote"))
+      rows.push('<dt>On the source</dt><dd>' + esc(n.sourceNote) + '</dd>');
+    const src = n.sourceUrl || n.link;
+    if (src) rows.push('<dt>Source</dt><dd><a href="' + esc(src) + '" target="_blank" ' +
+      'rel="noopener">' + esc(host(src)) + '</a></dd>');
+    return '<details class="prov"><summary>About this entry</summary>' +
+      '<dl class="meta">' + rows.join("") + '</dl></details>';
+  }
+
+  function host(u) {
+    return String(u).replace(/^https?:\/\/(www\.)?/, "").split("/")[0];
+  }
+
+  /* notes to self about the data are not for a public record */
+  const HOUSEKEEPING = new RegExp("\\b(node|record|column|field|flag|dataset|row|duplicat)", "i");
+  function readerQuestion(n) {
+    return has(n, "openQuestion") && !HOUSEKEEPING.test(n.openQuestion);
+  }
 
   function renderNode(n) {
     const order = { documented: 0, verify: 1, interpretive: 2 };
@@ -491,57 +546,31 @@
         '<span class="mark" style="background:' + cssvar(o.domain) + '"></span>' +
         '<span class="rel">' + esc(l.rel) + '</span>' +
         '<span class="who">' + esc(o.label) + '</span>' +
-        '<span class="ev">' + esc(EVIDENCE[l.ev].label.toLowerCase()) +
-        (l.relId ? " · " + esc(l.relId) : "") + '</span></button></li>';
+        '<span class="ev">' + esc(EVIDENCE[l.ev].label.toLowerCase()) + '</span></button></li>';
     }).join("");
 
-    const badges = [];
-    if (n.kindOf === "ghost") badges.push('<span class="badge hot">named, no record</span>');
-    if (n.kindOf === "collective") badges.push('<span class="badge">a group, not a person</span>');
-    if (n.kindOf === "grouping") badges.push('<span class="badge">a heading, not a record</span>');
-    if (n.kindOf === "derived") badges.push('<span class="badge">from a column, not a row</span>');
-    if (n.status === "verify") badges.push('<span class="badge hot">to verify</span>');
-    if (n.priority === "essential") badges.push('<span class="badge go">essential</span>');
-    if (has(n, "mergedFrom")) badges.push('<span class="badge">merged</span>');
-
-    const meta = ROWS.filter(r => has(n, r[0]))
+    const facts = FACTS.filter(r => has(n, r[0]) && said.indexOf(n[r[0]]) < 0 &&
+        !(r[0] === "role" && n[r[0]] === n.theme))
       .map(r => '<dt>' + esc(r[1]) + '</dt><dd>' + esc(n[r[0]]) + '</dd>').join("");
-    const src = n.sourceUrl || n.link;
+
+    const when = has(n, "dates") ? n.dates : has(n, "year") ? n.year
+      : has(n, "founded") ? n.founded : spanText(n);
+    const said = [n.note, n.category, when];
 
     detail.innerHTML = '<div class="panel">' +
       '<button class="backbtn" data-go="">&larr; Whole network</button><div>' +
       '<div class="eyebrow"><span class="dot" style="background:' + cssvar(n.domain) + '"></span>' +
-        esc(DOMAINS[n.domain].label) + ' &middot; ' +
-        esc(TYPES[n.type].label.replace(/s$/, "")) + '</div>' +
+        esc(DOMAINS[n.domain].label) + ' &middot; ' + esc(kindLabel(n)) + '</div>' +
       '<h2 class="pname">' + esc(n.label) + '</h2>' +
-      (has(n, "dates") ? '<p class="pdates">' + esc(n.dates) +
-        (has(n, "dateQc") ? ' &middot; ' + esc(n.dateQc) : "") + '</p>' : "") +
-      (has(n, "year") ? '<p class="pdates">' + esc(n.year) + '</p>' : "") +
-      '</div>' +
-      (badges.length ? '<div class="badges">' + badges.join("") + '</div>' : "") +
-      (has(n, "note") && n.note !== n.role ? '<p class="pnote">' + esc(n.note) + '</p>' : "") +
-      (has(n, "mergedFrom") ? '<p class="flag"><b>Absorbed ' + esc(n.mergedFrom) +
-        '</b>' + esc(n.mergeNote || "") + '</p>' : "") +
-      (has(n, "qcFlag") ? '<p class="flag"><b>Data flag</b>' + esc(n.qcFlag) + '</p>' : "") +
-      (has(n, "corrected") ? '<p class="flag"><b>Corrected here</b>' +
-        esc(n.corrected) + '</p>' : "") +
-      (has(n, "openQuestion") ? '<p class="ask"><b>Open question</b>' +
+      '<p class="pdates">' + esc(when) + '</p></div>' +
+      lead(n) +
+      (facts ? '<dl class="meta">' + facts + '</dl>' : "") +
+      (es.length
+        ? '<div class="sect"><h2>Connections</h2><ul class="edges">' + rows + '</ul></div>'
+        : '<p class="hint">Nothing in the collection is joined to this yet.</p>') +
+      (readerQuestion(n) ? '<p class="ask"><b>Still to find out</b>' +
         esc(n.openQuestion) + '</p>' : "") +
-      '<dl class="meta">' +
-        '<dt>Record</dt><dd style="font-family:\'IBM Plex Mono\',monospace">' + esc(n.id) + '</dd>' +
-        '<dt>Active</dt><dd>' + esc(spanText(n)) + '</dd>' +
-        '<dt>Status</dt><dd>' + esc(STATUS[n.status].label) + ' &middot; ' +
-          esc(PRIORITY[n.priority].label) + ' priority</dd>' +
-        '<dt>Links</dt><dd>' + es.length +
-          (es.length ? "" : " — nothing joins it to the rest") + '</dd>' +
-        '<dt>Fields</dt><dd>' + [...n.fields].map(f => esc(DOMAINS[f].label)).join(", ") + '</dd>' +
-        meta +
-        (src ? '<dt>Source</dt><dd><a href="' + esc(src) + '" target="_blank" ' +
-          'rel="noopener">' + esc(String(src).replace(/^https?:\/\//, "").slice(0, 44)) +
-          '&hellip;</a></dd>' : "") +
-      '</dl>' +
-      (es.length ? '<div class="sect"><h2>Recorded links</h2><ul class="edges">' +
-        rows + '</ul></div>' : "") +
+      provenance(n) +
       '</div>';
   }
 
@@ -549,28 +578,29 @@
     const a = byId.get(nid(l.source)), b = byId.get(nid(l.target));
     detail.innerHTML = '<div class="panel">' +
       '<button class="backbtn" data-go="">&larr; Whole network</button><div>' +
-      '<div class="eyebrow">' + esc(EVIDENCE[l.ev].label) +
-        (l.relId ? ' &middot; ' + esc(l.relId) : "") + '</div>' +
+      '<div class="eyebrow">' + esc(EVIDENCE[l.ev].label) + '</div>' +
       '<h2 class="pname">' + esc(a.label) +
-        '<br><span style="color:var(--ink3);font-size:14px;font-family:Archivo,sans-serif;' +
-        'font-weight:400">' + esc(l.rel) + '</span><br>' + esc(b.label) + '</h2></div>' +
-      (has(l, "period") ? '<p class="pdates">' + esc(l.period) + '</p>' : "") +
-      '<p class="pnote">' + esc(EVIDENCE[l.ev].note) + '</p>' +
-      (has(l, "note") ? '<div class="sect"><h2>What the workbook says</h2>' +
-        '<p class="pnote">' + esc(l.note) + '</p></div>' : "") +
-      (has(l, "followUp") ? '<p class="ask"><b>Follow-up</b>' +
-        esc(l.followUp) + '</p>' : "") +
-      (has(l, "sourceUrl") ? '<dl class="meta"><dt>Source</dt><dd><a href="' +
-        esc(l.sourceUrl) + '" target="_blank" rel="noopener">' +
-        esc(l.sourceUrl.replace(/^https?:\/\//, "").slice(0, 44)) + '&hellip;</a></dd></dl>' : "") +
+        '<br><span class="joiner">' + esc(l.rel) + '</span><br>' + esc(b.label) + '</h2>' +
+      (has(l, "period") ? '<p class="pdates">' + esc(l.period) + '</p>' : "") + '</div>' +
+      (has(l, "note") ? '<p class="pnote">' + esc(l.note) + '</p>' : "") +
+      '<p class="hint">' + esc(EVIDENCE[l.ev].note) + '</p>' +
       '<div class="sect"><h2>Both ends</h2><ul class="edges">' +
         [a, b].map(o => '<li><button data-go="' + esc(o.id) + '">' +
           '<span class="mark" style="background:' + cssvar(o.domain) + '"></span>' +
           '<span class="rel">' + esc(DOMAINS[o.domain].label) + '</span>' +
           '<span class="who">' + esc(o.label) + '</span>' +
-          '<span class="ev">' + esc(o.dates || o.year ||
-            TYPES[o.type].label.replace(/s$/, "")) + '</span></button></li>').join("") +
-      '</ul></div></div>';
+          '<span class="ev">' + esc(o.dates || o.year || kindLabel(o)) +
+          '</span></button></li>').join("") +
+      '</ul></div>' +
+      (has(l, "followUp") ? '<p class="ask"><b>Still to find out</b>' +
+        esc(l.followUp) + '</p>' : "") +
+      '<details class="prov"><summary>About this connection</summary><dl class="meta">' +
+        (l.relId ? '<dt>Reference</dt><dd class="mono">' + esc(l.relId) + '</dd>' : "") +
+        '<dt>Where it comes from</dt><dd>' +
+          esc(l.basis || "Added while cleaning the collection.") + '</dd>' +
+        (has(l, "sourceUrl") ? '<dt>Source</dt><dd><a href="' + esc(l.sourceUrl) +
+          '" target="_blank" rel="noopener">' + esc(host(l.sourceUrl)) + '</a></dd>' : "") +
+      '</dl></details></div>';
     state.selected = a.id;
     paint();
   }
@@ -735,8 +765,8 @@
     const dated = nodes.filter(n => n.span).length;
     const shown = nodes.filter(n => n.span && inWindow(n)).length;
     const wb = nodes.filter(n => n.spanSource === "workbook").length;
-    decMeta.textContent = shown + " of " + dated + " dated · " +
-      (nodes.length - dated) + " undated · " + wb + " dated by the workbook itself";
+    decMeta.textContent = shown + " of " + dated + " shown · " +
+      wb + " dated by the collection itself, the rest worked out";
   }
   function decChange(which) {
     let a = +fromEl.value, b = +toEl.value;
@@ -825,7 +855,7 @@
       ["collections", "Collections", "wide", "area"], ["destination", "Now held at", "mid", "text"],
       ["status", "Research status", "mid", "select:STATUS"],
       ["priority", "Priority", "narrow", "select:PRIORITY"],
-      ["openQuestion", "Open question", "wide", "area"], ["qcFlag", "Data flag", "mid", "area"],
+      ["openQuestion", "Still to find out", "wide", "area"], ["qcFlag", "Data flag", "mid", "area"],
       ["mergedFrom", "Absorbed", "mid", "text"],
       ["corrected", "Corrected here", "wide", "area"],
       ["note", "Note", "wide", "area"], ["link", "Source", "mid", "text"]
@@ -838,7 +868,7 @@
       ["keyPlaces", "Key places", "mid", "text"],
       ["status", "Research status", "mid", "select:STATUS"],
       ["priority", "Priority", "narrow", "select:PRIORITY"],
-      ["openQuestion", "Open question", "wide", "area"], ["qcFlag", "Data flag", "mid", "area"],
+      ["openQuestion", "Still to find out", "wide", "area"], ["qcFlag", "Data flag", "mid", "area"],
       ["link", "Source", "mid", "text"]
     ],
     place: [
@@ -849,7 +879,7 @@
       ["connectedOrgs", "Connected organisations", "wide", "area"],
       ["status", "Research status", "mid", "select:STATUS"],
       ["priority", "Priority", "narrow", "select:PRIORITY"],
-      ["openQuestion", "Open question", "wide", "area"], ["link", "Source", "mid", "text"]
+      ["openQuestion", "Still to find out", "wide", "area"], ["link", "Source", "mid", "text"]
     ],
     event: [
       ["name", "Event", "wide", "area"], ["domain", "Field", "narrow", "select:DOMAINS"],
@@ -866,8 +896,9 @@
       ["source", "From", "mid", "node"], ["rel", "Relationship", "mid", "text"],
       ["target", "To", "mid", "node"], ["ev", "Evidence", "narrow", "select:EVIDENCE"],
       ["period", "Period", "narrow", "text"],
-      ["note", "What the workbook says", "wide", "area"],
-      ["followUp", "Follow-up", "wide", "area"],
+      ["note", "What it says", "wide", "area"],
+      ["basis", "Where it comes from", "wide", "area"],
+      ["followUp", "Still to find out", "wide", "area"],
       ["sourceUrl", "Source", "mid", "text"]
     ]
   };
@@ -1114,14 +1145,14 @@
   if (mq.addEventListener) mq.addEventListener("change", onScheme); else mq.addListener(onScheme);
 
   setSave("none", "Saved in this browser");
-  notice.textContent = "Edits are saved in this browser and layered over the workbook — " +
-    "the rows underneath are never overwritten. Use Download CSV to take your changes out.";
+  notice.textContent = "Your edits are kept in this browser and laid over the " +
+    "collection — nothing underneath is overwritten. Download CSV takes them out.";
 
   /* Shared storage lights up only if the viewer's runtime offers it. */
   if (window.claude && window.claude.use) {
     window.claude.use("db").then(store => {
       if (!store) {
-        notice.textContent = "Shared editing is off in this version, so edits stay in this " +
+        notice.textContent = "Shared editing is off in this version, so your edits stay in this " +
           "browser and are lost if you clear site data. Download the CSV to keep them.";
         return;
       }

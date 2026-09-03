@@ -65,18 +65,19 @@ TYPES = collections.OrderedDict([
  ("place", {"label":"Places"}), ("event",{"label":"Events"}),
 ])
 EVIDENCE = collections.OrderedDict([
- ("documented",  {"label":"Stated in workbook","dash":None,
-                  "note":"A workbook row asserts this directly."}),
- ("verify",      {"label":"Needs verification","dash":"5 3",
-                  "note":"The workbook flags this end of the link as still to be confirmed."}),
- ("interpretive",{"label":"Interpretive","dash":"1.5 3",
-                  "note":"A hypothesis the workbook offers for testing."}),
+ ("documented",  {"label":"On the record","dash":None,
+                  "note":"Something the collection states outright."}),
+ ("verify",      {"label":"Not yet confirmed","dash":"5 3",
+                  "note":"Set down here, but nobody has checked it against a source."}),
+ ("interpretive",{"label":"A reading","dash":"1.5 3",
+                  "note":"An argument the material suggests, put here to be tested "
+                         "rather than believed."}),
 ])
 STATUS = collections.OrderedDict([
- ("existing",  {"label":"Existing database"}),
- ("workbook",  {"label":"Existing workbook"}),
- ("enriched",  {"label":"Existing - enriched"}),
- ("researched",{"label":"Researched addition"}),
+ ("existing",  {"label":"Core entry"}),
+ ("workbook",  {"label":"Background entry"}),
+ ("enriched",  {"label":"Core entry, added to"}),
+ ("researched",{"label":"Researched for this"}),
  ("verify",    {"label":"Needs checking"}),
 ])
 ST = {"Existing database":"existing","Existing - enriched":"enriched",
@@ -248,8 +249,24 @@ for gid, name, typ, domain, kind, dates, src, note in rows("extra-nodes.psv", 8)
          "status": "researched" if kind == "record" else "verify",
          "priority": "high" if kind in ("record", "derived") else
                      ("investigate" if kind == "ghost" else "high"),
-         "recordType": RECTYPE[kind],
+         "recordType": RECTYPE[kind], "datesResearched": "1" if dates else "",
          "sourceId": "", "link": url(src), "sourceUrl": url(src), "decades": ""})
+
+# Several descriptions end with a note about the source rather than the subject
+# ("; Original sheet cites Wikipedia"). That belongs behind the provenance flap.
+TRAIL = re.compile(r"\s*[;.]\s*((?:Original (?:workbook|sheet)|final words clipped|"
+                   r"PDF source text clipped|Reconstructed|possible )[^;]*?)\s*\.?\s*$", re.I)
+for n in nodes.values():
+    for field in ("note", "role", "category"):
+        v = n.get(field) or ""
+        while True:
+            m = TRAIL.search(v)
+            if not m: break
+            piece = m.group(1).strip().rstrip(".") + "."
+            if piece not in n.get("sourceNote", ""):
+                n["sourceNote"] = (piece + " " + n.get("sourceNote", "")).strip()
+            v = v[:m.start()].rstrip(" ;.") + "."
+        if v != (n.get(field) or ""): n[field] = v
 
 # ---------------------------------------------------------------- corrections
 # The transcription is left exactly as the workbook has it; everything we change goes
@@ -299,8 +316,10 @@ for n in nodes.values():
 # The Category column already sorts people into groups; these turn the recurring values
 # into nodes so the grouping the spreadsheet makes is visible instead of implied.
 GROUPS, membership, used_groups = [], [], collections.OrderedDict()
-for phrase, gid, gname, gdom in rows("groupings.psv", 4):
-    GROUPS.append((phrase, gid, gname, gdom))
+GROUP_TEXT = {}
+for phrase, gid, gname, gdom, desc in rows("groupings.psv", 5):
+    if gname: GROUP_TEXT[gid] = (gname, gdom, desc)
+    GROUPS.append((phrase, gid) + GROUP_TEXT[gid][:2])
 for n in nodes.values():
     if n["type"] != "person" or not n.get("category"): continue
     cat = n["category"].lower()
@@ -310,10 +329,9 @@ for n in nodes.values():
             membership.append((n["id"], gid, phrase))
 for gid, (gname, gdom) in used_groups.items():
     add({"id": gid, "name": gname, "type": "org", "domain": gdom, "kindOf": "grouping",
-         "note": "Not a row in the workbook: the group its People sheet makes by filing "
-                 "records under this heading in the Category column.",
+         "note": GROUP_TEXT[gid][2],
          "role": "", "status": "workbook", "priority": "context",
-         "recordType": "Grouping taken from the Category column",
+         "recordType": "A heading this collection groups people under",
          "sourceId": "", "link": "", "decades": ""})
 
 # ---------------------------------------------------------------- name index
@@ -401,7 +419,8 @@ links = collections.OrderedDict()
 
 def key(a, b): return "~".join(sorted([a, b]))
 
-def link(a, b, rel, ev, note, src="", period="", follow="", relId=""):
+def link(a, b, rel, ev, note, src="", period="", follow="", relId="", basis=""):
+    """basis is where a link came from; note is what it actually tells you."""
     a, b = REDIRECT.get(a, a), REDIRECT.get(b, b)
     if not a or not b or a == b: return
     if a not in nodes or b not in nodes: return
@@ -409,17 +428,23 @@ def link(a, b, rel, ev, note, src="", period="", follow="", relId=""):
     L = links.get(k)
     if L is None:
         links[k] = {"id": k, "source": a, "target": b, "rel": rel, "ev": ev,
-                    "note": note, "sourceUrl": src, "period": period,
+                    "note": note, "basis": basis, "sourceUrl": src, "period": period,
                     "followUp": follow, "relId": relId}
         return
     rank = {"documented": 3, "verify": 2, "interpretive": 1}
     if relId and not L["relId"]:                       # a Relationships row wins outright
         L.update({"rel": rel, "ev": ev, "note": note, "sourceUrl": src,
-                  "period": period, "followUp": follow, "relId": relId})
+                  "period": period, "followUp": follow, "relId": relId,
+                  "basis": _join(L.get("basis", ""), basis)})
         return
     if rel not in L["rel"]: L["rel"] += " · " + rel
-    if note and note not in L["note"]: L["note"] += "\n" + note
+    L["note"] = _join(L["note"], note)
+    L["basis"] = _join(L.get("basis", ""), basis)
     if not L["relId"] and rank[ev] > rank[L["ev"]]: L["ev"] = ev
+
+def _join(a, b):
+    if not b or b in a: return a
+    return (a + "\n" + b).strip()
 
 # derived: how confident the workbook is about the row the connection came from
 def ev_for(n):
@@ -433,80 +458,80 @@ for n in list(nodes.values()):
         # them for names we hold rather than chopping the sentence into fragments.
         prose = n.get("relationships", "")
         for hit, tid in scan(prose, n["id"]):
-            rel = "spouse" if re.search(r"\b(wife|husband|married)\b", prose, re.I) else "named in relationships"
-            link(n["id"], tid, rel, ev_for(n),
-                 "Relationships column for " + n["name"] + ": " + prose, n.get("link", ""))
+            rel = "spouse" if re.search(r"\b(wife|husband|married)\b", prose, re.I) else "connected to"
+            link(n["id"],  tid,  rel,  ev_for(n),  "",  n.get("link", ""),
+                 basis="Relationships column for " + n["name"] + ": " + prose)
         for frag in split(prose):
             f2 = TRIM.sub("", frag.strip()).strip(".;")
             if f2 and not scan(frag, n["id"]) and looks_like_group(f2):
                 tgt = resolve(frag)
-                if tgt: link(n["id"], tgt, "named in relationships", ev_for(n),
-                             "Relationships column for " + n["name"] + ": " + frag.strip(),
-                             n.get("link", ""))
+                if tgt: link(n["id"],  tgt,  "connected to",  ev_for(n),  "", 
+                             n.get("link", ""),
+                 basis="Relationships column for " + n["name"] + ": " + frag.strip())
         sp = n.get("spouse", "")
         if sp and not sp.startswith("http"):
             for hit, tid in scan(sp, n["id"]):
-                link(n["id"], tid, "spouse", "documented",
-                     "Relationship column: " + sp, n.get("link", ""))
+                link(n["id"],  tid,  "spouse",  "documented",  "",  n.get("link", ""),
+                 basis="Relationship column: " + sp)
         if n.get("building"):
             tgt = resolve(n["building"], prefer="place")
-            if tgt: link(n["id"], tgt, "workbook building", "documented",
-                         "Building column: " + n["building"], n.get("link", ""))
+            if tgt: link(n["id"],  tgt,  "based at",  "documented",  "",  n.get("link", ""),
+                 basis="Building column: " + n["building"])
         if "Little Circle" in n.get("note", ""):
             link(n["id"], "COL-009", "member of the Little Circle", "documented",
                  n["note"], n.get("link", ""))
     elif n["type"] == "org":
         for frag in split(n.get("connectedPeople", "")):
             tgt = resolve(frag, prefer="person")
-            if tgt: link(n["id"], tgt, "connected person", ev_for(n),
-                         "Connected people column for " + n["name"] + ": " + frag.strip(),
-                         n.get("sourceUrl", ""))
+            if tgt: link(n["id"],  tgt,  "connected to",  ev_for(n),  "", 
+                         n.get("sourceUrl", ""),
+                 basis="Connected people column for " + n["name"] + ": " + frag.strip())
         for frag in split(n.get("keyPlaces", "")):
             tgt = resolve(frag, prefer="place")
-            if tgt: link(n["id"], tgt, "key place", ev_for(n),
-                         "Key places column for " + n["name"] + ": " + frag.strip(),
-                         n.get("sourceUrl", ""))
+            if tgt: link(n["id"],  tgt,  "met at",  ev_for(n),  "", 
+                         n.get("sourceUrl", ""),
+                 basis="Key places column for " + n["name"] + ": " + frag.strip())
     elif n["type"] == "place":
         for frag in split(n.get("connectedPeople", "")):
             tgt = resolve(frag, prefer="person")
-            if tgt: link(n["id"], tgt, "connected person", ev_for(n),
-                         "Connected people column for " + n["name"] + ": " + frag.strip(),
-                         n.get("sourceUrl", ""))
+            if tgt: link(n["id"],  tgt,  "connected to",  ev_for(n),  "", 
+                         n.get("sourceUrl", ""),
+                 basis="Connected people column for " + n["name"] + ": " + frag.strip())
         for frag in split(n.get("connectedOrgs", "")):
             tgt = resolve(frag, prefer="org")
-            if tgt: link(n["id"], tgt, "connected organisation", ev_for(n),
-                         "Connected organisations column for " + n["name"] + ": " + frag.strip(),
-                         n.get("sourceUrl", ""))
+            if tgt: link(n["id"],  tgt,  "connected to",  ev_for(n),  "", 
+                         n.get("sourceUrl", ""),
+                 basis="Connected organisations column for " + n["name"] + ": " + frag.strip())
     elif n["type"] == "event":
         for frag in split(n.get("keyFigures", "")):
             tgt = resolve(frag, prefer="person")
-            if tgt: link(n["id"], tgt, "took part", ev_for(n),
-                         "Key figures column for " + n["year"] + ": " + frag.strip(),
-                         n.get("sourceUrl", ""))
+            if tgt: link(n["id"],  tgt,  "took part in",  ev_for(n),  "", 
+                         n.get("sourceUrl", ""),
+                 basis="Key figures column for " + n["year"] + ": " + frag.strip())
         for frag in split(n.get("connectedOrgs", "")):
             tgt = resolve(frag, prefer="org")
-            if tgt: link(n["id"], tgt, "organisation", ev_for(n),
-                         "Organisation column for " + n["year"] + ": " + frag.strip(),
-                         n.get("sourceUrl", ""))
+            if tgt: link(n["id"],  tgt,  "organisation",  ev_for(n),  "", 
+                         n.get("sourceUrl", ""),
+                 basis="Organisation column for " + n["year"] + ": " + frag.strip())
         for frag in split(n.get("connectedPlaces", "")):
             tgt = resolve(frag, prefer="place")
-            if tgt: link(n["id"], tgt, "happened at", ev_for(n),
-                         "Place column for " + n["year"] + ": " + frag.strip(),
-                         n.get("sourceUrl", ""))
+            if tgt: link(n["id"],  tgt,  "happened at",  ev_for(n),  "", 
+                         n.get("sourceUrl", ""),
+                 basis="Place column for " + n["year"] + ": " + frag.strip())
 
 # the Relationships sheet, last so it wins
 rel_rows = rows("relationships.psv", 9)
 for rid, a, typ, b, period, summary, src, ev, follow in rel_rows:
     for end in (a, b):
         if end not in nodes: raise SystemExit("%s: unknown endpoint %r" % (rid, end))
-    link(a, b, typ, EV.get(ev, "verify"), summary, url(src), period, follow, rid)
+    link(a, b, typ, EV.get(ev, "verify"), summary, url(src), period, follow, rid,
+         basis="Relationships sheet, row " + rid)
 
 # the Category column's own groupings
 for pid, gid, phrase in membership:
-    link(pid, gid, "filed under", "documented",
-         "The People sheet files %s under “%s” in its Category column: %s"
-         % (nodes[pid]["name"], phrase, nodes[pid].get("category", "")),
-         nodes[pid].get("link", ""))
+    link(pid, gid, "grouped under", "documented", "", nodes[pid].get("link", ""),
+         basis="Filed under “%s” in the source's own Category column: %s"
+               % (phrase, nodes[pid].get("category", "")))
 
 # links added here, where a record named something the workbook holds but no column
 # carried the connection. Each one says what it rests on.
@@ -515,7 +540,7 @@ for a, rel, b, ev, note, src in rows("added-links.psv", 6):
         if REDIRECT.get(end, end) not in nodes:
             raise SystemExit("added-links: unknown record %r" % end)
     if ev not in EVIDENCE: raise SystemExit("added-links: bad evidence %r" % ev)
-    link(a, b, rel, ev, note, url(src))
+    link(a, b, rel, ev, "", url(src), basis=note)
 
 # ---------------------------------------------------------------- spans, degree
 for n in nodes.values():
@@ -524,11 +549,13 @@ for n in nodes.values():
     else:
         s = span_from_decades(n.get("decades", ""))
         if s:
-            n["span"], n["spanSource"] = s, "workbook"
+            n["span"] = s
+            n["spanSource"] = "researched" if n.get("datesResearched") else "workbook"
         else:
             s = span_from_life(n.get("birth", ""), n.get("death", ""), n["type"])
             n["span"] = s
-            n["spanSource"] = "inferred" if s else ""
+            n["spanSource"] = ("researched" if n.get("datesResearched")
+                               else "inferred") if s else ""
 
 # A grouping, a collective or a ghost has no dates of its own. Give it the span of the
 # records attached to it, so it moves with them on the decade slider instead of vanishing.
@@ -575,7 +602,7 @@ FIELDS = ["id","label","name","type","domain","kindOf","gender","birth","death",
           "dateQc","role","category","relationships","spouse","decades","areas","note",
           "link","specialism","background","knowledgeRole","collections","destination",
           "politics","religion","building","status","priority","sourceUrl","openQuestion",
-          "qcFlag","corrected","recordType","sourceId","idStatus","mergedFrom","mergeNote","founded","orgType","placeType","connectedPeople",
+          "qcFlag","corrected","sourceNote","recordType","sourceId","idStatus","mergedFrom","mergeNote","founded","orgType","placeType","connectedPeople",
           "connectedOrgs","connectedPlaces","keyPlaces","keyFigures","year","sortYear",
           "theme","scope","span","spanSource","deg"]
 
@@ -635,10 +662,11 @@ write_csv("people.csv",
 
 write_csv("links.csv",
   ["relationship_id","source_id","source","relationship","target_id","target","evidence",
-   "period","evidence_summary","follow_up","source_url"],
+   "period","evidence_summary","basis","follow_up","source_url"],
   [[L.get("relId",""),L["source"],nodes[L["source"]]["label"],L["rel"],L["target"],
     nodes[L["target"]]["label"],EVIDENCE[L["ev"]]["label"],L.get("period",""),
-    L["note"].replace("\n"," / "),L.get("followUp",""),L.get("sourceUrl","")]
+    L["note"].replace("\n"," / "),L.get("basis","").replace("\n"," / "),
+    L.get("followUp",""),L.get("sourceUrl","")]
    for L in links.values()])
 
 write_csv("places.csv",
