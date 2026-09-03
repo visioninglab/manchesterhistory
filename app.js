@@ -149,7 +149,7 @@
     families: new Set(Object.keys(FAMILIES)),
     statuses: new Set(Object.keys(STATUS)),
     priorities: new Set(Object.keys(PRIORITY)),
-    from: 0, to: DECN - 1, undated: true,
+    from: 0, to: DECN - 1, undated: true, mapLines: false,
     gap: "", preset: "", selected: null, hovered: null,
     tab: "net", sheetTab: "person", sheetQ: ""
   };
@@ -1093,6 +1093,7 @@
       .attr("opacity", d => !near ? 1 : (near.has(d.id) ? 1 : 0.13));
 
     routeSel
+      .attr("display", r => (state.mapLines || lit(r)) ? null : "none")
       .attr("stroke", r => lit(r) ? col(r.a) : PAL.link)
       .attr("stroke-width", r => (lit(r) ? 1.6 : 0.7) +
         Math.min(Math.sqrt(r.via.length) * 1.1, 4))
@@ -1128,6 +1129,15 @@
       .attr("display", d => show.has(d.id) ? null : "none")
       .attr("fill", d => (nb && d.id === nb.f) ? col(d) : null);
   }
+
+  const lineBtn = document.getElementById("lineBtn");
+  lineBtn.onclick = () => {
+    state.mapLines = !state.mapLines;
+    lineBtn.setAttribute("aria-pressed", String(state.mapLines));
+    lineBtn.textContent = state.mapLines
+      ? "Hide people in common" : "Show people in common";
+    paintMap();
+  };
 
   function fitMap() {
     const W = plot.clientWidth, H = plot.clientHeight;
@@ -1189,7 +1199,7 @@
         tabSheet = document.getElementById("tabSheet");
   const TALLY = {
     net: ["Shown", "Links", "Cross-field", "Unlinked", "To verify"],
-    map: ["Places", "Lines", "Cross-field", "Joined to none", "Guessed"]
+    map: ["Places", "Joined pairs", "Cross-field", "Joined to none", "Guessed"]
   };
   function setTab(t) {
     state.tab = t;

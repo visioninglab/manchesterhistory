@@ -81,6 +81,13 @@ svg#map{display:none}
   text-transform:uppercase;letter-spacing:.1em;pointer-events:none}
 .geo-water{font-family:Archivo,sans-serif;font-size:9px;fill:var(--d-press);
   opacity:.75;font-style:italic;pointer-events:none}
+.mapctl{position:absolute;left:12px;top:12px;display:none}
+.mode-map .mapctl{display:block}
+.mapctl button{padding:5px 11px;border:1px solid var(--rule);border-radius:3px;
+  background:var(--surface);cursor:pointer;font-size:12px;color:var(--ink2)}
+.mapctl button:hover{border-color:var(--ink3)}
+.mapctl button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);
+  color:var(--accent-ink)}
 .route{stroke:var(--link);cursor:pointer}
 .route.direct{stroke-dasharray:2 2}
 
@@ -378,6 +385,9 @@ td.narrow{width:110px} td.mid{width:180px} td.wide{width:300px} td.tiny{width:66
       <div class="plot">
         <svg id="net" role="img" aria-label="Network of Victorian Manchester people, organisations, places and events"></svg>
         <svg id="map" role="img" aria-label="Sketch map of Victorian Manchester and Salford, with the places in this collection"></svg>
+        <div class="mapctl">
+          <button id="lineBtn" aria-pressed="false">Show people in common</button>
+        </div>
         <div class="zoomers">
           <button id="zin" title="Zoom in" aria-label="Zoom in">+</button>
           <button id="zout" title="Zoom out" aria-label="Zoom out">&#8722;</button>
@@ -386,8 +396,9 @@ td.narrow{width:110px} td.mid{width:180px} td.wide{width:300px} td.tiny{width:66
         <div class="legendkey mapkey">
           <i><svg width="18" height="10" aria-hidden="true"><path d="M1 7 Q6 2 9 6 T17 4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>river</i>
           <i><svg width="18" height="10" aria-hidden="true"><line x1="1" y1="5" x2="17" y2="5" stroke="currentColor" stroke-width="1.6" stroke-dasharray="4 2.5"/></svg>canal</i>
-          <i><svg width="18" height="10" aria-hidden="true"><line x1="1" y1="5" x2="17" y2="5" stroke="currentColor" stroke-width="2.4"/></svg>people in common</i>
+          <i><svg width="18" height="10" aria-hidden="true"><line x1="1" y1="5" x2="17" y2="5" stroke="currentColor" stroke-width="2.4"/></svg>joined by someone in common</i>
           <i>dotted ring = we are guessing where it was</i>
+          <i>hover a place to see only its own</i>
         </div>
         <div class="legendkey netkey">
           <i><svg width="14" height="10" aria-hidden="true"><circle cx="5" cy="5" r="4.5" fill="currentColor"/></svg>person</i>
