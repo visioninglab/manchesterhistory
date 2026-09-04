@@ -526,6 +526,11 @@
           'identified; they are drawn hollow. ' : "") +
         (isolates.length ? isolates.length + ' entries have nothing joined to them yet. '
           : 'Everything is joined to something. ') +
+        (typeof window !== "undefined" && window.__COUNTED__
+          ? 'This page counts visits - how many, which pages, where the link was ' +
+            'followed from - with a service that sets no cookies and stores nothing ' +
+            'that identifies you. '
+          : "") +
         (typeof META !== "undefined" && META.unresolved && META.unresolved.length
           ? 'Three phrases name a milieu rather than a record and could not be joined ' +
             'to anything: ' + META.unresolved.map(u => esc(u.text)).join("; ") + '.'

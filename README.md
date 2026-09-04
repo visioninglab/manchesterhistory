@@ -69,6 +69,7 @@ network it names.
 | `src/connection-types.psv` | the 33 kinds of connection, in seven families |
 | `src/contributions.psv` | what people have sent in on the contribution sheet |
 | `contribute-template.csv` | the sheet to send them |
+| `analytics.html` | where a visit-counting snippet goes, if you want one. Empty by default |
 | `build.py` | reads `src/`, resolves names, writes `data.js` and the CSVs |
 | `bundle.py` | inlines `data.js` + `app.js` into the two published pages |
 | `data.js` | generated — the model the page loads |
@@ -213,6 +214,52 @@ The open question this leaves is a good one: if the local material is not in Man
 whose sheets are in Oldham, Bolton and Tameside, and do any of them carry the names
 already in this collection? *Where to look next*, in the opening panel, lists the
 catalogues and aggregators to answer it with.
+
+## Seeing who uses it
+
+**The artifact cannot be counted, at all.** A published artifact runs under a content
+policy that blocks every outbound request: no analytics script, no beacon, not even a
+one-pixel image. That is not a setting anyone can change. If you want to know whether a
+page is being read, share the **GitHub Pages** link rather than the artifact link:
+
+    https://visioninglab.github.io/manchesterhistory/
+
+The repository's own Insights → Traffic panel does not help either: it counts visits to
+the *repository*, not to the Pages site.
+
+To count visits to the Pages site, paste a provider's snippet into `analytics.html` below
+the marked line and run `python bundle.py`. It goes into `index.html` only, never into the
+artifact. Leave the file alone and nothing is tracked. Three that work on a static site
+and set no cookies:
+
+| | |
+|---|---|
+| **GoatCounter** | Free for non-commercial use, open source, about 3KB. The obvious first choice here. |
+| **Cloudflare Web Analytics** | Free, needs a Cloudflare account. |
+| **Plausible** | Around £9 a month, the best dashboard of the three. |
+
+Google Analytics also works, but it sets cookies, which in the UK means a consent banner
+and a privacy policy. For a page like this the cookieless ones are less trouble and tell
+you the same thing.
+
+**None of them tell you who.** Analytics tells you how many people, roughly where they
+are, what referred them and what they looked at. It cannot name an individual, and trying
+to make it do so is where the trouble starts.
+
+If what you actually want is "did Dr So-and-so open the thing I sent her", the way to do
+that on a static site is to give each person their own link:
+
+    https://visioninglab.github.io/manchesterhistory/?from=oldham
+    https://visioninglab.github.io/manchesterhistory/?from=nybg
+
+The page ignores the parameter; the analytics provider records it as a separate page, so
+you can see which link was opened and when. Two things follow from that. It identifies a
+named person, so tell them you are doing it — a line in the covering email is enough, and
+people generally do not mind being asked. And a forwarded link carries the tag with it, so
+treat it as "this link was opened", not "this person opened it".
+
+When a snippet is set, the page says so itself, in *About this collection* in the opening
+panel.
 
 ## Still open
 
