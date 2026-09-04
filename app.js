@@ -165,8 +165,10 @@
       domains: ["press", "trade"], focus: "COL-009" },
     { id: "herbarium", title: "How the herbarium moved",
       blurb: "Four herbaria built at home, in back rooms and on kitchen tables, ended " +
-             "up in one museum. This traces each transfer into the Manchester Museum " +
-             "Herbarium, and back out again to the people who made them.",
+             "up in one museum. But the museum's Head of Botany says its herbarium holds " +
+             "little from Greater Manchester itself: the collectors went after what they " +
+             "could not get at home. Follow the transfers, then ask where the local " +
+             "material went. Oldham, Bolton and Tameside are on the map for that reason.",
       domains: ["nat"], focus: "PL-NH-016" },
     { id: "artisans", title: "Artisan botanists and their ground",
       blurb: "Weavers, shoemakers and gardeners who botanised on Sunday. The mosses, " +
@@ -549,6 +551,12 @@
         '<p class="hint">A solid line is stated in the collection. A dashed one still ' +
         'needs confirming. A dotted one is a reading offered for testing, not a fact.</p>' +
       '</div>' +
+      (typeof RESOURCES !== "undefined" && RESOURCES.length
+        ? '<details class="prov"><summary>Where to look next</summary>' +
+          '<ul class="reslist">' + RESOURCES.map(r =>
+            '<li><a href="' + esc(r.url) + '" target="_blank" rel="noopener">' +
+            esc(r.name) + '</a><span>' + esc(r.what) + '</span></li>').join("") +
+          '</ul></details>' : "") +
       '<details class="prov"><summary>About this collection</summary>' +
         '<p class="hint">Built from a Victorian Manchester natural-history database. ' +
         'Every entry says on its own record where it came from, what was corrected, and ' +
@@ -667,6 +675,11 @@
       '<h2 class="pname">' + esc(n.label) + '</h2>' +
       '<p class="pdates">' + esc(when) + '</p></div>' +
       lead(n) +
+      ((n.said || []).map(q =>
+        '<blockquote class="said"><p>' + esc(q.text) + '</p><cite>' + esc(q.who) +
+        (q.when ? ', ' + esc(q.when) : "") +
+        (q.url ? ' &middot; <a href="' + esc(q.url) + '" target="_blank" rel="noopener">' +
+          esc(host(q.url)) + '</a>' : "") + '</cite></blockquote>').join("")) +
       (facts ? '<dl class="meta">' + facts + '</dl>' : "") +
       (es.length
         ? '<div class="sect"><h2>Connections</h2><ul class="edges">' + rows + '</ul></div>'
@@ -1151,7 +1164,8 @@
     const xs = set.map(n => mx(n.lon)), ys = set.map(n => my(n.lat));
     const x0 = Math.min.apply(null, xs), x1 = Math.max.apply(null, xs);
     const y0 = Math.min.apply(null, ys), y1 = Math.max.apply(null, ys);
-    const sc = Math.min(W / (x1 - x0 + 260), H / (y1 - y0 + 260)) || 1;
+    /* room for the names, which sit above the markers and reach past the extremes */
+    const sc = Math.min(W / (x1 - x0 + 520), H / (y1 - y0 + 420)) || 1;
     const t = d3.zoomIdentity.translate(W / 2, H / 2).scale(sc)
       .translate(-(x0 + x1) / 2, -(y0 + y1) / 2);
     mapFitted = true;

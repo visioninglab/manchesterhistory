@@ -70,9 +70,6 @@ svg#net.grabbing,svg#map.grabbing{cursor:grabbing}
 svg#map{display:none}
 .mode-map svg#net{display:none}
 .mode-map svg#map{display:block}
-.mapkey{display:none}
-.mode-map .mapkey{display:flex}
-.mode-map .netkey{display:none}
 .geo-river{fill:none;stroke:var(--d-press);opacity:.42;stroke-linecap:round;
   stroke-linejoin:round}
 .geo-canal{fill:none;stroke:var(--ink3);opacity:.5;stroke-dasharray:5 3;
@@ -205,6 +202,15 @@ svg#map{display:none}
 .prov .hint{padding-top:8px}
 .mono{font-family:"IBM Plex Mono",monospace}
 .joiner{color:var(--ink3);font-size:14px;font-family:Archivo,sans-serif;font-weight:400}
+.said{margin:0;padding:9px 0 9px 12px;border-left:2px solid var(--d-nat);
+  font-size:12.5px;color:var(--ink2)}
+.said p{margin:0 0 6px;font-style:italic;line-height:1.5}
+.said cite{font-style:normal;font-size:11px;color:var(--ink3);letter-spacing:.02em}
+.said cite a{color:var(--accent)}
+.reslist{list-style:none;margin:8px 0 0;padding:0;display:flex;flex-direction:column;
+  gap:8px}
+.reslist a{color:var(--accent);font-size:12.5px;display:block}
+.reslist span{display:block;font-size:11.5px;color:var(--ink3);line-height:1.45}
 .meta{border-top:1px solid var(--rule2);padding-top:10px;margin:0;display:grid;
   grid-template-columns:auto minmax(0,1fr);gap:4px 14px;font-size:12px}
 .meta dt{color:var(--ink3);font-size:10px;letter-spacing:.09em;text-transform:uppercase;
@@ -247,6 +253,9 @@ svg#map{display:none}
   font-family:"IBM Plex Mono",monospace;display:flex;gap:14px;flex-wrap:wrap;
   padding:4px 8px;border-radius:3px;pointer-events:none}
 .legendkey i{font-style:normal;display:flex;align-items:center;gap:5px}
+.legendkey.mapkey{display:none}
+.mode-map .legendkey.mapkey{display:flex}
+.mode-map .legendkey.netkey{display:none}
 .zoomers{position:absolute;right:12px;top:12px;display:flex;flex-direction:column;gap:4px}
 .zoomers button{width:28px;height:28px;border:1px solid var(--rule);background:var(--surface);
   border-radius:3px;cursor:pointer;line-height:1;font-size:14px;display:grid;place-items:center}

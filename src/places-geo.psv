@@ -97,3 +97,8 @@ PL-NH-010|53.5350|-2.1750|guess
 PL-NH-011|53.4780|-2.3800|area
 PL-NH-012|53.3560|-2.2900|area
 PL-NH-005|53.5400|-2.2900|guess
+#
+# --- repositories outside Manchester ------------------------------------------
+PL-OLDHAM|53.5410|-2.1150|site
+PL-BOLTON|53.5780|-2.4290|site
+PL-TAMESIDE|53.4885|-2.0955|site

@@ -351,6 +351,17 @@ for gid, (gname, gdom) in used_groups.items():
          "recordType": "A heading this collection groups people under",
          "sourceId": "", "link": "", "decades": ""})
 
+# ---------------------------------------------------------------- testimony
+# People who work with the material, telling us something about it. Attributed and
+# quoted; it belongs on the record it bears on, not in the provenance flap.
+for tid, who, when, text, tsrc in rows("testimony.psv", 5):
+    if tid not in nodes: raise SystemExit("testimony: unknown record " + tid)
+    nodes[tid].setdefault("said", []).append(
+        {"who": who, "when": when, "text": text, "url": url(tsrc)})
+
+RESOURCES = [{"name": nm, "url": url(u), "what": what}
+             for nm, u, what in rows("resources.psv", 3)]
+
 # ---------------------------------------------------------------- geography
 PRECISION = {"site":  "located to a street",
              "area":  "roughly the middle of a district or a landscape",
@@ -758,7 +769,7 @@ FIELDS = ["id","label","name","type","domain","kindOf","lat","lon","geo","gender
           "dateQc","role","category","relationships","spouse","decades","areas","note",
           "link","specialism","background","knowledgeRole","collections","destination",
           "politics","religion","building","status","priority","sourceUrl","openQuestion",
-          "qcFlag","corrected","sourceNote","contributedBy","recordType","sourceId","idStatus","mergedFrom","mergeNote","founded","orgType","placeType","connectedPeople",
+          "qcFlag","corrected","sourceNote","contributedBy","said","recordType","sourceId","idStatus","mergedFrom","mergeNote","founded","orgType","placeType","connectedPeople",
           "connectedOrgs","connectedPlaces","keyPlaces","keyFigures","year","sortYear",
           "theme","scope","span","spanSource","deg"]
 
@@ -790,6 +801,7 @@ meta = {"built": datetime.date.today().isoformat(),
         "relationshipRows": len(rel_rows),
         "unresolved": [{"text": t, "n": c} for t, c in unresolved.most_common()]}
 out.write("const BASEMAP = %s;\n\n" % js(BASEMAP))
+out.write("const RESOURCES = %s;\n\n" % js(RESOURCES))
 out.write("const META = %s;\n" % js(meta))
 out.close()
 

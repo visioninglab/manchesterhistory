@@ -17,13 +17,13 @@ source, the page says so and draws it differently.
 |---|---|
 | People | 158 |
 | Societies, firms and groupings | 52 |
-| Places | 82 |
+| Places | 85 |
 | Dated events | 44 |
-| Links | 428, of which **18 come from the Relationships sheet** |
-| Evidence | 354 stated in the source · 62 to be confirmed · 12 readings offered for testing |
+| Links | 436, of which **18 come from the Relationships sheet** |
+| Evidence | 357 stated in the source · 67 to be confirmed · 12 readings offered for testing |
 | Records with nothing linked to them | 0 |
 | Records with no date | 0 |
-| Places with a coordinate | 82 of 82 |
+| Places with a coordinate | 85 of 85 |
 
 The 18 Relationships rows are the only links where the source names the relationship
 itself ("Introduced to network by", "Herbarium transferred to", "Financed / enabled"),
@@ -59,6 +59,8 @@ network it names.
 | `src/relationships.psv` | the Relationships sheet, endpoints resolved to record IDs |
 | `src/aliases.psv` | how free-text names resolve to record IDs |
 | `src/places-geo.psv` | a coordinate and a precision for every place |
+| `src/testimony.psv` | what people who work with the material have told us, quoted and attributed |
+| `src/resources.psv` | the catalogues and aggregators to search next |
 | `src/basemap.psv` | the rivers, canals and district labels the map is drawn from |
 | `src/connection-types.psv` | the 33 kinds of connection, in seven families |
 | `src/contributions.psv` | what people have sent in on the contribution sheet |
@@ -178,6 +180,35 @@ in `src/corrections.psv`):
 
 **Anyone whose activity begins after 1930 is out.** One record went: Shelagh Delaney, born
 1938.
+
+## What the Head of Botany told us
+
+The Head of Botany at Manchester Museum, asked about the herbarium the collection treats
+as the destination for Manchester's botany:
+
+> Although we're Manchester Museum, our herbarium hasn't got a huge amount of material
+> from within Greater Manchester. We have more extensive collections from the rest of the
+> UK, continental Europe and beyond. Our collectors seem to have concentrated on
+> collecting that which they couldn't readily get access to, rather than the things which
+> were on their doorsteps and which might flower again next year.
+
+That cuts against what this tool was quietly implying. Four herbaria did move into the
+Manchester Museum — the Relationships sheet records each transfer — but it does not follow
+that the mosses and cloughs on the map are what is in the cabinets. The collecting habit
+ran the other way: what you can walk to on a Sunday and see again next spring is exactly
+what you do not press and keep.
+
+The quote sits on the herbarium's own record, and the *How the herbarium moved* view now
+carries the qualification. Three repositories the Head of Botany points to instead are
+now in the collection and on the map — **Gallery Oldham**, **Bolton Museum and Art
+Gallery** and **Tameside museums and galleries** — each joined to the artisan botanists
+as a lead that needs checking rather than as a fact. Oldham and Tameside sit in the
+middle of the country those botanists worked, which is the point.
+
+The open question this leaves is a good one: if the local material is not in Manchester,
+whose sheets are in Oldham, Bolton and Tameside, and do any of them carry the names
+already in this collection? *Where to look next*, in the opening panel, lists the
+catalogues and aggregators to answer it with.
 
 ## Still open
 

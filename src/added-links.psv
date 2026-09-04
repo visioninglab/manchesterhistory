@@ -126,3 +126,13 @@ VM-ADD-013|professor at|ORG-NH-007|verify|William Crawford Williamson was the fi
 200111|son of|200100|documented|John Edward Taylor II's record opens "Son of John Edward Taylor". The source keeps that in a note rather than in a relationship column, so the two records never met.||parentchild
 200111|son of|200097|verify|Sophia Russell Taylor was John Edward Taylor's wife and John Edward Taylor II was born to that marriage in 1830. The source records her only as a wife, so the link is set down here rather than taken from it.||parentchild
 PL-BASE-022|built on the site of|PL-PETERSFIELD|verify|The Free Trade Hall was put up in 1840 on part of the ground the crowd stood on in 1819, and rebuilt twice since. The collection holds both places but connects neither.||nearby
+#
+# --- following the Head of Botany's correction -----------------------------------
+PL-OLDHAM|part of|COL-004|documented|A public museum holding private natural-history collections is what this heading collects.||partof
+PL-BOLTON|part of|COL-004|documented|A public museum holding private natural-history collections is what this heading collects.||partof
+PL-TAMESIDE|part of|COL-004|documented|A public museum holding private natural-history collections is what this heading collects.||partof
+PL-OLDHAM|holds the collection of|COL-001|verify|The Head of Botany at Manchester Museum points to Gallery Oldham for Greater Manchester material. Oldham was one of the towns the Lancashire artisan botanists worked out of, so this is where to look for what they gathered - but nobody has yet matched a named collector to a sheet.|https://hla.oldham.gov.uk/gallery/collections/|heldat
+PL-BOLTON|holds the collection of|COL-001|verify|Named by the Head of Botany at Manchester Museum as a local collection with local material. Which of the artisan botanists here are represented in it is an open question.|https://www.boltonlams.co.uk/collections|heldat
+PL-TAMESIDE|holds the collection of|COL-001|verify|Named by the Head of Botany at Manchester Museum. Ashton and its neighbours were artisan-botanist country and the collecting grounds are on the doorstep.|https://www.tameside.gov.uk/librariesandleisure/museumsandgalleries/museums-and-galleries-collections-overview#nat|heldat
+PL-TAMESIDE|collecting ground for|PL-NH-009|verify|Ashton Moss lies a mile from Ashton-under-Lyne, and the Tameside collections are the nearest repository to it.||collectedat
+PL-OLDHAM|had as a member|ORG-NH-004|verify|The United Lancashire botanical societies met at Oldham among other towns; whether their material reached the town's museum is worth asking.||member
