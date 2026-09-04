@@ -254,20 +254,26 @@ for f in rows("timeline.psv", 13):
          "role": theme, "decades": year, "link": url(src)})
 
 # ghosts and collectives -----------------------------------------------------
-RECTYPE = {"ghost": "Named in the workbook, no record of its own",
-           "record": "Named in the workbook, researched into a record here",
-           "collective": "Group the workbook treats as a single actor",
+RECTYPE = {"ghost": "Named in the collection, and not identifiable",
+           "record": "Named in the collection, researched into a record here",
+           "found": "Found on specimens in GBIF, researched into a record here",
+           "collective": "Group the collection treats as a single actor",
            "derived": "Stated in a column rather than a row"}
+# "found" behaves like any other record on the page; only its provenance differs.
+KINDOF = {"found": "record"}
 for gid, name, typ, domain, kind, dates, src, note in rows("extra-nodes.psv", 8):
     if typ not in TYPES: typ = "org"
-    birth, death = (dates.split("-") + [""])[:2] if dates else ("", "")
-    add({"id": gid, "name": name, "type": typ, "domain": domain, "kindOf": kind,
+    active = dates.startswith("active ")
+    span = dates[7:] if active else dates
+    birth, death = ("", "") if active else ((span.split("-") + [""])[:2] if span else ("", ""))
+    add({"id": gid, "name": name, "type": typ, "domain": domain,
+         "kindOf": KINDOF.get(kind, kind),
          "note": note, "role": "", "birth": birth, "death": death, "dates": dates,
-         "status": "researched" if kind == "record" else "verify",
-         "priority": "high" if kind in ("record", "derived") else
-                     ("investigate" if kind == "ghost" else "high"),
+         "status": "verify" if kind in ("ghost", "collective") else "researched",
+         "priority": "investigate" if kind == "ghost" else "high",
          "recordType": RECTYPE[kind], "datesResearched": "1" if dates else "",
-         "sourceId": "", "link": url(src), "sourceUrl": url(src), "decades": ""})
+         "sourceId": "", "link": url(src), "sourceUrl": url(src),
+         "decades": span if active else ""})
 
 # Several descriptions end with a note about the source rather than the subject
 # ("; Original sheet cites Wikipedia"). That belongs behind the provenance flap.
@@ -350,6 +356,24 @@ for gid, (gname, gdom) in used_groups.items():
          "role": "", "status": "workbook", "priority": "context",
          "recordType": "A heading this collection groups people under",
          "sourceId": "", "link": "", "decades": ""})
+
+# ---------------------------------------------------------------- identifiers
+# A person here matched to the same person in a public authority file, so anyone can
+# join this collection to another without guessing from a name. Written by
+# identifiers.py; a few rows will name records that have since been merged or dropped.
+SCHEMES = {"wikidata": ("Wikidata", "https://www.wikidata.org/wiki/%s")}
+strays = []
+for iid, scheme, value, desc in rows("identifiers.psv", 4):
+    if scheme not in SCHEMES: raise SystemExit("identifiers: unknown scheme " + scheme)
+    target = REDIRECT.get(iid, iid)
+    if target not in nodes:
+        strays.append(iid)
+        continue
+    # a merged duplicate and its survivor often carry the same identifier
+    held = nodes[target].setdefault("ids", [])
+    if not any(i["scheme"] == scheme and i["value"] == value for i in held):
+        held.append({"scheme": scheme, "label": SCHEMES[scheme][0], "value": value,
+                     "url": SCHEMES[scheme][1] % value, "desc": desc})
 
 # ---------------------------------------------------------------- testimony
 # People who work with the material, telling us something about it. Attributed and
@@ -769,7 +793,7 @@ FIELDS = ["id","label","name","type","domain","kindOf","lat","lon","geo","gender
           "dateQc","role","category","relationships","spouse","decades","areas","note",
           "link","specialism","background","knowledgeRole","collections","destination",
           "politics","religion","building","status","priority","sourceUrl","openQuestion",
-          "qcFlag","corrected","sourceNote","contributedBy","said","recordType","sourceId","idStatus","mergedFrom","mergeNote","founded","orgType","placeType","connectedPeople",
+          "qcFlag","corrected","sourceNote","contributedBy","said","ids","recordType","sourceId","idStatus","mergedFrom","mergeNote","founded","orgType","placeType","connectedPeople",
           "connectedOrgs","connectedPlaces","keyPlaces","keyFigures","year","sortYear",
           "theme","scope","span","spanSource","deg"]
 
@@ -817,7 +841,7 @@ write_csv("people.csv",
    "collections","destination","politics","religion","building","note","relationships",
    "record_type","source_id","merged_from","merge_note",
    "research_status","priority","open_question","qc_flag",
-   "active_from","active_to","active_source","links","link"],
+   "active_from","active_to","active_source","links","link","wikidata"],
   [[n["id"],n["name"],n.get("kindOf",""),n["domain"],n.get("gender",""),n.get("birth",""),
     n.get("death",""),n.get("dates",""),n.get("dateQc",""),n.get("role",""),
     n.get("category",""),n.get("specialism",""),n.get("background",""),
@@ -828,7 +852,9 @@ write_csv("people.csv",
     STATUS[n["status"]]["label"],
     PRIORITY[n["priority"]]["label"],n.get("openQuestion",""),n.get("qcFlag",""),
     (n["span"] or ["",""])[0],(n["span"] or ["",""])[1],n.get("spanSource",""),
-    n["deg"],n.get("link","")] for n in sorted(people, key=lambda x: x["name"])])
+    n["deg"],n.get("link",""),
+    ";".join(i["value"] for i in n.get("ids", []) if i["scheme"] == "wikidata")]
+   for n in sorted(people, key=lambda x: x["name"])])
 
 write_csv("links.csv",
   ["relationship_id","source_id","source","relationship","target_id","target","evidence",
@@ -891,6 +917,9 @@ print("mapped   %d of %d places%s" % (
     "" if not unplaced else "   MISSING: " + ", ".join(n["id"] for n in unplaced)))
 if contributed:
     print("contributed %d rows from src/contributions.psv" % contributed)
+if strays:
+    print("identifiers  %d rows name a record that no longer exists: %s"
+          % (len(strays), ", ".join(strays)))
 print("isolates %d (%s)" % (len(iso), dict(collections.Counter(n["type"] for n in iso))))
 if unresolved:
     print("\nunresolved connection strings (%d distinct):" % len(unresolved))

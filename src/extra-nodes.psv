@@ -5,6 +5,7 @@
 #   ghost       the same, but not identifiable: kept hollow and undated
 #   collective  a group the source links to as if it were one thing
 #   derived     something the source states in a column rather than a row
+#   found       not named by the source at all: found on specimens in GBIF
 # id|name|type|domain|kind|dates|source|note
 #
 # --- named in the source, researched into records here -------------------------
@@ -51,3 +52,14 @@ PL-PETERSFIELD|St Peter's Field|place|reform|derived|1800-1830|https://en.wikipe
 PL-OLDHAM|Gallery Oldham|place|nat|record|1883|https://hla.oldham.gov.uk/gallery/collections/|Oldham's museum, open since 1883, and one of the places the botany of Greater Manchester actually ended up. Oldham sat at the centre of the Lancashire artisan botanists' country, and the Head of Botany at Manchester Museum points here rather than to his own herbarium for local material.
 PL-BOLTON|Bolton Museum and Art Gallery|place|nat|record|1884|https://www.boltonlams.co.uk/collections|Bolton's museum, open since 1884. Another local collection with local specimens in it, of the kind Manchester Museum's herbarium turns out to be short of.
 PL-TAMESIDE|Tameside museums and galleries|place|nat|record||https://www.tameside.gov.uk/librariesandleisure/museumsandgalleries/museums-and-galleries-collections-overview#nat|The museum service for Ashton, Stalybridge, Hyde and Dukinfield - the eastern townships where the moss and clough collecting was done. Named by the Head of Botany at Manchester Museum as holding interesting people as well as interesting specimens.
+#
+# --- named on specimens, found through GBIF --------------------------------------
+# "active YYYY-YYYY" is a collecting range read off the specimens themselves, not a
+# lifespan; plain dates are birth and death confirmed against Wikidata.
+GB-HUNT|George Edward Hunt|person|nat|found|active 1858-1870|https://www.gbif.org/occurrence/search?q=George%20Edward%20Hunt|A Manchester bryologist with 55 Greater Manchester specimens to his name, all of them now in the Natural History Museum in London. He turns up nowhere in this collection's own paperwork, which is a fair measure of how much of this network was never written down.
+GB-JBWOOD|John Bland Wood|person|nat|found|1813-1890|https://www.gbif.org/occurrence/search?q=John%20Bland%20Wood|Botanist, and one of the heaviest collectors in this landscape: 36 Greater Manchester specimens gathered between the 1840s and the 1890s, held at the Natural History Museum.
+GB-ROGERS|Thomas Rogers|person|nat|found|active 1866-1883|https://www.gbif.org/occurrence/search?q=Thomas%20Rogers%20moss|A bryologist working the Manchester mosses in the 1860s to 1880s. Fourteen of his specimens are digitised, and some have travelled as far as the museum in Wellington, New Zealand.
+GB-WILD|Charles James Wild|person|nat|found|1853-1923|https://www.gbif.org/occurrence/search?q=Charles%20James%20Wild|Bryologist, naturalist and collector, working the ground around Manchester at the end of the 1870s.
+GB-LEWIS|John Harbord Lewis|person|nat|found|1848-1906|https://www.gbif.org/occurrence/search?q=John%20Harbord%20Lewis|A botanist collecting around Manchester between 1879 and 1882.
+GB-WHITEHEAD|John Whitehead|person|nat|found|active 1863-1917|https://www.gbif.org/occurrence/search?q=John%20Whitehead%20moss|Seventeen Greater Manchester specimens carry this name, spread across fifty-four years - long enough that it may be two men of the same name, a father and a son, which is a thing that happens repeatedly in this material.
+GB-WHELDON|James Alfred Wheldon|person|nat|found|1862-1924|https://www.gbif.org/occurrence/search?q=James%20Alfred%20Wheldon|The single heaviest collector of Greater Manchester plants in the digitised record: 107 specimens. He was a Liverpool pharmacist and bryologist who worked the whole of south Lancashire, which is a reminder that this network did not stop at the county boundary.

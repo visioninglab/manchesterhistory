@@ -617,6 +617,11 @@
       rows.push('<dt>Flagged</dt><dd>' + esc(n.qcFlag) + '</dd>');
     if (has(n, "sourceNote"))
       rows.push('<dt>On the source</dt><dd>' + esc(n.sourceNote) + '</dd>');
+    if (n.ids && n.ids.length)
+      rows.push('<dt>Same person at</dt><dd>' + n.ids.map(i =>
+        '<a href="' + esc(i.url) + '" target="_blank" rel="noopener">' + esc(i.label) +
+        ' ' + esc(i.value) + '</a>' +
+        (i.desc ? ' &mdash; ' + esc(i.desc) : "")).join('<br>') + '</dd>');
     if (has(n, "contributedBy"))
       rows.push('<dt>Contributed by</dt><dd>' + esc(n.contributedBy) + '</dd>');
     const src = n.sourceUrl || n.link;

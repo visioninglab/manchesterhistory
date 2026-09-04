@@ -1,0 +1,88 @@
+# Authority identifiers, so a person here can be matched against other
+# collections without anyone guessing from a name. Written by
+# identifiers.py, which only accepts a Wikidata item whose birth and death
+# years agree with ours; see that file for why.
+# id|scheme|value|what Wikidata calls them
+200001|wikidata|Q20741554|British reformer
+200006|wikidata|Q2032151|English abolitionist (1760-1846)
+200008|wikidata|Q333072|British Radical and Liberal statesman and manufacturer (1804-1865)
+200012|wikidata|Q176524|British Radical and Liberal statesman (1811–1889)
+200013|wikidata|Q6231355|British journalist and publisher (1791–1844)
+200014|wikidata|Q6257800|British businessman
+200015|wikidata|Q4669652|English businessman
+200017|wikidata|Q14949006|British Liberal Party politician
+200019|wikidata|Q5216359|engineer
+200020|wikidata|Q4888811|British politician (1793-1865)
+200021|wikidata|Q211519|English suffragist
+200023|wikidata|Q712307|English engineer, entrepreneur (1804–1887)
+200024|wikidata|Q15525081|British businessman (1801-1888)
+200028|wikidata|Q15455714|British Army officer and businessman (1778-1845)
+200030|wikidata|Q7529044|British politician (1797–1885)
+200032|wikidata|Q3157526|British politician (1821–1899)
+200034|wikidata|Q9061|German-born philosopher (1818–1883)
+200035|wikidata|Q34787|German philosopher, sociologist and economist (1820–1895)
+200036|wikidata|Q181875|Former Prime Minister of the United Kingdom (1788–1850)
+200037|wikidata|Q15443188|English politician, minister and activist (1783–1857)
+200039|wikidata|Q442231|British birth control campaigner and paleontologist (1880-1958)
+200040|wikidata|Q5379868|English philanthropist and collector
+200052|wikidata|Q7327245|English architect
+200053|wikidata|Q41284|British chemist and mathematician (1766–1844)
+200054|wikidata|Q9041|British engineer (1736–1819)
+200055|wikidata|Q131691|British Field Marshal, Prime Minister of the United Kingdom, 1828–1830, 1834 (1769-1852)
+200057|wikidata|Q179374|Welsh textile manufacturer and social reformer (1771–1858)
+200060|wikidata|Q18954421|English lawyer and town clerk
+200061|wikidata|Q5672621|British woman who lived as a man
+200062|wikidata|Q16595821|Scottish suffragist
+200064|wikidata|Q127332|British novelist and poet (1816-1855)
+200068|wikidata|Q276466|British activist, botanist and astronomist (1827-1890)
+200070|wikidata|Q6182614|British police officer (1844–1914)
+200071|wikidata|Q28841980|expert aerialist
+200072|wikidata|Q5344891|British architect
+200073|wikidata|Q15983946|British historian and writer (1867-1940)
+200074|wikidata|Q460547|British theatre manager (1860–1937)
+200075|wikidata|Q2865387|Ghanaian footballer (1865-1930)
+200076|wikidata|Q5648904|Socialist and suffragette (1872–1956)
+200077|wikidata|Q6759148|Suffragist and activist from the United Kingdom
+200079|wikidata|Q3618091|British suffragette (1879-1953)
+200081|wikidata|Q3633619|working-class Irish woman, best known as the lifelong partner of Friedrich Engels
+200082|wikidata|Q229226|British author (1810-1865)
+200084|wikidata|Q5401286|English suffragist, editor
+200085|wikidata|Q5415056|Irish writer and activist
+200086|wikidata|Q4966192|UK trade unionist (1867-1896)
+200088|wikidata|Q131901697|English vegetarianism activist (1812–1898)
+200089|wikidata|Q18674182|American librarian and author (1851-1911)
+200090|wikidata|Q456589|English dramatist and screenwriter (1938–2011)
+200091|wikidata|Q47501574|(1815-1877)
+200099|wikidata|Q7901261|British activist for married women (1835-1915)
+200100|wikidata|Q6231355|British journalist and publisher (1791–1844)
+200101|wikidata|Q16741841|British politician (1766-1847)
+200102|wikidata|Q6257800|British businessman
+200103|wikidata|Q4669652|English businessman
+200104|wikidata|Q7793231|British politician, died 1845
+200105|wikidata|Q7328487|English radical Liberal politician
+200107|wikidata|Q15443188|English politician, minister and activist (1783–1857)
+200108|wikidata|Q4786479|Scottish journalist
+200110|wikidata|Q121237598|coal merchant
+200111|wikidata|Q19043281|English newspaper proprietor and art collector
+GH-ACLOUGH|wikidata|Q2851039|English suffragist and educator (1820–1892)
+GH-BRITTAIN|wikidata|Q7787904|British naturalist (1806-1884)
+GH-BRITTEN|wikidata|Q22102488|British entomologist and signalman (1870–1954)
+GH-BUTLER|wikidata|Q225863|British feminist and social reformer fighting to end child prostitution (1828–1906)
+GH-CASH|wikidata|Q20804482|British bryologist, journalist and zoologist (1839-1909)
+GH-CURTIS|wikidata|Q327944|English entomologist and illustrator (1791–1862)
+GH-DAVIES|wikidata|Q2748528|British suffragist & educator (1830–1921)
+GH-DICKENSON|wikidata|Q18576991|British trade unionist and suffragist
+GH-MCLAREN|wikidata|Q18576839|British activist (1815–1906)
+GH-NIGHTINGALE|wikidata|Q37103|English social reformer, statistician, and founder of modern nursing (1820–1910)
+GH-PEARSON|wikidata|Q21522736|botanist (1849-1923)
+GH-POCHIN|wikidata|Q18526333|English campaigner for women's rights
+GH-RPANKHURST|wikidata|Q3431098|British politician (1834–1898)
+GH-WOLSTENHOLME|wikidata|Q3051285|English suffragist
+NH-001|wikidata|Q7324509|British botanist (1786-1865)
+NH-002|wikidata|Q6239910|British botanist (1792-1854)
+NH-003|wikidata|Q5343470|British botanist (1782-1830)
+NH-005|wikidata|Q6244470|British manufacturer and art collector
+NH-008|wikidata|Q21062909|British botanist and taxonomist (1827-1893)
+NH-009|wikidata|Q112078559|Herbologist (1838-1924)
+VM-ADD-010|wikidata|Q7789488|British art collector; (1823-1891)
+VM-ADD-011|wikidata|Q15994471|English botanist and Shakespearean scholar (1818-1904)

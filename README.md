@@ -15,12 +15,12 @@ source, the page says so and draws it differently.
 
 | | |
 |---|---|
-| People | 158 |
+| People | 165 |
 | Societies, firms and groupings | 52 |
 | Places | 85 |
 | Dated events | 44 |
-| Links | 436, of which **18 come from the Relationships sheet** |
-| Evidence | 357 stated in the source · 67 to be confirmed · 12 readings offered for testing |
+| Links | 443, of which **18 come from the Relationships sheet** |
+| Evidence | 364 stated in the source · 67 to be confirmed · 12 readings offered for testing |
 | Records with nothing linked to them | 0 |
 | Records with no date | 0 |
 | Places with a coordinate | 85 of 85 |
@@ -68,6 +68,8 @@ network it names.
 | `src/aliases.psv` | how free-text names resolve to record IDs |
 | `src/places-geo.psv` | a coordinate and a precision for every place |
 | `src/testimony.psv` | what people who work with the material have told us, quoted and attributed |
+| `src/identifiers.psv` | the same person in a public authority file, so this can be joined to other collections |
+| `identifiers.py` | run by hand; finds those identifiers on Wikidata and only accepts a date match |
 | `src/resources.psv` | the catalogues and aggregators to search next |
 | `src/basemap.psv` | the rivers, canals and district labels the map is drawn from |
 | `src/connection-types.psv` | the 33 kinds of connection, in seven families |
@@ -274,6 +276,60 @@ treat it as "this link was opened", not "this person opened it".
 
 The page says so itself, in *About this collection* in the opening panel, whenever a
 counter is set.
+
+## Following the specimens
+
+The Head of Botany's remark sent us to GBIF, the global biodiversity aggregator, which
+holds digitised specimen records contributed by museums. Asking it for preserved
+specimens collected inside a box around Greater Manchester before 1935 returns **1,499**,
+and every one names whoever collected it.
+
+Two things fall out of that. The first is where the material is: **950 of the 1,499 are
+at the Natural History Museum in London and ten are at Manchester**, with a handful at
+Bolton, Liverpool and Kew. Some of that gap is digitisation rather than holdings - the
+NHM has photographed far more of its cabinets than most museums have - but it is the same
+shape as what the Head of Botany describes, arrived at a different way. It is on the
+herbarium's record as an open question.
+
+The second is the names. Five people already here are on those sheets: **Harry Britten**
+(151 specimens, some of them catalogued as "mixed father/son"), **Charles Bailey** (39),
+**Joseph Sidebotham**, **Leo Grindon** and **John Nowell**. Seven more were not in the
+collection at all and now are, marked as *found on specimens in GBIF* rather than named by
+the source:
+
+| | specimens | dated |
+|---|---|---|
+| James Alfred Wheldon | 107 | 1862–1924, from Wikidata |
+| George Edward Hunt | 55 | active 1858–1870, from the specimens |
+| John Bland Wood | 36 | 1813–1890, from Wikidata |
+| John Whitehead | 17 | active 1863–1917, from the specimens |
+| Thomas Rogers | 14 | active 1866–1883, from the specimens |
+| Charles James Wild | 6 | 1853–1923, from Wikidata |
+| John Harbord Lewis | 6 | 1848–1906, from Wikidata |
+
+Where Wikidata could confirm a birth and a death, that is the span. Where it could not,
+the span is the range of years on the person's own specimens, written `active` so nobody
+reads it as a lifespan.
+
+The obvious next step is the one this stops short of: GBIF gives a coordinate for most
+specimens, so each could be matched to the collecting grounds already on the map, and
+Kersal Moor would stop being a place people are *said* to have visited and become a place
+with dated evidence attached.
+
+## Identifiers
+
+78 people carry a Wikidata identifier, in `src/identifiers.psv` and in the `wikidata`
+column of `people.csv`, so this collection can be joined to another without anyone
+matching on a name. `identifiers.py` finds them and is deliberately strict: it only
+accepts a candidate whose birth and death years agree with ours within a year, because
+name similarity alone will confidently return the wrong John Turner. Of 165 people it
+matched 84, refused 15 whose dates disagreed, and left 51 alone for having no dates of
+our own to check against.
+
+It found one worth knowing about. Wikidata holds a Julius Sichel with exactly our dates,
+1802-1868, who is a French physician and entomologist in Paris; our record is an Austrian
+vice-consul in Manchester. That is either a wrong date taken from the wrong man or an
+unrecorded connection, and it is flagged on the record rather than resolved.
 
 ## Still open
 
