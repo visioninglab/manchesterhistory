@@ -27,8 +27,6 @@
     return null;
   }
 
-  let dl = null;
-
   /* ---------------- model ---------------- */
   let nodes = [], links = [], byId = new Map(), adj = new Map();
   let isolates = [], ghostList = [], mergedList = [], qcList = [];
@@ -449,12 +447,38 @@
   /* ---------------- detail panel ---------------- */
   const detail = document.getElementById("detail");
 
+  /* On a phone the filters slide in and the record rises from the bottom. On a wide
+     screen both panels are always there and these classes do nothing. */
+  const scrim = document.getElementById("scrim");
+  const filtersBtn = document.getElementById("filtersBtn");
+  const aboutBtn = document.getElementById("aboutBtn");
+
+  function showSheet(on) { document.body.classList.toggle("detail-open", !!on); }
+  function showFilters(on) {
+    document.body.classList.toggle("filters-open", !!on);
+    if (filtersBtn) filtersBtn.setAttribute("aria-expanded", String(!!on));
+  }
+  if (filtersBtn) filtersBtn.onclick = () => {
+    showSheet(false);
+    showFilters(!document.body.classList.contains("filters-open"));
+  };
+  if (aboutBtn) aboutBtn.onclick = () => {
+    showFilters(false);
+    state.selected = null;
+    renderSummary();
+    showSheet(true);
+    paint();
+  };
+  if (scrim) scrim.onclick = () => { showFilters(false); showSheet(false); };
+
   function select(id) {
     state.selected = id;
+    showFilters(false);
     if (id && byId.has(id)) {
+      showSheet(true);
       renderNode(byId.get(id));
       if (state.tab === "map") focusPlace(id); else focus(id);
-    } else { state.selected = null; renderSummary(); }
+    } else { state.selected = null; showSheet(false); renderSummary(); }
     paint();
     if (state.tab === "map") paintMap();
   }
@@ -1269,6 +1293,7 @@
     time: ["Shown", "Events", "People", "Places", "Dates worked out"]
   };
   function setTab(t) {
+    showFilters(false);
     state.tab = t;
     tabNet.setAttribute("aria-selected", String(t === "net"));
     tabMap.setAttribute("aria-selected", String(t === "map"));
@@ -1452,8 +1477,4 @@
   const onScheme = () => { readPalette(); paint(); };
   if (mq.addEventListener) mq.addEventListener("change", onScheme); else mq.addListener(onScheme);
 
-  /* The one runtime capability left: handing the contribution sheet to a reader. */
-  if (window.claude && window.claude.use) {
-    window.claude.use("downloads").then(d => { dl = d; }).catch(() => { dl = null; });
-  }
 })();

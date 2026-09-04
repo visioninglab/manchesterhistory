@@ -1,7 +1,6 @@
-"""Inline data.js and app.js into network.html to make the one-file page.
+"""Inline data.js and app.js into network.html to make the page GitHub Pages serves.
 
-Writes whoknewwhom.html (the file to publish as an artifact) and index.html
-(the identical copy GitHub Pages serves). Run after build.py.
+Writes index.html. Run after build.py.
 """
 import io
 import os
@@ -23,9 +22,7 @@ out = shell.replace(
 if '<script src="data.js">' in out:
     raise SystemExit('bundle: the script tags in network.html did not match')
 
-# Visit counting, if any set, goes into the Pages copy only. The published artifact
-# cannot make an outbound request of any kind, so a snippet there would be dead weight
-# that also implied the page was being counted when it was not.
+# Visit counting, if any is set.
 snippet = ''
 if os.path.exists('analytics.html'):
     raw = io.open('analytics.html', encoding='utf-8').read()
@@ -33,11 +30,10 @@ if os.path.exists('analytics.html'):
     snippet = raw.split(marker, 1)[1].strip() if marker in raw else ''
 if snippet:
     snippet = '<script>window.__COUNTED__ = true;</script>\n' + snippet + '\n'
-    print('analytics: a snippet is set, going into index.html only')
+    print('analytics: a snippet is set')
 else:
     print('analytics: none set, nothing is counted')
 
-# whoknewwhom.html is the artifact upload: claude.ai supplies the doctype and head.
 # index.html is served raw by GitHub Pages, so it needs the full document itself —
 # without a doctype the browser goes into quirks mode and the height:100% grid collapses.
 PAGE = ('<!doctype html>\n<html lang="en-GB">\n<head>\n<meta charset="utf-8">\n'
@@ -50,13 +46,10 @@ head, rest = out.split('<style>', 1)
 rest = '<style>' + rest
 body_start = rest.index('<div class="app">')
 
-for name, text in (
-    ('whoknewwhom.html', out),
-    ('index.html', PAGE % (head + rest[:body_start], snippet, rest[body_start:])),
-):
-    with io.open(name, 'w', encoding='utf-8', newline='\n') as f:
-        f.write(text)
-    print('wrote %s  %d KB' % (name, len(text.encode('utf-8')) // 1024))
+page = PAGE % (head + rest[:body_start], snippet, rest[body_start:])
+with io.open('index.html', 'w', encoding='utf-8', newline='\n') as f:
+    f.write(page)
+print('wrote index.html  %d KB' % (len(page.encode('utf-8')) // 1024))
 
 print('nodes %s, links %s' % (
     len(re.findall(r'\n\{"id":', data.split('const NODES')[1].split('const LINKS')[0])),

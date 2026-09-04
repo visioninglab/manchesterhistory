@@ -37,9 +37,13 @@ There are four views: the **network**, a **map**, a **timeline** and a **table**
 The timeline lays every record out against a 1750-1960 axis - events as points, everyone
 and everything else as a bar from the first year it was active to the last - and marks
 the spans that were worked out rather than stated, so an era is never mistaken for a
-record. The map has no
-tiles — a published artifact cannot load images from a tile server — so the geography is
-drawn from coordinates: the Irwell, the Irk, the Medlock, the Mersey, the four canals,
+record.
+
+On a phone the three panels become one: the view fills the screen, the filters slide in
+from the left, and the record rises from the bottom when you tap something. The map has no
+tiles. It was first built for a context that blocked them, and it has stayed drawn
+because a hand-drawn sketch says plainly that it is approximate, which a real map would
+not. The geography is drawn from coordinates: the Irwell, the Irk, the Medlock, the Mersey, the four canals,
 and eighteen district labels. Coordinates for all 82 places were put here by hand and
 each says how precise it is. Lines on the map join two places when the same person,
 society or event reaches both, which is the only kind of movement this collection can
@@ -71,19 +75,18 @@ network it names.
 | `contribute-template.csv` | the sheet to send them |
 | `analytics.html` | where a visit-counting snippet goes, if you want one. Empty by default |
 | `build.py` | reads `src/`, resolves names, writes `data.js` and the CSVs |
-| `bundle.py` | inlines `data.js` + `app.js` into the two published pages |
+| `bundle.py` | inlines `data.js` + `app.js` into the page GitHub Pages serves |
 | `data.js` | generated — the model the page loads |
 | `app.js` | graph, decade filter, detail panel, editable sheet |
 | `network.html` | development page (loads `data.js` and `app.js` separately) |
-| `whoknewwhom.html` | generated — the single-file bundle published as an artifact |
-| `index.html` | generated — the same bundle, wrapped as a full document for GitHub Pages |
+| `index.html` | generated — the whole tool in one file, which is what GitHub Pages serves |
 | `people.csv` `organisations.csv` `places.csv` `timeline.csv` `links.csv` | generated — one file per sheet, flat |
 
 Rebuild after editing anything in `src/`, `app.js` or `network.html`:
 
 ```
 python build.py     # src/*.psv  ->  data.js + the five CSVs
-python bundle.py    # data.js + app.js + network.html  ->  whoknewwhom.html, index.html
+python bundle.py    # data.js + app.js + network.html  ->  index.html
 ```
 
 `build.py` prints a report: node and link counts, evidence split, isolates, anything
@@ -217,19 +220,16 @@ catalogues and aggregators to answer it with.
 
 ## Seeing who uses it
 
-**The artifact cannot be counted, at all.** A published artifact runs under a content
-policy that blocks every outbound request: no analytics script, no beacon, not even a
-one-pixel image. That is not a setting anyone can change. If you want to know whether a
-page is being read, share the **GitHub Pages** link rather than the artifact link:
+The site lives at one address:
 
     https://visioninglab.github.io/manchesterhistory/
 
-The repository's own Insights → Traffic panel does not help either: it counts visits to
-the *repository*, not to the Pages site.
+The repository's own Insights → Traffic panel does not help: it counts visits to the
+*repository*, not to the Pages site.
 
 **What is on now.** `analytics.html` carries a small counter that posts to
 [Abacus](https://abacus.jasoncameron.dev): free, no account, no cookies, and it stores
-nothing but the counters themselves. It goes into `index.html` only. Four things are
+nothing but the counters themselves.  Four things are
 counted, under the namespace `wkw-mcr`:
 
 | key | what it counts |

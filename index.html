@@ -351,6 +351,82 @@ td.narrow{width:110px} td.mid{width:180px} td.wide{width:300px} td.tiny{width:66
   .stage{order:1}
   .tally{margin-left:0}
 }
+
+/* ---------------- phones ----------------
+   Three panels side by side does not survive a 390px screen. On a phone the view fills
+   the window, the filters slide in over it, and the record rises from the bottom when
+   you tap something - so tapping always visibly does something. Tap the dimmed area
+   behind either to put it away. */
+@media (max-width:760px){
+  html,body{overflow-x:hidden}
+  .app{height:100vh;height:100dvh;grid-template-rows:auto minmax(0,1fr)}
+  .masthead{padding:8px 12px;gap:8px;row-gap:8px}
+  .wordmark{font-size:17px}
+  .tally{display:none}
+  .tabs{order:3;width:100%;margin:0}
+  .tabs button{flex:1;padding:7px 4px;font-size:12px}
+  .mobtn{display:inline-flex;padding:5px 11px;font-size:12px}
+  .mobtn.first{margin-left:auto}
+
+  .body{grid-template-columns:1fr;grid-template-rows:minmax(0,1fr)}
+  .body > .stage{order:1;min-height:0}
+
+  .rail.left{position:fixed;z-index:40;top:0;bottom:0;left:0;width:min(88vw,320px);
+    border-right:1px solid var(--rule);transform:translateX(-101%);
+    transition:transform .22s ease;box-shadow:0 0 40px rgba(0,0,0,.18);
+    padding-top:14px}
+  .filters-open .rail.left{transform:none}
+  .body.mode-sheet > .rail.left{display:flex}
+
+  .scrim{position:fixed;inset:0;z-index:39;background:rgba(0,0,0,.34);opacity:0;
+    pointer-events:none;transition:opacity .22s ease}
+  .filters-open .scrim,.detail-open .scrim{opacity:1;pointer-events:auto}
+
+  .rail.right{position:fixed;z-index:41;left:0;right:0;bottom:0;top:auto;
+    max-height:74dvh;border-left:0;border-top:1px solid var(--rule);
+    border-radius:14px 14px 0 0;transform:translateY(101%);
+    transition:transform .24s ease;box-shadow:0 -8px 40px rgba(0,0,0,.22);
+    padding:6px 16px 30px}
+  .detail-open .rail.right{transform:none}
+  .body.mode-sheet > .rail.right{display:flex}
+  .rail.right::before{content:"";display:block;width:38px;height:4px;flex:none;
+    border-radius:2px;background:var(--rule);margin:2px auto 10px}
+
+  .legendkey,.mode-map .legendkey.mapkey{display:none}
+  .zoomers{right:8px;top:8px}
+  .zoomers button{width:34px;height:34px}
+  .mapctl{left:8px;top:8px}
+  .mapctl button{padding:7px 10px}
+
+  .timebar{padding:7px 12px 9px}
+  .timehead{gap:8px}
+  .timemeta{display:none}
+  .ticks span{font-size:8px}
+
+  .sheetbar{padding:8px 12px;gap:8px}
+  .seg{overflow-x:auto;max-width:100%}
+  .seg button{white-space:nowrap;padding:5px 10px}
+  #sheetq{width:100%;order:3}
+  .sheetnote{display:none}
+  .notice{padding:8px 12px;font-size:11.5px}
+
+  /* A 118px name column is no name at all. Give the row two lines: year and name
+     above, the bar beneath, both measured off the same padding as the axis. */
+  .tlaxis{grid-template-columns:1fr}
+  .tlaxis b{grid-column:1;font-size:9px;padding:8px 10px 2px}
+  .tlticks{height:17px;padding:0 10px}
+  .tlticks span{font-size:8px}
+  .tlrow{display:block;padding:5px 0 6px}
+  .tlrow .yr{display:inline;padding:0 7px 0 10px;font-size:10px}
+  .tlrow .who{display:inline;white-space:normal;overflow:visible;padding:0 10px 0 0;
+    font-size:12px;line-height:1.3}
+  .tltrack{display:block;height:13px;padding:0 10px;margin-top:3px}
+  .tltrack b{top:3px}
+  .tlnote{font-size:11px}
+}
+@media (min-width:761px){
+  .mobtn,.scrim{display:none}
+}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 
@@ -392,6 +468,8 @@ td.narrow{width:110px} td.mid{width:180px} td.wide{width:300px} td.tiny{width:66
 <div class="app">
   <header class="masthead">
     <h1 class="wordmark">Who Knew <span>Whom</span></h1>
+    <button class="btn mobtn first" id="filtersBtn" aria-expanded="false">Filters</button>
+    <button class="btn mobtn" id="aboutBtn">About</button>
     <div class="tabs" role="tablist">
       <button id="tabNet" role="tab" aria-selected="true">Network</button>
       <button id="tabMap" role="tab" aria-selected="false">Map</button>
@@ -510,6 +588,7 @@ td.narrow{width:110px} td.mid{width:180px} td.wide{width:300px} td.tiny{width:66
       </div>
     </main>
 
+    <div class="scrim" id="scrim" aria-hidden="true"></div>
     <aside class="rail right" id="detail"></aside>
 
     <section class="sheet" id="sheet">
@@ -1370,8 +1449,6 @@ const META = {"built":"2026-09-04","source":"Victorian_Manchester_Natural_Histor
     return null;
   }
 
-  let dl = null;
-
   /* ---------------- model ---------------- */
   let nodes = [], links = [], byId = new Map(), adj = new Map();
   let isolates = [], ghostList = [], mergedList = [], qcList = [];
@@ -1792,12 +1869,38 @@ const META = {"built":"2026-09-04","source":"Victorian_Manchester_Natural_Histor
   /* ---------------- detail panel ---------------- */
   const detail = document.getElementById("detail");
 
+  /* On a phone the filters slide in and the record rises from the bottom. On a wide
+     screen both panels are always there and these classes do nothing. */
+  const scrim = document.getElementById("scrim");
+  const filtersBtn = document.getElementById("filtersBtn");
+  const aboutBtn = document.getElementById("aboutBtn");
+
+  function showSheet(on) { document.body.classList.toggle("detail-open", !!on); }
+  function showFilters(on) {
+    document.body.classList.toggle("filters-open", !!on);
+    if (filtersBtn) filtersBtn.setAttribute("aria-expanded", String(!!on));
+  }
+  if (filtersBtn) filtersBtn.onclick = () => {
+    showSheet(false);
+    showFilters(!document.body.classList.contains("filters-open"));
+  };
+  if (aboutBtn) aboutBtn.onclick = () => {
+    showFilters(false);
+    state.selected = null;
+    renderSummary();
+    showSheet(true);
+    paint();
+  };
+  if (scrim) scrim.onclick = () => { showFilters(false); showSheet(false); };
+
   function select(id) {
     state.selected = id;
+    showFilters(false);
     if (id && byId.has(id)) {
+      showSheet(true);
       renderNode(byId.get(id));
       if (state.tab === "map") focusPlace(id); else focus(id);
-    } else { state.selected = null; renderSummary(); }
+    } else { state.selected = null; showSheet(false); renderSummary(); }
     paint();
     if (state.tab === "map") paintMap();
   }
@@ -2612,6 +2715,7 @@ const META = {"built":"2026-09-04","source":"Victorian_Manchester_Natural_Histor
     time: ["Shown", "Events", "People", "Places", "Dates worked out"]
   };
   function setTab(t) {
+    showFilters(false);
     state.tab = t;
     tabNet.setAttribute("aria-selected", String(t === "net"));
     tabMap.setAttribute("aria-selected", String(t === "map"));
@@ -2795,10 +2899,6 @@ const META = {"built":"2026-09-04","source":"Victorian_Manchester_Natural_Histor
   const onScheme = () => { readPalette(); paint(); };
   if (mq.addEventListener) mq.addEventListener("change", onScheme); else mq.addListener(onScheme);
 
-  /* The one runtime capability left: handing the contribution sheet to a reader. */
-  if (window.claude && window.claude.use) {
-    window.claude.use("downloads").then(d => { dl = d; }).catch(() => { dl = null; });
-  }
 })();
 </script>
 
