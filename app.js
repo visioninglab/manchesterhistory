@@ -1280,6 +1280,7 @@
     (TALLY[t] || TALLY.net).forEach((lab, i) => {
       document.getElementById("t-l" + (i + 1)).textContent = lab;
     });
+    if (window.__count) window.__count("view-" + t);
     if (t === "sheet") renderSheet();
     else if (t === "time") renderTimeline();
     else if (t === "map") {
@@ -1440,6 +1441,7 @@
   renderSummary();
   paint();
   fit();
+  if (window.__count) window.__count("view-net");
 
   let rt;
   window.addEventListener("resize", () => {

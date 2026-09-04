@@ -355,6 +355,38 @@ td.narrow{width:110px} td.mid{width:180px} td.wide{width:300px} td.tiny{width:66
 </style>
 
 
+<script>window.__COUNTED__ = true;</script>
+<script>
+(function () {
+  /* Counters only: no cookie, no identifier, nothing stored about the visitor. */
+  var NS = "https://abacus.jasoncameron.dev/hit/wkw-mcr/";
+  function count(key) {
+    try {
+      if (window.fetch) {
+        fetch(NS + key, { mode: "cors", cache: "no-store" }).catch(function () {});
+      } else {
+        new Image().src = NS + key;
+      }
+    } catch (e) { /* counting must never break the page */ }
+  }
+  var d = new Date();
+  var day = d.getUTCFullYear() + "-" +
+    ("0" + (d.getUTCMonth() + 1)).slice(-2) + "-" + ("0" + d.getUTCDate()).slice(-2);
+  count("site");
+  count("d" + day);
+  var m = /[?&]from=([A-Za-z0-9_-]{1,24})/.exec(window.location.search);
+  if (m) { count("from-" + m[1].toLowerCase()); }
+
+  /* Which views get used. The page calls this the first time each one is opened;
+     in the artifact the function is simply absent and nothing is called. */
+  var seen = {};
+  window.__count = function (key) {
+    if (seen[key]) return;
+    seen[key] = 1;
+    count(key);
+  };
+})();
+</script>
 </head>
 <body>
 <div class="app">
@@ -2591,6 +2623,7 @@ const META = {"built":"2026-09-04","source":"Victorian_Manchester_Natural_Histor
     (TALLY[t] || TALLY.net).forEach((lab, i) => {
       document.getElementById("t-l" + (i + 1)).textContent = lab;
     });
+    if (window.__count) window.__count("view-" + t);
     if (t === "sheet") renderSheet();
     else if (t === "time") renderTimeline();
     else if (t === "map") {
@@ -2751,6 +2784,7 @@ const META = {"built":"2026-09-04","source":"Victorian_Manchester_Natural_Histor
   renderSummary();
   paint();
   fit();
+  if (window.__count) window.__count("view-net");
 
   let rt;
   window.addEventListener("resize", () => {

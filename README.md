@@ -227,20 +227,34 @@ page is being read, share the **GitHub Pages** link rather than the artifact lin
 The repository's own Insights → Traffic panel does not help either: it counts visits to
 the *repository*, not to the Pages site.
 
-To count visits to the Pages site, paste a provider's snippet into `analytics.html` below
-the marked line and run `python bundle.py`. It goes into `index.html` only, never into the
-artifact. Leave the file alone and nothing is tracked. Three that work on a static site
-and set no cookies:
+**What is on now.** `analytics.html` carries a small counter that posts to
+[Abacus](https://abacus.jasoncameron.dev): free, no account, no cookies, and it stores
+nothing but the counters themselves. It goes into `index.html` only. Four things are
+counted, under the namespace `wkw-mcr`:
 
-| | |
+| key | what it counts |
 |---|---|
-| **GoatCounter** | Free for non-commercial use, open source, about 3KB. The obvious first choice here. |
-| **Cloudflare Web Analytics** | Free, needs a Cloudflare account. |
-| **Plausible** | Around £9 a month, the best dashboard of the three. |
+| `site` | every visit |
+| `dYYYY-MM-DD` | visits that day, so the shape over time can be seen |
+| `from-<tag>` | visits arriving on a link ending `?from=<tag>` |
+| `view-net` `view-map` `view-time` `view-sheet` | the first time a visit opens each view |
 
-Google Analytics also works, but it sets cookies, which in the UK means a consent banner
-and a privacy policy. For a page like this the cookieless ones are less trouble and tell
-you the same thing.
+Abacus has separate endpoints for counting and for reading, so the numbers can be read
+without the reading inflating them:
+
+```
+curl https://abacus.jasoncameron.dev/get/wkw-mcr/site
+curl https://abacus.jasoncameron.dev/get/wkw-mcr/view-map
+```
+
+Every counter starts at 1, from the check that proved it works.
+
+To swap it for something with a dashboard, replace the snippet below the marked line in
+`analytics.html` and rebuild. GoatCounter is free for non-commercial use and adds
+referrers and per-page figures; Cloudflare Web Analytics is free with an account;
+Plausible is around £9 a month and has the best dashboard. None of them set cookies.
+Google Analytics works too, but it does set cookies, which in the UK means a consent
+banner and a privacy policy.
 
 **None of them tell you who.** Analytics tells you how many people, roughly where they
 are, what referred them and what they looked at. It cannot name an individual, and trying
@@ -258,8 +272,8 @@ named person, so tell them you are doing it — a line in the covering email is 
 people generally do not mind being asked. And a forwarded link carries the tag with it, so
 treat it as "this link was opened", not "this person opened it".
 
-When a snippet is set, the page says so itself, in *About this collection* in the opening
-panel.
+The page says so itself, in *About this collection* in the opening panel, whenever a
+counter is set.
 
 ## Still open
 

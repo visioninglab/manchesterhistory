@@ -2582,6 +2582,7 @@ const META = {"built":"2026-09-04","source":"Victorian_Manchester_Natural_Histor
     (TALLY[t] || TALLY.net).forEach((lab, i) => {
       document.getElementById("t-l" + (i + 1)).textContent = lab;
     });
+    if (window.__count) window.__count("view-" + t);
     if (t === "sheet") renderSheet();
     else if (t === "time") renderTimeline();
     else if (t === "map") {
@@ -2742,6 +2743,7 @@ const META = {"built":"2026-09-04","source":"Victorian_Manchester_Natural_Histor
   renderSummary();
   paint();
   fit();
+  if (window.__count) window.__count("view-net");
 
   let rt;
   window.addEventListener("resize", () => {
