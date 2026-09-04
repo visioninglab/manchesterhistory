@@ -137,6 +137,41 @@ svg#map{display:none}
 .pushbtn.on{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
 .pushbtn .n{margin-left:auto;font-family:"IBM Plex Mono",monospace;font-size:11px;opacity:.75}
 
+.timeline{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;display:none;
+  background:var(--canvas);--tlyear:56px;--tlname:290px}
+.mode-time .timeline{display:block}
+.mode-time svg#net,.mode-time svg#map{display:none}
+.mode-time .legendkey,.mode-time .zoomers,.mode-time .mapctl{display:none}
+.tlaxis{position:sticky;top:0;z-index:3;display:grid;
+  grid-template-columns:var(--tlyear) var(--tlname) minmax(0,1fr);
+  background:var(--canvas);border-bottom:1px solid var(--rule)}
+.tlaxis b{font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink3);
+  font-weight:600;padding:9px 10px 6px;align-self:end;grid-column:1 / 3}
+.tlticks{position:relative;height:100%;padding-right:26px}
+.tlticks span{position:absolute;bottom:5px;transform:translateX(-50%);
+  font-family:"IBM Plex Mono",monospace;font-size:9.5px;color:var(--ink3);
+  font-variant-numeric:tabular-nums}
+.tlticks i{position:absolute;top:0;bottom:0;width:1px;background:var(--rule2)}
+.tlgroup{font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink3);
+  font-weight:600;padding:15px 10px 5px;border-bottom:1px solid var(--rule2)}
+.tlrow{display:grid;grid-template-columns:var(--tlyear) var(--tlname) minmax(0,1fr);
+  width:100%;border:0;background:none;padding:0;cursor:pointer;text-align:left;
+  border-bottom:1px solid var(--rule2);align-items:center}
+.tlrow:hover{background:var(--sunk)}
+.tlrow.on{background:color-mix(in srgb,var(--accent) 14%,var(--canvas))}
+.tlrow .yr{font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--ink3);
+  padding:0 0 0 10px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.tlrow .who{font-size:12px;padding:4px 10px;white-space:nowrap;overflow:hidden;
+  text-overflow:ellipsis}
+.tlrow.on .who{font-weight:600}
+.tltrack{position:relative;height:20px;padding-right:26px}
+.tltrack b{position:absolute;top:6px;height:8px;border-radius:4px;min-width:3px}
+.tltrack b.point{border-radius:50%;width:8px;height:8px;margin-left:-4px}
+.tltrack b.est{opacity:.38}
+.tltrack b.clipL{border-top-left-radius:0;border-bottom-left-radius:0}
+.tltrack b.clipR{border-top-right-radius:0;border-bottom-right-radius:0}
+.tlnote{font-size:11.5px;color:var(--ink3);padding:12px 10px 24px;line-height:1.5}
+.sheetnote{font-size:12px;color:var(--ink3)}
 .timebar{border-top:1px solid var(--rule);background:var(--surface);
   padding:9px 20px 11px;display:flex;flex-direction:column;gap:5px}
 .timehead{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
@@ -292,19 +327,12 @@ table.grid th{position:sticky;top:0;z-index:2;background:var(--surface);text-ali
   font-weight:600;padding:8px 9px;border-bottom:1px solid var(--rule);white-space:nowrap}
 table.grid td{padding:0;border-bottom:1px solid var(--rule2);vertical-align:top;
   background:var(--ground)}
-table.grid tr.edited td{background:color-mix(in srgb,var(--accent) 8%,var(--ground))}
-table.grid tr.added td{background:color-mix(in srgb,var(--d-reform) 12%,var(--ground))}
 table.grid tr.flagged td{box-shadow:inset 2px 0 0 var(--warn)}
-.cell{width:100%;min-height:30px;padding:6px 9px;border:0;background:transparent;
-  font-size:12.5px;line-height:1.35;resize:none;display:block;font-family:inherit}
-.cell:focus{outline:2px solid var(--accent);outline-offset:-2px;background:var(--surface)}
-select.cell{cursor:pointer;-webkit-appearance:none;appearance:none;padding-right:16px}
+.cell{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;
+  overflow:hidden;padding:6px 9px;font-size:12.5px;line-height:1.35}
+table.grid tbody tr{cursor:pointer}
+table.grid tbody tr:hover td{background:var(--sunk)}
 td.narrow{width:110px} td.mid{width:180px} td.wide{width:300px} td.tiny{width:66px}
-.rowmark{width:30px;text-align:center;color:var(--ink3);font-family:"IBM Plex Mono",monospace;
-  font-size:10px;padding:7px 0}
-.killbtn{background:none;border:0;cursor:pointer;color:var(--ink3);padding:6px 8px;
-  font-size:13px;line-height:1}
-.killbtn:hover{color:var(--warn)}
 .idcell{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink3);
   padding:8px 9px;white-space:nowrap}
 
@@ -326,6 +354,7 @@ td.narrow{width:110px} td.mid{width:180px} td.wide{width:300px} td.tiny{width:66
     <div class="tabs" role="tablist">
       <button id="tabNet" role="tab" aria-selected="true">Network</button>
       <button id="tabMap" role="tab" aria-selected="false">Map</button>
+      <button id="tabTime" role="tab" aria-selected="false">Timeline</button>
       <button id="tabSheet" role="tab" aria-selected="false">Table</button>
     </div>
     <div class="tally">
@@ -394,6 +423,7 @@ td.narrow{width:110px} td.mid{width:180px} td.wide{width:300px} td.tiny{width:66
       <div class="plot">
         <svg id="net" role="img" aria-label="Network of Victorian Manchester people, organisations, places and events"></svg>
         <svg id="map" role="img" aria-label="Sketch map of Victorian Manchester and Salford, with the places in this collection"></svg>
+        <div class="timeline" id="timeline"></div>
         <div class="mapctl">
           <button id="lineBtn" aria-pressed="false">Show people in common</button>
         </div>
@@ -447,16 +477,16 @@ td.narrow{width:110px} td.mid{width:180px} td.wide{width:300px} td.tiny{width:66
           <button data-seg="person" role="tab" aria-selected="true">People</button>
           <button data-seg="org" role="tab" aria-selected="false">Organisations</button>
           <button data-seg="place" role="tab" aria-selected="false">Places</button>
-          <button data-seg="event" role="tab" aria-selected="false">Timeline</button>
+          <button data-seg="event" role="tab" aria-selected="false">Events</button>
           <button data-seg="links" role="tab" aria-selected="false">Links</button>
         </div>
         <input id="sheetq" type="search" placeholder="Filter rows&#8230;" autocomplete="off">
-        <button class="btn primary" id="addRow">Add row</button>
-        <button class="btn" id="expCsv">Download CSV</button>
-        <button class="btn" id="expJson">Copy JSON</button>
-        <div class="saveflag off" id="saveFlag"><span class="pip"></span><span id="saveText">Checking storage&#8230;</span></div>
+        <span class="sheetnote">Click a row to open the record.</span>
       </div>
-      <div class="notice" id="sheetNotice"></div>
+      <div class="notice" id="sheetNotice">Everything here is read-only. To add a
+        person, a place or a connection, fill in the contribution sheet
+        (<code>contribute-template.csv</code> in the repository) and send it back &mdash;
+        that way your name and your source stay attached to what you add.</div>
       <div class="tablewrap"><table class="grid" id="grid"></table></div>
     </section>
   </div>
@@ -1299,25 +1329,7 @@ const META = {"built":"2026-09-04","source":"Victorian_Manchester_Natural_Histor
     return null;
   }
 
-  /* ---------------- overrides ---------------- */
-  const LS = "wkw.overrides.v2";
-  let rowOv = new Map(), edgeOv = new Map();
-  let db = null, dl = null;
-
-  function loadLocal() {
-    try {
-      const raw = JSON.parse(localStorage.getItem(LS) || "{}");
-      rowOv = new Map(Object.entries(raw.rows || {}));
-      edgeOv = new Map(Object.entries(raw.edges || {}));
-    } catch (e) { /* blocked storage: start clean */ }
-  }
-  function saveLocal() {
-    try {
-      localStorage.setItem(LS, JSON.stringify({
-        rows: Object.fromEntries(rowOv), edges: Object.fromEntries(edgeOv)
-      }));
-    } catch (e) { /* the in-memory model still works */ }
-  }
+  let dl = null;
 
   /* ---------------- model ---------------- */
   let nodes = [], links = [], byId = new Map(), adj = new Map();
@@ -1328,17 +1340,7 @@ const META = {"built":"2026-09-04","source":"Victorian_Manchester_Natural_Histor
   function buildModel() {
     nodes.forEach(n => { if (n.x != null) pos.set(n.id, { x: n.x, y: n.y }); });
 
-    const nm = new Map();
-    BASE_NODES.forEach(n => nm.set(n.id, Object.assign({}, n)));
-    rowOv.forEach((v, id) => {
-      if (v._op === "delete") { nm.delete(id); return; }
-      const base = nm.get(id) || { id: id, type: "person", domain: "nat", kindOf: "record" };
-      const merged = Object.assign({}, base, v, { id: id });
-      delete merged._op; delete merged._at;
-      nm.set(id, merged);
-    });
-
-    nodes = [...nm.values()].map(n => {
+    nodes = BASE_NODES.map(n => {
       const p = pos.get(n.id);
       const a = Object.assign({}, n, {
         name: n.name || "(unnamed)",
@@ -1349,12 +1351,9 @@ const META = {"built":"2026-09-04","source":"Victorian_Manchester_Natural_Histor
         priority: PRIORITY[n.priority] ? n.priority : "existing",
         kindOf: n.kindOf || "record",
         deg: 0,
-        origin: rowOv.has(n.id) ? (rowOv.get(n.id)._op === "new" ? "new" : "edited") : "base",
         x: p ? p.x : undefined, y: p ? p.y : undefined
       });
-      if (has(a, "af") && has(a, "at")) {
-        a.span = [+a.af, +a.at]; a.spanSource = "edited";
-      } else if (!a.span) {
+      if (!a.span) {
         a.span = parseSpan(a.dates || a.decades || a.year, a.type);
         a.spanSource = a.span ? "inferred" : "";
       }
@@ -1362,23 +1361,13 @@ const META = {"built":"2026-09-04","source":"Victorian_Manchester_Natural_Histor
     });
     byId = new Map(nodes.map(n => [n.id, n]));
 
-    const lm = new Map();
-    BASE_LINKS.forEach(l => lm.set(l.id, Object.assign({}, l)));
-    edgeOv.forEach((v, id) => {
-      if (v._op === "delete") { lm.delete(id); return; }
-      const base = lm.get(id) || { id: id };
-      const merged = Object.assign({}, base, v, { id: id });
-      delete merged._op; delete merged._at;
-      lm.set(id, merged);
-    });
-    links = [...lm.values()]
+    links = BASE_LINKS
       .filter(l => byId.has(nid(l.source)) && byId.has(nid(l.target))
         && nid(l.source) !== nid(l.target))
       .map(l => Object.assign({}, l, {
         source: nid(l.source), target: nid(l.target),
         rel: l.rel || "linked to",
-        ev: EVIDENCE[l.ev] ? l.ev : "verify",
-        origin: edgeOv.has(l.id) ? (edgeOv.get(l.id)._op === "new" ? "new" : "edited") : "base"
+        ev: EVIDENCE[l.ev] ? l.ev : "verify"
       }));
 
     nodes.forEach(n => { n.deg = 0; n.fields = new Set([n.domain]); });
@@ -1683,6 +1672,7 @@ const META = {"built":"2026-09-04","source":"Victorian_Manchester_Natural_Histor
 
     paintLabels();
     if (state.tab === "map") { buildMap(); paintMap(); return; }
+    if (state.tab === "time") { renderTimeline(); return; }
     tally();
   }
 
@@ -2485,26 +2475,110 @@ const META = {"built":"2026-09-04","source":"Victorian_Manchester_Natural_Histor
   }
 
 
+
+  /* ---------------- the timeline ----------------
+     One row per record, its bar running from the first year it was active to the
+     last. Events are single years, so they draw as a point. Nothing here is new
+     data: it is the same spans the decade slider uses, laid out to be read. */
+  const tl = document.getElementById("timeline");
+  const TL0 = 1750, TL1 = 1960;
+  const tlx = y => ((Math.max(TL0, Math.min(TL1, y)) - TL0) / (TL1 - TL0)) * 100;
+
+  const TL_GROUPS = [
+    ["event", "Events"], ["person", "People"],
+    ["org", "Societies, firms and groups"], ["place", "Places"]
+  ];
+
+  function renderTimeline() {
+    const ticks = [];
+    for (let y = TL0; y <= TL1; y += 10) {
+      ticks.push('<i style="left:' + tlx(y) + '%"></i>' +
+        (y % 20 === 0 && y <= TL1 - 20 ? '<span style="left:' + tlx(y) + '%">' + y +
+          '</span>' : ""));
+    }
+    let html = '<div class="tlaxis"><b>When and who</b><div class="tlticks">' +
+      ticks.join("") + '</div></div>';
+
+    let shown = 0;
+    TL_GROUPS.forEach(g => {
+      const rows = nodes.filter(n => n.type === g[0] && visibleNode(n) && n.span)
+        .sort((p, q) => p.span[0] - q.span[0] || p.label.localeCompare(q.label));
+      if (!rows.length) return;
+      shown += rows.length;
+      html += '<div class="tlgroup">' + esc(g[1]) + ' &middot; ' + rows.length + '</div>';
+      html += rows.map(n => {
+        const x0 = tlx(n.span[0]), x1 = tlx(n.span[1]);
+        const point = n.span[1] - n.span[0] < 2;
+        const est = n.spanSource === "estimated" || n.spanSource === "inferred";
+        const clip = (n.span[0] < TL0 ? " clipL" : "") + (n.span[1] > TL1 ? " clipR" : "");
+        const bar = '<b class="' + (point ? "point" : "") + (est ? " est" : "") + clip +
+          '" style="left:' + x0 + '%;' +
+          (point ? "" : "width:" + Math.max(x1 - x0, 0.35) + "%;") +
+          'background:' + cssvar(n.domain) + '"></b>';
+        const yr = n.span[0] === n.span[1] ? String(n.span[0])
+          : n.span[0] + "\u2013" + String(n.span[1]).slice(2);
+        return '<button class="tlrow' + (n.id === state.selected ? " on" : "") +
+          '" data-go="' + esc(n.id) + '" title="' + esc(n.label) + '">' +
+          '<span class="yr">' + yr + '</span>' +
+          '<span class="who">' + esc(n.label) + '</span>' +
+          '<span class="tltrack">' + bar + '</span></button>';
+      }).join("");
+    });
+
+    if (!shown) {
+      html += '<p class="tlnote">Nothing is in view. Widen the filters on the left.</p>';
+    } else {
+      html += '<p class="tlnote">Events are single years and draw as a dot; everything ' +
+        'else is a bar from the first year it was active to the last. A pale bar is a ' +
+        'span worked out from a lifespan, or from what a group connects to, rather than ' +
+        'a date the collection states \u2014 read those as an era, not a record. The axis ' +
+        'runs 1750 to 1960; a few buildings are older than that and their bars are ' +
+        'squared off at the end where they run past it. Click any row to open it.</p>';
+    }
+
+    tl.innerHTML = html;
+    const vis = nodes.filter(n => visibleNode(n) && n.span);
+    document.getElementById("t-nodes").textContent = shown;
+    document.getElementById("t-edges").textContent =
+      vis.filter(n => n.type === "event").length;
+    document.getElementById("t-cross").textContent =
+      vis.filter(n => n.type === "person").length;
+    document.getElementById("t-iso").textContent =
+      vis.filter(n => n.type === "place").length;
+    document.getElementById("t-todo").textContent =
+      vis.filter(n => n.spanSource !== "workbook").length;
+  }
+
+  tl.addEventListener("click", e => {
+    const b = e.target.closest("[data-go]");
+    if (b) select(b.getAttribute("data-go"));
+  });
+
   /* ---------------- tabs ---------------- */
   const bodyEl = document.getElementById("body");
   const tabNet = document.getElementById("tabNet"),
         tabMap = document.getElementById("tabMap"),
+        tabTime = document.getElementById("tabTime"),
         tabSheet = document.getElementById("tabSheet");
   const TALLY = {
     net: ["Shown", "Links", "Cross-field", "Unlinked", "To verify"],
-    map: ["Places", "Joined pairs", "Cross-field", "Joined to none", "Guessed"]
+    map: ["Places", "Joined pairs", "Cross-field", "Joined to none", "Guessed"],
+    time: ["Shown", "Events", "People", "Places", "Dates worked out"]
   };
   function setTab(t) {
     state.tab = t;
     tabNet.setAttribute("aria-selected", String(t === "net"));
     tabMap.setAttribute("aria-selected", String(t === "map"));
+    tabTime.setAttribute("aria-selected", String(t === "time"));
     tabSheet.setAttribute("aria-selected", String(t === "sheet"));
     bodyEl.classList.toggle("mode-sheet", t === "sheet");
     bodyEl.classList.toggle("mode-map", t === "map");
+    bodyEl.classList.toggle("mode-time", t === "time");
     (TALLY[t] || TALLY.net).forEach((lab, i) => {
       document.getElementById("t-l" + (i + 1)).textContent = lab;
     });
     if (t === "sheet") renderSheet();
+    else if (t === "time") renderTimeline();
     else if (t === "map") {
       buildMap();
       if (!mapFitted) fitMap(false);
@@ -2514,19 +2588,16 @@ const META = {"built":"2026-09-04","source":"Victorian_Manchester_Natural_Histor
   }
   tabNet.onclick = () => setTab("net");
   tabMap.onclick = () => setTab("map");
+  tabTime.onclick = () => setTab("time");
   tabSheet.onclick = () => setTab("sheet");
 
   /* ---------------- the sheet ---------------- */
   const grid = document.getElementById("grid");
   const sheetq = document.getElementById("sheetq");
-  const saveFlag = document.getElementById("saveFlag"), saveText = document.getElementById("saveText");
-  const notice = document.getElementById("sheetNotice");
-  let typingInGrid = false, needsRerender = false;
-
-  function setSave(mode, text) {
-    saveFlag.className = "saveflag " + (mode === "db" ? "live" : mode === "busy" ? "busy" : "off");
-    saveText.textContent = text;
-  }
+  grid.addEventListener("click", e => {
+    const tr = e.target.closest("[data-go]");
+    if (tr) select(tr.getAttribute("data-go"));
+  });
 
   document.getElementById("segs").addEventListener("click", e => {
     const b = e.target.closest("[data-seg]"); if (!b) return;
@@ -2543,8 +2614,7 @@ const META = {"built":"2026-09-04","source":"Victorian_Manchester_Natural_Histor
   const COLS = {
     person: [
       ["name", "Name", "mid", "text"], ["domain", "Field", "narrow", "select:DOMAINS"],
-      ["dates", "Dates", "narrow", "text"], ["af", "From", "tiny", "num"],
-      ["at", "To", "tiny", "num"], ["gender", "Gender", "tiny", "text"],
+      ["dates", "Dates", "narrow", "text"], ["gender", "Gender", "tiny", "text"],
       ["role", "Role", "mid", "text"], ["category", "What they did", "wide", "area"],
       ["specialism", "Specialism", "mid", "text"], ["background", "Background", "mid", "text"],
       ["knowledgeRole", "Knowledge role", "mid", "text"],
@@ -2603,31 +2673,19 @@ const META = {"built":"2026-09-04","source":"Victorian_Manchester_Natural_Histor
   const VOCAB = { DOMAINS: DOMAINS, STATUS: STATUS, PRIORITY: PRIORITY,
                   EVIDENCE: EVIDENCE, CONNECTION: CONNECTION };
 
-  let optCache = "";
-  function buildOptCache() {
-    optCache = nodes.slice().sort((a, b) => a.label.localeCompare(b.label))
-      .map(n => '<option value="' + esc(n.id) + '">' + esc(n.label) + '</option>').join("");
-  }
-
-  function cellHtml(row, c) {
-    const field = c[0], kind = c[3];
-    const raw = kind === "node" ? nid(row[field]) : row[field];
-    const v = raw == null ? "" : raw;
+  function cellText(row, c) {
+    const kind = c[3];
+    if (kind === "node") {
+      const o = byId.get(nid(row[c[0]]));
+      return o ? o.label : "";
+    }
+    const v = row[c[0]];
+    if (v == null || v === "") return "";
     if (kind.indexOf("select:") === 0) {
       const opts = VOCAB[kind.slice(7)];
-      return '<select class="cell" data-f="' + field + '">' + Object.keys(opts).map(o =>
-        '<option value="' + o + '"' + (o === v ? " selected" : "") + '>' +
-        esc(opts[o].label) + '</option>').join("") + '</select>';
+      return opts[v] ? opts[v].label : String(v);
     }
-    if (kind === "node")
-      return '<select class="cell" data-f="' + field + '">' +
-        optCache.replace('value="' + esc(v) + '"', 'value="' + esc(v) + '" selected') + '</select>';
-    if (kind === "area")
-      return '<textarea class="cell" rows="1" data-f="' + field + '">' + esc(v) + '</textarea>';
-    if (kind === "num")
-      return '<input class="cell" type="number" min="1600" max="2020" step="1" data-f="' +
-        field + '" value="' + esc(v) + '">';
-    return '<input class="cell" type="text" data-f="' + field + '" value="' + esc(v) + '">';
+    return String(v);
   }
 
   function sheetRows() {
@@ -2645,7 +2703,6 @@ const META = {"built":"2026-09-04","source":"Victorian_Manchester_Natural_Histor
   function renderSheet() {
     if (state.tab !== "sheet") return;
     const isLinks = state.sheetTab === "links";
-    if (isLinks) buildOptCache();
     const cols = COLS[state.sheetTab];
 
     let rows = sheetRows();
@@ -2656,175 +2713,22 @@ const META = {"built":"2026-09-04","source":"Victorian_Manchester_Natural_Histor
       return hay.join(" ").toLowerCase().indexOf(state.sheetQ) >= 0;
     });
 
-    const head = '<thead><tr><th></th>' + cols.map(c => '<th>' + esc(c[1]) + '</th>').join("") +
-      '<th>' + (isLinks ? "Rel" : "Record") + '</th><th></th></tr></thead>';
+    const head = '<thead><tr>' + cols.map(c => '<th>' + esc(c[1]) + '</th>').join("") +
+      '<th>' + (isLinks ? "Rel" : "Record") + '</th></tr></thead>';
 
     const body = '<tbody>' + rows.map(r => {
-      const cls = [r.origin === "new" ? "added" : r.origin === "edited" ? "edited" : "",
-        (!isLinks && has(r, "qcFlag")) ? "flagged" : ""]
-        .filter(Boolean).join(" ");
-      const mark = r.origin === "new" ? "+" : r.origin === "edited" ? "•" : "";
-      return '<tr class="' + cls + '" data-id="' + esc(r.id) + '" data-kind="' +
-        (isLinks ? "edge" : "row") + '"><td class="rowmark">' + mark + '</td>' +
-        cols.map(c => '<td class="' + c[2] + '">' + cellHtml(r, c) + '</td>').join("") +
-        '<td class="idcell">' + esc(isLinks ? (r.relId || "—") : r.id) + '</td>' +
-        '<td><button class="killbtn" data-kill="1" title="Remove this row" ' +
-        'aria-label="Remove row">&times;</button></td></tr>';
+      const cls = (!isLinks && has(r, "qcFlag")) ? "flagged" : "";
+      const open = isLinks ? nid(r.source) : r.id;
+      return '<tr class="' + cls + '" data-go="' + esc(open) + '">' +
+        cols.map(c => '<td class="' + c[2] + '"><span class="cell">' +
+          esc(cellText(r, c)) + '</span></td>').join("") +
+        '<td class="idcell">' + esc(isLinks ? (r.relId || "\u2014") : r.id) + '</td></tr>';
     }).join("") + '</tbody>';
 
     grid.innerHTML = head + body;
-    grid.querySelectorAll("textarea.cell").forEach(autoGrow);
-    needsRerender = false;
-  }
-
-  function autoGrow(t) {
-    t.style.height = "auto";
-    t.style.height = Math.min(t.scrollHeight, 130) + "px";
-  }
-
-  const debounced = new Map();
-  function queueSave(kind, id, patch) {
-    const key = kind + "/" + id;
-    clearTimeout(debounced.get(key));
-    debounced.set(key, setTimeout(() => commit(kind, id, patch()), 420));
-  }
-
-  function commit(kind, id, body) {
-    (kind === "row" ? rowOv : edgeOv).set(id, body);
-    buildModel(); bindGraph(false); buildChips(); drawHist(); paint();
-    if (state.selected && byId.has(state.selected)) renderNode(byId.get(state.selected));
-    if (typingInGrid) needsRerender = true; else renderSheet();
-
-    if (db) {
-      setSave("busy", "Saving…");
-      db.doc((kind === "row" ? "rows" : "edges") + "/" + id).set(body)
-        .then(() => setSave("db", "Saved for everyone"))
-        .catch(err => setSave("none", "Not saved: " + (err && err.code ? err.code : "error")));
-    } else { saveLocal(); }
-  }
-
-  grid.addEventListener("focusin", e => { if (e.target.closest(".cell")) typingInGrid = true; });
-  grid.addEventListener("focusout", () => {
-    typingInGrid = false;
-    setTimeout(() => { if (needsRerender && !typingInGrid) renderSheet(); }, 60);
-  });
-
-  grid.addEventListener("input", e => {
-    const cell = e.target.closest(".cell"); if (!cell) return;
-    const tr = cell.closest("tr"); if (!tr) return;
-    if (cell.tagName === "TEXTAREA") autoGrow(cell);
-    const id = tr.getAttribute("data-id"), kind = tr.getAttribute("data-kind");
-    const cols = COLS[state.sheetTab];
-    queueSave(kind, id, () => {
-      const src = kind === "row" ? byId.get(id) : links.filter(l => l.id === id)[0];
-      const prev = (kind === "row" ? rowOv : edgeOv).get(id) || {};
-      const body = { _op: prev._op === "new" ? "new" : "edit" };
-      cols.forEach(c => { body[c[0]] = src[c[0]] == null ? "" : src[c[0]]; });
-      if (kind === "row") {
-        body.type = src.type; body.kindOf = src.kindOf;
-        body.af = src.af == null ? "" : src.af;
-        body.at = src.at == null ? "" : src.at;
-      } else {
-        body.relId = src.relId || "";
-      }
-      tr.querySelectorAll(".cell").forEach(c => {
-        const f = c.getAttribute("data-f"); if (!f) return;
-        body[f] = (f === "af" || f === "at") ? (c.value === "" ? "" : +c.value) : c.value;
-      });
-      if (kind === "row" && body.name) body.label = body.name;
-      if (kind === "edge") { body.source = nid(body.source); body.target = nid(body.target); }
-      body._at = new Date().toISOString();
-      return body;
-    });
-  });
-
-  grid.addEventListener("click", e => {
-    const kill = e.target.closest("[data-kill]"); if (!kill) return;
-    const tr = kill.closest("tr");
-    commit(tr.getAttribute("data-kind"), tr.getAttribute("data-id"),
-      { _op: "delete", _at: new Date().toISOString() });
-  });
-
-  document.getElementById("addRow").onclick = () => {
-    const stamp = Date.now().toString(36);
-    if (state.sheetTab === "links") {
-      const sorted = nodes.slice().sort((a, b) => b.deg - a.deg);
-      commit("edge", "NEW~" + stamp, { _op: "new",
-        source: sorted[0].id, target: sorted[1].id, rel: "linked to", ev: "verify",
-        period: "", note: "Added here — needs a source.", followUp: "",
-        _at: new Date().toISOString() });
-    } else {
-      const t = state.sheetTab;
-      const name = "New " + TYPES[t].label.replace(/s$/, "").toLowerCase();
-      commit("row", "NEW-" + stamp, { _op: "new", name: name, label: name, type: t,
-        domain: "nat", kindOf: "record", status: "verify", priority: "high",
-        dates: "", role: "", note: "", af: "", at: "",
-        openQuestion: "Added here — needs a source.",
-        _at: new Date().toISOString() });
-    }
-    const wrap = document.querySelector(".tablewrap");
-    if (wrap) wrap.scrollTop = 0;
-  };
-
-  /* ---------------- export ---------------- */
-  function csv(rows) {
-    const cell = v => '"' + String(v == null ? "" : v).replace(/"/g, '""') + '"';
-    return rows.map(r => r.map(cell).join(",")).join("\r\n");
-  }
-  function tableCsv() {
-    const isLinks = state.sheetTab === "links";
-    const cols = COLS[state.sheetTab];
-    const head = (isLinks ? ["rel_id", "source_id", "target_id"] : ["id"])
-      .concat(cols.map(c => c[1].toLowerCase().replace(/[^a-z0-9]+/g, "_")))
-      .concat(isLinks ? [] : ["active_from", "active_to", "active_source", "links"]);
-    const body = sheetRows().map(r => {
-      const lead = isLinks ? [r.relId || "", nid(r.source), nid(r.target)] : [r.id];
-      const mid = cols.map(c => c[3] === "node" ? byId.get(nid(r[c[0]])).label : (r[c[0]] || ""));
-      const tail = isLinks ? []
-        : [(r.span || ["", ""])[0], (r.span || ["", ""])[1], r.spanSource || "", r.deg];
-      return lead.concat(mid, tail);
-    });
-    return csv([head].concat(body));
-  }
-
-  document.getElementById("expCsv").onclick = function () {
-    const btn = this, data = tableCsv();
-    if (!dl) { copy(data, btn); return; }
-    dl.save({ filename: "manchester-" + state.sheetTab + ".csv", data: data })
-      .then(() => flash(btn, "Downloaded"))
-      .catch(err => { if (!(err && err.code === "declined")) copy(data, btn); });
-  };
-  document.getElementById("expJson").onclick = function () {
-    const skip = ["x", "y", "vx", "vy", "fx", "fy", "index", "fields"];
-    copy(JSON.stringify({
-      built: typeof META !== "undefined" ? META.built : "",
-      nodes: nodes.map(n => {
-        const o = {};
-        Object.keys(n).forEach(kk => { if (skip.indexOf(kk) < 0) o[kk] = n[kk]; });
-        return o;
-      }),
-      links: links.map(l => Object.assign({}, l,
-        { source: nid(l.source), target: nid(l.target) }))
-    }, null, 2), this);
-  };
-  function copy(text, btn) {
-    const done = ok => flash(btn, ok ? "Copied" : "Press Ctrl+C");
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(text).then(() => done(true), () => done(false));
-    } else {
-      const ta = document.createElement("textarea");
-      ta.value = text; document.body.appendChild(ta); ta.select();
-      try { document.execCommand("copy"); done(true); } catch (e) { done(false); }
-      ta.remove();
-    }
-  }
-  function flash(btn, msg) {
-    const old = btn.textContent; btn.textContent = msg;
-    setTimeout(() => { btn.textContent = old; }, 1600);
   }
 
   /* ---------------- boot ---------------- */
-  loadLocal();
   buildModel();
   bindGraph(true);
   buildChips();
@@ -2843,36 +2747,9 @@ const META = {"built":"2026-09-04","source":"Victorian_Manchester_Natural_Histor
   const onScheme = () => { readPalette(); paint(); };
   if (mq.addEventListener) mq.addEventListener("change", onScheme); else mq.addListener(onScheme);
 
-  setSave("none", "Saved in this browser");
-  notice.textContent = "Your edits are kept in this browser and laid over the " +
-    "collection — nothing underneath is overwritten. Download CSV takes them out.";
-
-  /* Shared storage lights up only if the viewer's runtime offers it. */
+  /* The one runtime capability left: handing the contribution sheet to a reader. */
   if (window.claude && window.claude.use) {
-    window.claude.use("db").then(store => {
-      if (!store) {
-        notice.textContent = "Shared editing is off in this version, so your edits stay in this " +
-          "browser and are lost if you clear site data. Download the CSV to keep them.";
-        return;
-      }
-      db = store;
-      setSave("db", "Saved for everyone");
-      notice.classList.add("hide");
-      const apply = map => snap => {
-        snap.docs.forEach(d => { const v = d.data(); if (v) map.set(d.id, v); });
-        snap.docChanges().forEach(ch => { if (ch.type === "removed") map.delete(ch.doc.id); });
-        buildModel(); bindGraph(false); buildChips(); drawHist(); paint();
-        if (state.tab === "sheet") { if (typingInGrid) needsRerender = true; else renderSheet(); }
-      };
-      const onErr = e => setSave("none", "Sync stopped: " + (e && e.code ? e.code : "error"));
-      store.collection("rows").onSnapshot(apply(rowOv), onErr);
-      store.collection("edges").onSnapshot(apply(edgeOv), onErr);
-    }).catch(() => setSave("none", "Saved in this browser"));
-
-    window.claude.use("downloads").then(d => {
-      dl = d;
-      if (!d) document.getElementById("expCsv").textContent = "Copy CSV";
-    }).catch(() => { document.getElementById("expCsv").textContent = "Copy CSV"; });
+    window.claude.use("downloads").then(d => { dl = d; }).catch(() => { dl = null; });
   }
 })();
 </script>

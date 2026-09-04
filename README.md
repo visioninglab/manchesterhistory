@@ -33,7 +33,11 @@ merely "connected to" something else. The rest are read out of the connection co
 Key figures, Key places, Connected organisations, Category, Building — or were added in
 cleaning, each with a note saying what it rests on.
 
-There are three views: the **network**, a **map**, and a **table**. The map has no
+There are four views: the **network**, a **map**, a **timeline** and a **table**.
+The timeline lays every record out against a 1750-1960 axis - events as points, everyone
+and everything else as a bar from the first year it was active to the last - and marks
+the spans that were worked out rather than stated, so an era is never mistaken for a
+record. The map has no
 tiles — a published artifact cannot load images from a tile server — so the geography is
 drawn from coordinates: the Irwell, the Irk, the Medlock, the Mersey, the four canals,
 and eighteen district labels. Coordinates for all 82 places were put here by hand and
@@ -245,15 +249,13 @@ way is kept apart from the transcription and marked on the page as contributed a
 yet confirmed, with the contributor named in the provenance, until somebody checks it. A
 `where` of `53.5352,-2.2861` puts a new place straight onto the map.
 
-## Editing
+## The table
 
-The Spreadsheet tab has one grid per sheet — People, Organisations, Places, Timeline,
+The table has one grid per sheet — People, Organisations, Places, Timeline,
 Links — with the source's own columns, plus what cleaning added: research status, priority,
-open question, data flag, what a record absorbed and what was corrected on it. Edits are
-stored as an overlay in your browser and layered over the data; the rows underneath are
-never overwritten, and an edited or added row is marked in the margin. Download CSV takes
-the current grid out, with the computed date span and link count appended. Copy JSON takes
-the whole model.
+open question, data flag, what a record absorbed and what was corrected on it. It is
+read-only, and clicking a row opens that record. Additions come through the contribution
+sheet instead, so that a name and a source stay attached to everything that arrives.
 
-Shared editing is deliberately off: declaring the artifact's `db` capability makes the page
-organisation-internal, which is why an earlier version would not load at all.
+The generated CSVs in this repository are the export: one file per sheet, with the
+computed date span and link count appended.

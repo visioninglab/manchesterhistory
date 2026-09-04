@@ -137,6 +137,41 @@ svg#map{display:none}
 .pushbtn.on{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
 .pushbtn .n{margin-left:auto;font-family:"IBM Plex Mono",monospace;font-size:11px;opacity:.75}
 
+.timeline{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;display:none;
+  background:var(--canvas);--tlyear:56px;--tlname:290px}
+.mode-time .timeline{display:block}
+.mode-time svg#net,.mode-time svg#map{display:none}
+.mode-time .legendkey,.mode-time .zoomers,.mode-time .mapctl{display:none}
+.tlaxis{position:sticky;top:0;z-index:3;display:grid;
+  grid-template-columns:var(--tlyear) var(--tlname) minmax(0,1fr);
+  background:var(--canvas);border-bottom:1px solid var(--rule)}
+.tlaxis b{font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink3);
+  font-weight:600;padding:9px 10px 6px;align-self:end;grid-column:1 / 3}
+.tlticks{position:relative;height:100%;padding-right:26px}
+.tlticks span{position:absolute;bottom:5px;transform:translateX(-50%);
+  font-family:"IBM Plex Mono",monospace;font-size:9.5px;color:var(--ink3);
+  font-variant-numeric:tabular-nums}
+.tlticks i{position:absolute;top:0;bottom:0;width:1px;background:var(--rule2)}
+.tlgroup{font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink3);
+  font-weight:600;padding:15px 10px 5px;border-bottom:1px solid var(--rule2)}
+.tlrow{display:grid;grid-template-columns:var(--tlyear) var(--tlname) minmax(0,1fr);
+  width:100%;border:0;background:none;padding:0;cursor:pointer;text-align:left;
+  border-bottom:1px solid var(--rule2);align-items:center}
+.tlrow:hover{background:var(--sunk)}
+.tlrow.on{background:color-mix(in srgb,var(--accent) 14%,var(--canvas))}
+.tlrow .yr{font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--ink3);
+  padding:0 0 0 10px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.tlrow .who{font-size:12px;padding:4px 10px;white-space:nowrap;overflow:hidden;
+  text-overflow:ellipsis}
+.tlrow.on .who{font-weight:600}
+.tltrack{position:relative;height:20px;padding-right:26px}
+.tltrack b{position:absolute;top:6px;height:8px;border-radius:4px;min-width:3px}
+.tltrack b.point{border-radius:50%;width:8px;height:8px;margin-left:-4px}
+.tltrack b.est{opacity:.38}
+.tltrack b.clipL{border-top-left-radius:0;border-bottom-left-radius:0}
+.tltrack b.clipR{border-top-right-radius:0;border-bottom-right-radius:0}
+.tlnote{font-size:11.5px;color:var(--ink3);padding:12px 10px 24px;line-height:1.5}
+.sheetnote{font-size:12px;color:var(--ink3)}
 .timebar{border-top:1px solid var(--rule);background:var(--surface);
   padding:9px 20px 11px;display:flex;flex-direction:column;gap:5px}
 .timehead{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
@@ -292,19 +327,12 @@ table.grid th{position:sticky;top:0;z-index:2;background:var(--surface);text-ali
   font-weight:600;padding:8px 9px;border-bottom:1px solid var(--rule);white-space:nowrap}
 table.grid td{padding:0;border-bottom:1px solid var(--rule2);vertical-align:top;
   background:var(--ground)}
-table.grid tr.edited td{background:color-mix(in srgb,var(--accent) 8%,var(--ground))}
-table.grid tr.added td{background:color-mix(in srgb,var(--d-reform) 12%,var(--ground))}
 table.grid tr.flagged td{box-shadow:inset 2px 0 0 var(--warn)}
-.cell{width:100%;min-height:30px;padding:6px 9px;border:0;background:transparent;
-  font-size:12.5px;line-height:1.35;resize:none;display:block;font-family:inherit}
-.cell:focus{outline:2px solid var(--accent);outline-offset:-2px;background:var(--surface)}
-select.cell{cursor:pointer;-webkit-appearance:none;appearance:none;padding-right:16px}
+.cell{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;
+  overflow:hidden;padding:6px 9px;font-size:12.5px;line-height:1.35}
+table.grid tbody tr{cursor:pointer}
+table.grid tbody tr:hover td{background:var(--sunk)}
 td.narrow{width:110px} td.mid{width:180px} td.wide{width:300px} td.tiny{width:66px}
-.rowmark{width:30px;text-align:center;color:var(--ink3);font-family:"IBM Plex Mono",monospace;
-  font-size:10px;padding:7px 0}
-.killbtn{background:none;border:0;cursor:pointer;color:var(--ink3);padding:6px 8px;
-  font-size:13px;line-height:1}
-.killbtn:hover{color:var(--warn)}
 .idcell{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink3);
   padding:8px 9px;white-space:nowrap}
 
@@ -326,6 +354,7 @@ td.narrow{width:110px} td.mid{width:180px} td.wide{width:300px} td.tiny{width:66
     <div class="tabs" role="tablist">
       <button id="tabNet" role="tab" aria-selected="true">Network</button>
       <button id="tabMap" role="tab" aria-selected="false">Map</button>
+      <button id="tabTime" role="tab" aria-selected="false">Timeline</button>
       <button id="tabSheet" role="tab" aria-selected="false">Table</button>
     </div>
     <div class="tally">
@@ -394,6 +423,7 @@ td.narrow{width:110px} td.mid{width:180px} td.wide{width:300px} td.tiny{width:66
       <div class="plot">
         <svg id="net" role="img" aria-label="Network of Victorian Manchester people, organisations, places and events"></svg>
         <svg id="map" role="img" aria-label="Sketch map of Victorian Manchester and Salford, with the places in this collection"></svg>
+        <div class="timeline" id="timeline"></div>
         <div class="mapctl">
           <button id="lineBtn" aria-pressed="false">Show people in common</button>
         </div>
@@ -447,16 +477,16 @@ td.narrow{width:110px} td.mid{width:180px} td.wide{width:300px} td.tiny{width:66
           <button data-seg="person" role="tab" aria-selected="true">People</button>
           <button data-seg="org" role="tab" aria-selected="false">Organisations</button>
           <button data-seg="place" role="tab" aria-selected="false">Places</button>
-          <button data-seg="event" role="tab" aria-selected="false">Timeline</button>
+          <button data-seg="event" role="tab" aria-selected="false">Events</button>
           <button data-seg="links" role="tab" aria-selected="false">Links</button>
         </div>
         <input id="sheetq" type="search" placeholder="Filter rows&#8230;" autocomplete="off">
-        <button class="btn primary" id="addRow">Add row</button>
-        <button class="btn" id="expCsv">Download CSV</button>
-        <button class="btn" id="expJson">Copy JSON</button>
-        <div class="saveflag off" id="saveFlag"><span class="pip"></span><span id="saveText">Checking storage&#8230;</span></div>
+        <span class="sheetnote">Click a row to open the record.</span>
       </div>
-      <div class="notice" id="sheetNotice"></div>
+      <div class="notice" id="sheetNotice">Everything here is read-only. To add a
+        person, a place or a connection, fill in the contribution sheet
+        (<code>contribute-template.csv</code> in the repository) and send it back &mdash;
+        that way your name and your source stay attached to what you add.</div>
       <div class="tablewrap"><table class="grid" id="grid"></table></div>
     </section>
   </div>
