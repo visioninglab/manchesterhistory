@@ -1613,7 +1613,7 @@ const META = {"built":"2026-09-03","source":"Victorian_Manchester_Natural_Histor
   document.getElementById("zout").onclick = () => onMap()
     ? msvg.transition().duration(200).call(mzoom.scaleBy, 0.66)
     : svg.transition().duration(200).call(zoom.scaleBy, 0.7);
-  document.getElementById("zfit").onclick = () => onMap() ? fitMap() : fit();
+  document.getElementById("zfit").onclick = () => onMap() ? fitMap(true) : fit();
 
   function focus(id) {
     const n = byId.get(id); if (!n) return;
@@ -1760,14 +1760,15 @@ const META = {"built":"2026-09-03","source":"Victorian_Manchester_Natural_Histor
     const evRows = Object.keys(EVIDENCE).map(kk =>
       '<div class="statline"><b>' + links.filter(l => l.ev === kk).length +
       '</b><span>' + esc(EVIDENCE[kk].label) + '</span></div>').join("");
-    const span = nodes.filter(n => n.span);
-    const first = Math.min.apply(null, span.map(n => n.span[0]));
-    const last = Math.max.apply(null, span.map(n => n.span[1]));
+    const lives = nodes.filter(n => n.type === "person" && n.span);
+    const first = Math.min.apply(null, lives.map(n => n.span[0]));
+    const last = Math.max.apply(null, lives.map(n => n.span[1]));
 
     detail.innerHTML = '<div class="panel">' +
       '<div class="sect"><h2>What you are looking at</h2>' +
-        '<p class="pnote">Manchester and Salford between ' + first + ' and ' + last +
-        ': ' + nodes.filter(n => n.type === "person").length + ' people, ' +
+        '<p class="pnote">Manchester and Salford, through people at work between ' +
+        first + ' and ' + last + ': ' +
+        nodes.filter(n => n.type === "person").length + ' people, ' +
         nodes.filter(n => n.type === "org").length + ' societies, firms and groups, ' +
         nodes.filter(n => n.type === "place").length + ' places and ' +
         nodes.filter(n => n.type === "event").length + ' events, joined by ' +
@@ -2195,7 +2196,7 @@ const META = {"built":"2026-09-03","source":"Victorian_Manchester_Natural_Histor
   };
   let mk = 1, routeSel, placeSel, placeTextSel, mapBuilt = false;
 
-  const mzoom = d3.zoom().scaleExtent([0.25, 14]).on("zoom", ev => {
+  const mzoom = d3.zoom().scaleExtent([0.12, 16]).on("zoom", ev => {
     mk = ev.transform.k;
     mroot.attr("transform", ev.transform);
     sizeMap();
@@ -2331,6 +2332,7 @@ const META = {"built":"2026-09-03","source":"Victorian_Manchester_Natural_Histor
 
   function paintMap() {
     if (!placeSel) return;
+    if (!mapFitted) fitMap(false);
     const nb = nearPlaces();
     const near = nb ? nb.near : null;
     const lit = r => near && near.has(r.a.id) && near.has(r.b.id);
@@ -2389,7 +2391,9 @@ const META = {"built":"2026-09-03","source":"Victorian_Manchester_Natural_Histor
     paintMap();
   };
 
-  function fitMap() {
+  let mapFitted = false;
+
+  function fitMap(animate) {
     const W = plot.clientWidth, H = plot.clientHeight;
     if (!W || !H) return;
     const set = mapped();
@@ -2398,8 +2402,11 @@ const META = {"built":"2026-09-03","source":"Victorian_Manchester_Natural_Histor
     const x0 = Math.min.apply(null, xs), x1 = Math.max.apply(null, xs);
     const y0 = Math.min.apply(null, ys), y1 = Math.max.apply(null, ys);
     const sc = Math.min(W / (x1 - x0 + 260), H / (y1 - y0 + 260)) || 1;
-    msvg.transition().duration(400).call(mzoom.transform, d3.zoomIdentity
-      .translate(W / 2, H / 2).scale(sc).translate(-(x0 + x1) / 2, -(y0 + y1) / 2));
+    const t = d3.zoomIdentity.translate(W / 2, H / 2).scale(sc)
+      .translate(-(x0 + x1) / 2, -(y0 + y1) / 2);
+    mapFitted = true;
+    if (animate) msvg.transition().duration(400).call(mzoom.transform, t);
+    else msvg.call(mzoom.transform, t);
   }
 
   function focusPlace(id) {
@@ -2462,7 +2469,11 @@ const META = {"built":"2026-09-03","source":"Victorian_Manchester_Natural_Histor
       document.getElementById("t-l" + (i + 1)).textContent = lab;
     });
     if (t === "sheet") renderSheet();
-    else if (t === "map") { buildMap(); paintMap(); fitMap(); }
+    else if (t === "map") {
+      buildMap();
+      if (!mapFitted) fitMap(false);
+      paintMap();
+    }
     else { paint(); fit(); }
   }
   tabNet.onclick = () => setTab("net");
