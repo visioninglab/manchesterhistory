@@ -386,6 +386,13 @@ for tid, who, when, text, tsrc in rows("testimony.psv", 5):
 RESOURCES = [{"name": nm, "url": url(u), "what": what}
              for nm, u, what in rows("resources.psv", 3)]
 
+# The About panel, grouped into sections in the order the file gives them.
+ABOUT = []
+for _sec, _head, _para in rows("about.psv", 3):
+    if not ABOUT or ABOUT[-1]["heading"] != _head:
+        ABOUT.append({"section": _sec, "heading": _head, "paras": []})
+    ABOUT[-1]["paras"].append(_para)
+
 # ---------------------------------------------------------------- geography
 PRECISION = {"site":  "located to a street",
              "area":  "roughly the middle of a district or a landscape",
@@ -826,6 +833,7 @@ meta = {"built": datetime.date.today().isoformat(),
         "unresolved": [{"text": t, "n": c} for t, c in unresolved.most_common()]}
 out.write("const BASEMAP = %s;\n\n" % js(BASEMAP))
 out.write("const RESOURCES = %s;\n\n" % js(RESOURCES))
+out.write("const ABOUT = %s;\n\n" % js(ABOUT))
 out.write("const META = %s;\n" % js(meta))
 out.close()
 

@@ -71,6 +71,7 @@ network it names.
 | `src/identifiers.psv` | the same person in a public authority file, so this can be joined to other collections |
 | `identifiers.py` | run by hand; finds those identifiers on Wikidata and only accepts a date match |
 | `src/resources.psv` | the catalogues and aggregators to search next |
+| `src/about.psv` | the About panel: why the project exists and who is behind it |
 | `src/basemap.psv` | the rivers, canals and district labels the map is drawn from |
 | `src/connection-types.psv` | the 33 kinds of connection, in seven families |
 | `src/contributions.psv` | what people have sent in on the contribution sheet |
@@ -315,6 +316,14 @@ The obvious next step is the one this stops short of: GBIF gives a coordinate fo
 specimens, so each could be matched to the collecting grounds already on the map, and
 Kersal Moor would stop being a place people are *said* to have visited and become a place
 with dated evidence attached.
+
+## About
+
+`src/about.psv` holds the About text, so it can be changed without touching the code.
+One paragraph per row; rows sharing a heading are grouped under it in file order; links
+are written `[words](url)` and nothing else is marked up. The `why` section appears near
+the top of the opening panel and the `who` section at its foot, which is also what the
+About button opens on a phone.
 
 ## Identifiers
 

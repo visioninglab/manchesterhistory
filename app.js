@@ -516,6 +516,7 @@
         '<p class="hint">Pick one of the ways in on the left, or click any shape. ' +
         'Colour is the field someone worked in; shape is what kind of thing it is.</p>' +
       '</div>' +
+      aboutBlock("why") +
       '<div class="sect"><h2>Who bridges the most fields</h2>' +
         '<p class="hint">People whose connections reach across the most fields at once — ' +
         'the likeliest carriers of anything that travelled.</p><ul class="brokers">' +
@@ -535,6 +536,7 @@
         '<p class="hint">A solid line is stated in the collection. A dashed one still ' +
         'needs confirming. A dotted one is a reading offered for testing, not a fact.</p>' +
       '</div>' +
+      aboutBlock("who") +
       (typeof RESOURCES !== "undefined" && RESOURCES.length
         ? '<details class="prov"><summary>Where to look next</summary>' +
           '<ul class="reslist">' + RESOURCES.map(r =>
@@ -629,6 +631,21 @@
       'rel="noopener">' + esc(host(src)) + '</a></dd>');
     return '<details class="prov"><summary>About this entry</summary>' +
       '<dl class="meta">' + rows.join("") + '</dl></details>';
+  }
+
+  /* The About text allows one piece of markup and nothing else. Escape first, then
+     turn the links on, so nothing in the copy can inject markup of its own. */
+  function prose(t) {
+    return esc(t).replace(/\[([^\]]+)\]\((https?:[^)\s]+)\)/g,
+      '<a href="$2" target="_blank" rel="noopener">$1</a>');
+  }
+
+  function aboutBlock(section) {
+    if (typeof ABOUT === "undefined") return "";
+    return ABOUT.filter(s => s.section === section).map(s =>
+      '<div class="sect"><h2>' + esc(s.heading) + '</h2>' +
+      s.paras.map(p => '<p class="pnote">' + prose(p) + '</p>').join("") +
+      '</div>').join("");
   }
 
   function host(u) {
