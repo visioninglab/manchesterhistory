@@ -386,6 +386,23 @@ for tid, who, when, text, tsrc in rows("testimony.psv", 5):
 RESOURCES = [{"name": nm, "url": url(u), "what": what}
              for nm, u, what in rows("resources.psv", 3)]
 
+# What is still open. Records are checked against the collection and sources against
+# resources.psv, so a thread cannot quietly point at something that is not there.
+RESEARCH = []
+_resnames = set(r["name"] for r in RESOURCES)
+for _rid, _title, _unknown, _settle, _recs, _srcs in rows("research.psv", 6):
+    _r = [x.strip() for x in _recs.split(";") if x.strip()]
+    _s = [x.strip() for x in _srcs.split(";") if x.strip()]
+    for _x in _r:
+        if REDIRECT.get(_x, _x) not in nodes:
+            raise SystemExit("research %s: unknown record %r" % (_rid, _x))
+    for _x in _s:
+        if _x not in _resnames:
+            raise SystemExit("research %s: unknown source %r" % (_rid, _x))
+    RESEARCH.append({"id": _rid, "title": _title, "unknown": _unknown,
+                     "settle": _settle,
+                     "records": [REDIRECT.get(x, x) for x in _r], "sources": _s})
+
 # The About panel, grouped into sections in the order the file gives them.
 ABOUT = []
 for _sec, _head, _para in rows("about.psv", 3):
@@ -834,6 +851,7 @@ meta = {"built": datetime.date.today().isoformat(),
 out.write("const BASEMAP = %s;\n\n" % js(BASEMAP))
 out.write("const RESOURCES = %s;\n\n" % js(RESOURCES))
 out.write("const ABOUT = %s;\n\n" % js(ABOUT))
+out.write("const RESEARCH = %s;\n\n" % js(RESEARCH))
 out.write("const META = %s;\n" % js(meta))
 out.close()
 

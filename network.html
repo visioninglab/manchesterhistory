@@ -137,6 +137,50 @@ svg#map{display:none}
 .pushbtn.on{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
 .pushbtn .n{margin-left:auto;font-family:"IBM Plex Mono",monospace;font-size:11px;opacity:.75}
 
+
+.research{position:absolute;inset:0;overflow:auto;display:none;background:var(--canvas)}
+.mode-research .research{display:block}
+.mode-research svg#net,.mode-research svg#map{display:none}
+.mode-research .legendkey,.mode-research .zoomers,.mode-research .mapctl{display:none}
+.rwrap{position:relative;padding:16px 18px 30px}
+.rlines{position:absolute;inset:0;pointer-events:none;overflow:visible}
+.rlines path{fill:none;stroke:var(--link);opacity:.13;stroke-width:1.1}
+.rlines path.on{stroke:var(--accent);opacity:.85;stroke-width:1.8}
+.rlines path.off{opacity:.045}
+.rcols{position:relative;display:grid;grid-template-columns:1fr 1.45fr 1fr;gap:0 46px;
+  align-items:start}
+.rcol h2{font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink3);
+  font-weight:600;margin:0 0 10px;position:sticky;top:0;background:var(--canvas);
+  padding:4px 0 6px;z-index:2}
+.rcol{display:flex;flex-direction:column;gap:9px}
+.ritem{border:1px solid var(--rule);border-radius:4px;background:var(--surface);
+  padding:9px 11px;cursor:pointer;text-align:left;width:100%;display:block;
+  transition:border-color .15s,box-shadow .15s}
+.ritem:hover{border-color:var(--ink3)}
+.ritem.on{border-color:var(--accent);box-shadow:inset 3px 0 0 var(--accent)}
+.ritem.dim{opacity:.32}
+.ritem b{display:block;font-size:12.5px;font-weight:600;line-height:1.3}
+.ritem .meta{display:block;font-size:10px;letter-spacing:.07em;text-transform:uppercase;
+  color:var(--ink3);margin-top:3px}
+.rq{background:var(--ground)}
+.rq p{margin:6px 0 0;font-size:11.5px;color:var(--ink2);line-height:1.45}
+.rq p.settle{color:var(--ink3);border-top:1px solid var(--rule2);padding-top:6px;
+  margin-top:8px}
+.rq p.settle b{display:inline;font-size:10px;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--ink3);font-weight:600;margin-right:5px}
+.rnote{font-size:11.5px;color:var(--ink3);line-height:1.5;padding:16px 2px 0;
+  grid-column:1 / -1}
+@media (max-width:900px){
+  /* Stacked, the questions have to come first: they are the point, and nobody should
+     scroll past ten catalogues to reach them. */
+  .rcols{grid-template-columns:1fr;gap:22px}
+  .rlines{display:none}
+  .rcol h2{position:static}
+  .rcol.q{order:1}
+  .rcol.rec{order:2}
+  .rcol.src{order:3}
+  .rnote{order:4}
+}
 .timeline{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;display:none;
   background:var(--canvas);--tlyear:56px;--tlname:290px}
 .mode-time .timeline{display:block}
@@ -435,6 +479,7 @@ td.narrow{width:110px} td.mid{width:180px} td.wide{width:300px} td.tiny{width:66
       <button id="tabNet" role="tab" aria-selected="true">Network</button>
       <button id="tabMap" role="tab" aria-selected="false">Map</button>
       <button id="tabTime" role="tab" aria-selected="false">Timeline</button>
+      <button id="tabResearch" role="tab" aria-selected="false">Open threads</button>
       <button id="tabSheet" role="tab" aria-selected="false">Table</button>
     </div>
     <div class="tally">
@@ -504,6 +549,7 @@ td.narrow{width:110px} td.mid{width:180px} td.wide{width:300px} td.tiny{width:66
         <svg id="net" role="img" aria-label="Network of Victorian Manchester people, organisations, places and events"></svg>
         <svg id="map" role="img" aria-label="Sketch map of Victorian Manchester and Salford, with the places in this collection"></svg>
         <div class="timeline" id="timeline"></div>
+        <div class="research" id="research"></div>
         <div class="mapctl">
           <button id="lineBtn" aria-pressed="false">Show people in common</button>
         </div>

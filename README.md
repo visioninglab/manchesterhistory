@@ -33,7 +33,7 @@ merely "connected to" something else. The rest are read out of the connection co
 Key figures, Key places, Connected organisations, Category, Building — or were added in
 cleaning, each with a note saying what it rests on.
 
-There are four views: the **network**, a **map**, a **timeline** and a **table**.
+There are five views: the **network**, a **map**, a **timeline**, **open threads** and a **table**.
 The timeline lays every record out against a 1750-1960 axis - events as points, everyone
 and everything else as a bar from the first year it was active to the last - and marks
 the spans that were worked out rather than stated, so an era is never mistaken for a
@@ -72,6 +72,7 @@ network it names.
 | `identifiers.py` | run by hand; finds those identifiers on Wikidata and only accepts a date match |
 | `src/resources.psv` | the catalogues and aggregators to search next |
 | `src/about.psv` | the About panel: why the project exists and who is behind it |
+| `src/research.psv` | what is still open, what it touches, and where the answer would come from |
 | `src/basemap.psv` | the rivers, canals and district labels the map is drawn from |
 | `src/connection-types.psv` | the 33 kinds of connection, in seven families |
 | `src/contributions.psv` | what people have sent in on the contribution sheet |
@@ -316,6 +317,19 @@ The obvious next step is the one this stops short of: GBIF gives a coordinate fo
 specimens, so each could be matched to the collecting grounds already on the map, and
 Kersal Moor would stop being a place people are *said* to have visited and become a place
 with dated evidence attached.
+
+## Open threads
+
+`src/research.psv` holds them: a title, what is not known, what would settle it, the
+records it touches and the sources that would answer it. Records are checked against the
+collection and sources against `resources.psv` at build time, so a thread cannot quietly
+point at something that is not there.
+
+The view puts sources on the left, questions in the middle and records on the right, with
+the relations drawn as curves between them. The whole web shows faintly; clicking a
+question brightens its own and fades the rest. Every thread is derived from something
+already in the data - a flag, an unconfirmed link, a person nobody can identify, or two
+sources that disagree - rather than from a wish list.
 
 ## About
 

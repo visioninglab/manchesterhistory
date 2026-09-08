@@ -1303,16 +1303,157 @@
     if (b) select(b.getAttribute("data-go"));
   });
 
+
+  /* ---------------- open threads ----------------
+     What is still unknown, what it touches, and where the answer would come from.
+     Three columns with the questions in the middle; the curves are drawn from the
+     measured positions of the boxes, so the layout stays honest at any width. */
+  const research = document.getElementById("research");
+  let rFocus = "";
+
+  function renderResearch() {
+    if (typeof RESEARCH === "undefined") return;
+    const srcs = [];
+    RESEARCH.forEach(t => t.sources.forEach(s => {
+      if (srcs.indexOf(s) < 0) srcs.push(s);
+    }));
+    const recs = [];
+    RESEARCH.forEach(t => t.records.forEach(rec => {
+      if (recs.indexOf(rec) < 0 && byId.has(rec)) recs.push(rec);
+    }));
+    recs.sort((a, b) => byId.get(a).label.localeCompare(byId.get(b).label));
+
+    const resource = nm => (typeof RESOURCES === "undefined" ? null
+      : RESOURCES.filter(x => x.name === nm)[0]);
+
+    const srcCol = srcs.map(s => {
+      const r = resource(s);
+      return '<div class="ritem" data-src="' + esc(s) + '"><b>' + esc(s) + '</b>' +
+        (r ? '<span class="meta">' + esc(host(r.url)) + '</span>' : "") + '</div>';
+    }).join("");
+
+    const qCol = RESEARCH.map(t =>
+      '<div class="ritem rq" data-thread="' + esc(t.id) + '">' +
+      '<b>' + esc(t.title) + '</b>' +
+      '<p>' + esc(t.unknown) + '</p>' +
+      '<p class="settle"><b>Would settle it</b>' + esc(t.settle) + '</p></div>').join("");
+
+    const recCol = recs.map(id => {
+      const n = byId.get(id);
+      return '<div class="ritem" data-rec="' + esc(id) + '"><b>' + esc(n.label) + '</b>' +
+        '<span class="meta">' + esc(DOMAINS[n.domain].label) + '</span></div>';
+    }).join("");
+
+    research.innerHTML =
+      '<div class="rwrap"><svg class="rlines"></svg><div class="rcols">' +
+      '<div class="rcol src"><h2>Where to look &middot; ' + srcs.length + '</h2>' +
+        srcCol + '</div>' +
+      '<div class="rcol q"><h2>Still open &middot; ' + RESEARCH.length + '</h2>' +
+        qCol + '</div>' +
+      '<div class="rcol rec"><h2>What it touches &middot; ' + recs.length + '</h2>' +
+        recCol + '</div>' +
+      '<p class="rnote">Every thread here comes from something already in the collection: ' +
+      'a flag on a record, a link nobody has confirmed, a person nobody can identify, or ' +
+      'two sources that disagree. Click a question to trace just that one; click it again ' +
+      'to let the whole web back in. A record opens the record; a source opens the ' +
+      'catalogue.</p>' +
+      '</div></div>';
+
+    drawResearchLines();
+    document.getElementById("t-nodes").textContent = RESEARCH.length;
+    document.getElementById("t-edges").textContent = recs.length;
+    document.getElementById("t-cross").textContent = srcs.length;
+    document.getElementById("t-iso").textContent =
+      links.filter(l => l.ev === "verify").length;
+    document.getElementById("t-todo").textContent =
+      nodes.filter(n => has(n, "openQuestion")).length;
+  }
+
+  function drawResearchLines() {
+    const svg = research.querySelector(".rlines");
+    const wrap = research.querySelector(".rwrap");
+    if (!svg || !wrap) return;
+    const base = wrap.getBoundingClientRect();
+    svg.setAttribute("width", base.width);
+    svg.setAttribute("height", base.height);
+    const at = sel => {
+      const el = research.querySelector(sel);
+      if (!el) return null;
+      const r = el.getBoundingClientRect();
+      return { top: r.top - base.top, bot: r.bottom - base.top,
+               mid: r.top - base.top + r.height / 2,
+               left: r.left - base.left, right: r.right - base.left };
+    };
+    const paths = [];
+    RESEARCH.forEach(t => {
+      const q = at('[data-thread="' + t.id + '"]');
+      if (!q) return;
+      const state = !rFocus ? "" : (rFocus === t.id ? "on" : "off");
+      t.sources.forEach(s => {
+        const a = at('[data-src="' + cssEscape(s) + '"]');
+        if (a) paths.push(curve(a.right, a.mid, q.left, q.mid, state));
+      });
+      t.records.forEach(r => {
+        const b = at('[data-rec="' + r + '"]');
+        if (b) paths.push(curve(q.right, q.mid, b.left, b.mid, state));
+      });
+    });
+    svg.innerHTML = paths.join("");
+  }
+
+  function cssEscape(s) { return String(s).replace(/"/g, '\\"'); }
+
+  function curve(x1, y1, x2, y2, cls) {
+    const dx = Math.max((x2 - x1) * 0.5, 18);
+    return '<path class="' + cls + '" d="M' + x1 + ',' + y1 +
+      'C' + (x1 + dx) + ',' + y1 + ' ' + (x2 - dx) + ',' + y2 + ' ' + x2 + ',' + y2 + '"/>';
+  }
+
+  research.addEventListener("click", e => {
+    const rec = e.target.closest("[data-rec]");
+    if (rec) { select(rec.getAttribute("data-rec")); return; }
+    const src = e.target.closest("[data-src]");
+    if (src && typeof RESOURCES !== "undefined") {
+      const r = RESOURCES.filter(x => x.name === src.getAttribute("data-src"))[0];
+      if (r) window.open(r.url, "_blank", "noopener");
+      return;
+    }
+    const th = e.target.closest("[data-thread]");
+    if (!th) return;
+    const id = th.getAttribute("data-thread");
+    rFocus = (rFocus === id) ? "" : id;
+    markResearch();
+  });
+
+  function markResearch() {
+    const t = RESEARCH.filter(x => x.id === rFocus)[0];
+    research.querySelectorAll(".ritem").forEach(el => {
+      const isQ = el.getAttribute("data-thread");
+      const isR = el.getAttribute("data-rec");
+      const isS = el.getAttribute("data-src");
+      let on = false;
+      if (!rFocus) { el.classList.remove("on", "dim"); return; }
+      if (isQ) on = isQ === rFocus;
+      if (isR) on = t && t.records.indexOf(isR) >= 0;
+      if (isS) on = t && t.sources.indexOf(isS) >= 0;
+      el.classList.toggle("on", on);
+      el.classList.toggle("dim", !on);
+    });
+    drawResearchLines();
+  }
+
   /* ---------------- tabs ---------------- */
   const bodyEl = document.getElementById("body");
   const tabNet = document.getElementById("tabNet"),
         tabMap = document.getElementById("tabMap"),
         tabTime = document.getElementById("tabTime"),
+        tabResearch = document.getElementById("tabResearch"),
         tabSheet = document.getElementById("tabSheet");
   const TALLY = {
     net: ["Shown", "Links", "Cross-field", "Unlinked", "To verify"],
     map: ["Places", "Joined pairs", "Cross-field", "Joined to none", "Guessed"],
-    time: ["Shown", "Events", "People", "Places", "Dates worked out"]
+    time: ["Shown", "Events", "People", "Places", "Dates worked out"],
+    research: ["Threads", "Records", "Sources", "Unconfirmed", "Questions"]
   };
   function setTab(t) {
     showFilters(false);
@@ -1320,16 +1461,19 @@
     tabNet.setAttribute("aria-selected", String(t === "net"));
     tabMap.setAttribute("aria-selected", String(t === "map"));
     tabTime.setAttribute("aria-selected", String(t === "time"));
+    tabResearch.setAttribute("aria-selected", String(t === "research"));
     tabSheet.setAttribute("aria-selected", String(t === "sheet"));
     bodyEl.classList.toggle("mode-sheet", t === "sheet");
     bodyEl.classList.toggle("mode-map", t === "map");
     bodyEl.classList.toggle("mode-time", t === "time");
+    bodyEl.classList.toggle("mode-research", t === "research");
     (TALLY[t] || TALLY.net).forEach((lab, i) => {
       document.getElementById("t-l" + (i + 1)).textContent = lab;
     });
     if (window.__count) window.__count("view-" + t);
     if (t === "sheet") renderSheet();
     else if (t === "time") renderTimeline();
+    else if (t === "research") renderResearch();
     else if (t === "map") {
       buildMap();
       if (!mapFitted) fitMap(false);
@@ -1340,6 +1484,7 @@
   tabNet.onclick = () => setTab("net");
   tabMap.onclick = () => setTab("map");
   tabTime.onclick = () => setTab("time");
+  tabResearch.onclick = () => setTab("research");
   tabSheet.onclick = () => setTab("sheet");
 
   /* ---------------- the sheet ---------------- */
@@ -1493,7 +1638,10 @@
   let rt;
   window.addEventListener("resize", () => {
     clearTimeout(rt);
-    rt = setTimeout(() => { if (state.tab === "net") fit(); }, 200);
+    rt = setTimeout(() => {
+      if (state.tab === "net") fit();
+      if (state.tab === "research") drawResearchLines();
+    }, 200);
   });
   const mq = window.matchMedia("(prefers-color-scheme: dark)");
   const onScheme = () => { readPalette(); paint(); };
