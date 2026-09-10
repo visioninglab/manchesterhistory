@@ -334,6 +334,16 @@ svg#map{display:none}
   font-family:"IBM Plex Mono",monospace;display:flex;gap:14px;flex-wrap:wrap;
   padding:4px 8px;border-radius:3px;pointer-events:none}
 .legendkey i{font-style:normal;display:flex;align-items:center;gap:5px}
+/* ---------------- editions ----------------
+   One page, built twice. The public edition hides whatever is marked data-wip; the
+   work-in-progress edition shows it and says so in the masthead, so the two are never
+   mistaken for each other. Nothing hidden here filters anything out: every set those
+   controls govern starts switched on. */
+.ed-public [data-wip]{display:none!important}
+.ed-wip .wordmark::after{content:"work in progress";margin-left:10px;padding:2px 7px;
+  border:1px solid var(--warn);border-radius:3px;color:var(--warn);
+  font:600 9.5px/1.4 Archivo,sans-serif;letter-spacing:.08em;text-transform:uppercase;
+  vertical-align:3px}
 .legendkey.mapkey{display:none}
 .mode-map .legendkey.mapkey{display:flex}
 .mode-map .legendkey.netkey{display:none}
@@ -479,10 +489,10 @@ td.narrow{width:110px} td.mid{width:180px} td.wide{width:300px} td.tiny{width:66
       <button id="tabNet" role="tab" aria-selected="true">Network</button>
       <button id="tabMap" role="tab" aria-selected="false">Map</button>
       <button id="tabTime" role="tab" aria-selected="false">Timeline</button>
-      <button id="tabResearch" role="tab" aria-selected="false">Open threads</button>
-      <button id="tabSheet" role="tab" aria-selected="false">Table</button>
+      <button id="tabResearch" role="tab" aria-selected="false" data-wip>Open threads</button>
+      <button id="tabSheet" role="tab" aria-selected="false" data-wip>Table</button>
     </div>
-    <div class="tally">
+    <div class="tally" data-wip>
       <div><b id="t-nodes">0</b><small id="t-l1">Shown</small></div>
       <div><b id="t-edges">0</b><small id="t-l2">Links</small></div>
       <div><b id="t-cross">0</b><small id="t-l3">Cross-field</small></div>
@@ -512,7 +522,7 @@ td.narrow{width:110px} td.mid{width:180px} td.wide{width:300px} td.tiny{width:66
         <h2>Kind of thing<button class="all" data-all="type">all</button></h2>
         <div class="chips" id="typeToggles"></div>
       </div>
-      <div class="sect">
+      <div class="sect" data-wip>
         <h2>How sure<button class="all" data-all="ev">all</button></h2>
         <div class="chips" id="evToggles"></div>
         <p class="hint">Solid where a record states it. Dashed where it is flagged as
@@ -524,18 +534,18 @@ td.narrow{width:110px} td.mid{width:180px} td.wide{width:300px} td.tiny{width:66
         <p class="hint">What joins two entries: a marriage, a membership, a building,
           a specimen changing hands. Thirty-odd types, gathered into these seven.</p>
       </div>
-      <div class="sect">
+      <div class="sect" data-wip>
         <h2>How checked<button class="all" data-all="status">all</button></h2>
         <div class="chips" id="statusChips"></div>
       </div>
-      <div class="sect">
+      <div class="sect" data-wip>
         <h2>Priority<button class="all" data-all="priority">all</button></h2>
         <div class="chips" id="priorityChips"></div>
         <p class="hint">How much each entry matters to the question. Turn
           <em>Context</em> off to drop the background &mdash; ordinary buildings, national
           events and the headings people are grouped under.</p>
       </div>
-      <div class="sect">
+      <div class="sect" data-wip>
         <h2>Loose ends</h2>
         <button class="pushbtn" id="isoBtn">Joined to nothing<span class="n" id="isoN">0</span></button>
         <button class="pushbtn" id="ghostBtn">Named, but unidentified<span class="n" id="ghostN">0</span></button>

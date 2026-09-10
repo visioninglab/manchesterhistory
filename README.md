@@ -4,7 +4,15 @@ A tool for reading a Victorian Manchester natural-history collection as a networ
 one question: **how did people, specimens and knowledge move between Manchester's
 workplaces, pubs, fields, societies, private collections and museums?**
 
-Live page: <https://visioninglab.github.io/manchesterhistory/>
+Two editions, built from this one source:
+
+| | |
+|---|---|
+| **Public** | <https://visioninglab.github.io/manchesterhistories/> — the network, the map and the timeline, with the reader's filters only |
+| **Work in progress** | <https://visioninglab.github.io/manchesterhistories_wip/> — everything, including the open research threads, the table and every filter |
+
+The original address, <https://visioninglab.github.io/manchesterhistory/>, still works and
+serves the full edition, so nothing already shared has broken.
 
 Built from `Victorian_Manchester_Natural_History_Cleaned.xlsx` — read straight from the
 workbook, not from a PDF of it. Almost everything here is something a row or a column of
@@ -79,18 +87,21 @@ network it names.
 | `contribute-template.csv` | the sheet to send them |
 | `analytics.html` | where a visit-counting snippet goes, if you want one. Empty by default |
 | `build.py` | reads `src/`, resolves names, writes `data.js` and the CSVs |
-| `bundle.py` | inlines `data.js` + `app.js` into the page GitHub Pages serves |
+| `bundle.py` | inlines `data.js` + `app.js` into the page, once per edition |
+| `publish.py` | pushes each built edition to its own repository |
 | `data.js` | generated — the model the page loads |
 | `app.js` | graph, decade filter, detail panel, editable sheet |
 | `network.html` | development page (loads `data.js` and `app.js` separately) |
 | `index.html` | generated — the whole tool in one file, which is what GitHub Pages serves |
 | `people.csv` `organisations.csv` `places.csv` `timeline.csv` `links.csv` | generated — one file per sheet, flat |
 
-Rebuild after editing anything in `src/`, `app.js` or `network.html`:
+Rebuild after editing anything in `src/`, `app.js` or `network.html`, and push both
+editions:
 
 ```
 python build.py     # src/*.psv  ->  data.js + the five CSVs
-python bundle.py    # data.js + app.js + network.html  ->  index.html
+python bundle.py    # data.js + app.js + network.html  ->  index.html and dist/
+python publish.py   # dist/  ->  the two edition repositories
 ```
 
 `build.py` prints a report: node and link counts, evidence split, isolates, anything
@@ -317,6 +328,24 @@ The obvious next step is the one this stops short of: GBIF gives a coordinate fo
 specimens, so each could be matched to the collecting grounds already on the map, and
 Kersal Moor would stop being a place people are *said* to have visited and become a place
 with dated evidence attached.
+
+## Editions
+
+There is one copy of the data and one of the code, so a correction made once reaches
+both. The difference is a class on `<html>`: anything in `network.html` marked
+`data-wip` is hidden in the public edition, and nothing that hides filters anything out,
+because every set those controls govern starts switched on. The work-in-progress edition
+says so in its masthead so the two are never mistaken for each other.
+
+To move something between them, add or remove `data-wip` on it in `network.html`.
+
+The two edition repositories hold nothing but the built page and a README pointing back
+here. `publish.py` checks each out next to this folder the first time and only commits
+when the page has actually changed.
+
+Each address reports to its own counter namespace, so the numbers can be told apart:
+`wkw-pub` for the public edition, `wkw-wip` for the work-in-progress one, and `wkw-mcr`
+for the original address.
 
 ## Open threads
 
