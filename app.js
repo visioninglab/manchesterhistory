@@ -524,7 +524,12 @@
           [...b.n.fields].map(f => '<i style="background:' + cssvar(f) + '"></i>').join("") +
           '</span><span>' + esc(b.n.label) + '</span><span class="n">' + b.f +
           '</span></button></li>').join("") + '</ul></div>' +
-      '<div class="sect"><h2>What joins them</h2>' +
+      (PUBLIC
+        ? '<div class="sect"><h2>Reading the lines</h2><p class="pnote">A solid line is ' +
+          'something the collection states. A dashed one is set down but not yet ' +
+          'confirmed. A dotted one is a reading, offered to be tested rather than ' +
+          'believed.</p></div>'
+        : '<div class="sect"><h2>What joins them</h2>' +
         Object.keys(FAMILIES).map(kk => {
           const c = links.filter(l => famOf(l) === kk).length;
           return c ? '<div class="statline"><b>' + c + '</b><span>' +
@@ -535,9 +540,9 @@
       '<div class="sect"><h2>How sure any of it is</h2>' + evRows +
         '<p class="hint">A solid line is stated in the collection. A dashed one still ' +
         'needs confirming. A dotted one is a reading offered for testing, not a fact.</p>' +
-      '</div>' +
+      '</div>') +
       aboutBlock("who") +
-      (typeof RESOURCES !== "undefined" && RESOURCES.length
+      (!PUBLIC && typeof RESOURCES !== "undefined" && RESOURCES.length
         ? '<details class="prov"><summary>Where to look next</summary>' +
           '<ul class="reslist">' + RESOURCES.map(r =>
             '<li><a href="' + esc(r.url) + '" target="_blank" rel="noopener">' +
@@ -640,12 +645,22 @@
       '<a href="$2" target="_blank" rel="noopener">$1</a>');
   }
 
+  /* The public edition is built for somebody arriving cold. Researcher furniture -
+     counts by category, where-to-look lists, the questions still open on a record -
+     stays in the work-in-progress edition. Nothing it hides changes what is drawn. */
+  const PUBLIC = typeof window !== "undefined" && window.EDITION === "public";
+
   function aboutBlock(section) {
     if (typeof ABOUT === "undefined") return "";
-    return ABOUT.filter(s => s.section === section).map(s =>
-      '<div class="sect"><h2>' + esc(s.heading) + '</h2>' +
-      s.paras.map(p => '<p class="pnote">' + prose(p) + '</p>').join("") +
-      '</div>').join("");
+    return ABOUT.filter(s => s.section === section).map(s => {
+      const paras = (PUBLIC && section === "why") ? s.paras.slice(0, 2) : s.paras;
+      const body = paras.map(p => '<p class="pnote">' + prose(p) + '</p>').join("");
+      /* who made this: open in the working edition, one click away in the public one */
+      if (PUBLIC && section === "who")
+        return '<details class="prov"><summary>About this project</summary>' +
+          '<div class="provbody">' + body + '</div></details>';
+      return '<div class="sect"><h2>' + esc(s.heading) + '</h2>' + body + '</div>';
+    }).join("");
   }
 
   function host(u) {
@@ -695,7 +710,7 @@
       (es.length
         ? '<div class="sect"><h2>Connections</h2><ul class="edges">' + rows + '</ul></div>'
         : '<p class="hint">Nothing in the collection is joined to this yet.</p>') +
-      (readerQuestion(n) ? '<p class="ask"><b>Still to find out</b>' +
+      (!PUBLIC && readerQuestion(n) ? '<p class="ask"><b>Still to find out</b>' +
         esc(n.openQuestion) + '</p>' : "") +
       provenance(n) +
       '</div>';
@@ -724,7 +739,7 @@
           '<span class="ev">' + esc(o.dates || o.year || kindLabel(o)) +
           '</span></button></li>').join("") +
       '</ul></div>' +
-      (has(l, "followUp") ? '<p class="ask"><b>Still to find out</b>' +
+      (!PUBLIC && has(l, "followUp") ? '<p class="ask"><b>Still to find out</b>' +
         esc(l.followUp) + '</p>' : "") +
       '<details class="prov"><summary>About this connection</summary><dl class="meta">' +
         (l.relId ? '<dt>Reference</dt><dd class="mono">' + esc(l.relId) + '</dd>' : "") +

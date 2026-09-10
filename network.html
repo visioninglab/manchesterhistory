@@ -281,6 +281,7 @@ svg#map{display:none}
 .prov summary:hover{color:var(--ink2)}
 .prov .meta{border-top:0;padding-top:9px}
 .prov .hint{padding-top:8px}
+.provbody{display:flex;flex-direction:column;gap:8px;padding-top:9px}
 .mono{font-family:"IBM Plex Mono",monospace}
 .joiner{color:var(--ink3);font-size:14px;font-family:Archivo,sans-serif;font-weight:400}
 .said{margin:0;padding:9px 0 9px 12px;border-left:2px solid var(--d-nat);
@@ -528,7 +529,7 @@ td.narrow{width:110px} td.mid{width:180px} td.wide{width:300px} td.tiny{width:66
         <p class="hint">Solid where a record states it. Dashed where it is flagged as
           still to be confirmed. Dotted where it is a reading offered for testing.</p>
       </div>
-      <div class="sect">
+      <div class="sect" data-wip>
         <h2>Kind of connection<button class="all" data-all="fam">all</button></h2>
         <div class="chips" id="famChips"></div>
         <p class="hint">What joins two entries: a marriage, a membership, a building,
@@ -588,9 +589,9 @@ td.narrow{width:110px} td.mid{width:180px} td.wide{width:300px} td.tiny{width:66
         <div class="timehead">
           <h2>Decades</h2>
           <span class="timerange" id="decLabel">1770s &ndash; 1910s</span>
-          <span class="timemeta" id="decMeta"></span>
+          <span class="timemeta" id="decMeta" data-wip></span>
           <span class="timeacts">
-            <button class="linkish" id="undatedBtn" aria-pressed="true">Keep undated</button>
+            <button class="linkish" id="undatedBtn" aria-pressed="true" data-wip>Keep undated</button>
             <button class="linkish" id="decReset">Reset</button>
           </span>
         </div>
